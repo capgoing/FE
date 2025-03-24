@@ -2,11 +2,17 @@ import { createGlobalStyle } from 'styled-components';
 import colors from './colors';
 
 const GlobalStyle = createGlobalStyle`
+    @font-face {
+        font-family: 'Ownglyph_meetme-Rg';
+        src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_1@1.0/Ownglyph_meetme-Rg.woff2') format('woff2');
+        font-weight: normal;
+        font-style: normal;
+    }
+        
     :root {
         --vh: 100%;
-        --font-family: 'Inter', sans-serif;
+        --font-family: 'Noto Sans', sans-serif;
     }
-    
 
     html, body, div, span, applet, object, iframe,
     h1, h2, h3, h4, h5, h6, p, blockquote, 
@@ -71,7 +77,6 @@ const GlobalStyle = createGlobalStyle`
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         scroll-behavior: smooth;
         font-size: 62.5%;
-        /* 나중에 삭제할 것 */
         background: ${colors.mainYellow};
     }
     
@@ -160,6 +165,14 @@ const GlobalStyle = createGlobalStyle`
     .scroll {
         -ms-overflow-style: none; /* 인터넷 익스플로러 */
         scrollbar-width: none; /* 파이어폭스 */
+    }
+
+    .pageContainer {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 `;
 

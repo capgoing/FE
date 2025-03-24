@@ -1,32 +1,33 @@
-import styled from "styled-components";
-import colors from "../../styles/colors";
-
-const HeaderContainer = styled.div`
-    width: 100%;
-    height: 6vw;
-    margin-top: 1.5vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`
-
-const InnerHeaderContainer = styled.div`
-    width: 76vw;
-    height: 6vw;
-    border-radius: 3vw;
-    background: ${colors.white};
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-`
+import * as s from "../../styles/header/header";
+import Modal from "../list/modal/modal";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
+import Logo from "../../assets/images/header/logo.png";
 
 const Header = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [showModal, setShowModal] = useState(false);
+
+    const handleHomeClick = () => {
+        navigate("/");
+    }
+
+    const toggleModal = () => {
+        setShowModal(prev => !prev);
+      };
+
     return (
-        <HeaderContainer>
-            <InnerHeaderContainer>
-                Header
-            </InnerHeaderContainer>
-        </HeaderContainer>
+        <>
+            <s.HeaderContainer>
+                <s.InnerHeaderContainer>
+                    <s.LogoImg src={Logo} alt="logo" onClick={handleHomeClick} />
+                    {location.pathname !== "/" && <s.AddButton onClick={toggleModal}>추가</s.AddButton>}
+                </s.InnerHeaderContainer>
+            </s.HeaderContainer>
+
+            {showModal && <Modal onClose={toggleModal} />}
+        </>
     )
 }
 
