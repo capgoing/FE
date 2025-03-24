@@ -1,16 +1,7 @@
 ---
 name: "\U0001F41E-bug-template"
 about: "\U0001F4DD Update issue templates"
-title: ''
-labels: ''
-assignees: ''
-
----
-
----
-name: "\U0001F41E Bug Template"
-about: Bug 발생 시 작성해주세요.
-title: "\U0001F41E [Bug] "
+title: "\U0001F41E[BUG] "
 labels: "\U0001F41E Bug"
 assignees: ''
 
