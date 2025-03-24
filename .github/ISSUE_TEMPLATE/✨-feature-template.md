@@ -1,8 +1,8 @@
 ---
 name: "✨-feature-template"
 about: "\U0001F4DD Update issue templates"
-title: ''
-labels: ''
+title: "✨ [Feature] "
+labels: "✨ Feature"
 assignees: ''
 
 ---
