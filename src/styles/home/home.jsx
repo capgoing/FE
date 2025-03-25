@@ -1,17 +1,27 @@
 import styled from "styled-components";
 import colors from "../common/colors";
 import MAINBG from "../../assets/images/home/main.svg";
+import MAINBG2 from "../../assets/images/home/mainbg2.svg";
+
+// import MAINBG from "../../assets/images/home/mainbg.svg";
 
 export const HomeLayout = styled.div`
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  overflow-y: auto;
+  scroll-behavior: smooth;
 `;
 
 // 첫번째 페이지
 export const HomeFirstPage = styled.div`
+  position: relative;
   background-image: url(${MAINBG});
-  background-size: cover;
+  background-size: cover; // 배경 이미지를 꽉 채움
   background-position: center;
+  background-repeat: no-repeat; // 배경 이미지 반복 금지
+  background-clip: content-box;
+  background-position-y: 20px;
+
   width: 100%;
   height: 100vh;
   display: flex;
@@ -27,7 +37,7 @@ export const UploadPdfButton = styled.button`
   background: #fe8f00;
   color: white;
   font-size: 2.5rem;
-  margin-top: 66vh;
+  margin-top: 55vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,8 +50,18 @@ export const PencilImg = styled.img`
   object-fit: contain;
 `;
 
+export const ArrowDownButton = styled.button`
+  position: absolute;
+  bottom: 10px;
+  /* margin-top: 10vh; */
+`;
+
 // 두번째 페이지
 export const HomeSecondPage = styled.div`
+  background-image: url(${MAINBG2});
+  background-size: cover;
+  background-position: center;
+
   width: 100%;
   min-height: 100vh;
   display: flex;

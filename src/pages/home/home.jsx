@@ -1,21 +1,87 @@
 import * as S from "../../styles/home/home";
 import StandardButton from "../../shared/components/StandardButton";
 import FeatureCard from "../../components/home/FeatureCard";
+import { useRef, useState, useEffect } from "react";
+import Header from "../../components/header/header";
 
 // image
 import PENCIL from "../../assets/images/home/pencil.svg";
 import FEATURE1 from "../../assets/images/home/feature1.svg";
 import FEATURE2 from "../../assets/images/home/feature2.svg";
 import FEATURE3 from "../../assets/images/home/feature3.svg";
+import ARROWDOWN from "../../assets/images/home/arrow-down.svg";
 
 const Home = () => {
+  const outerDivRef = useRef();
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // 스무스하게 움직이는 코드
+  useEffect(() => {
+    const pageHeight = window.innerHeight;
+
+    const wheelHandler = (e) => {
+      e.preventDefault();
+      const { deltaY } = e;
+      const scrollTop = outerDivRef.current.scrollTop;
+
+      if (deltaY > 0 && currentPage === 1) {
+        outerDivRef.current.scrollTo({
+          top: pageHeight,
+          behavior: "smooth",
+        });
+        setCurrentPage(2);
+      } else if (deltaY < 0 && currentPage === 2 && scrollTop <= pageHeight) {
+        outerDivRef.current.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+        setCurrentPage(1);
+      }
+    };
+
+    const currentDiv = outerDivRef.current;
+    currentDiv.addEventListener("wheel", wheelHandler, { passive: false });
+
+    return () => {
+      currentDiv.removeEventListener("wheel", wheelHandler);
+    };
+  }, [currentPage]);
+
+  // 다음 페이지로 이동하는 함수
+  const goToNextPage = () => {
+    const pageHeight = window.innerHeight;
+
+    if (currentPage === 1) {
+      outerDivRef.current.scrollTo({
+        top: pageHeight, // 두 번째 페이지로 스크롤
+        left: 0,
+        behavior: "smooth",
+      });
+      setCurrentPage(2);
+    } else if (currentPage === 2) {
+      outerDivRef.current.scrollTo({
+        top: pageHeight * 2, // 세 번째 페이지로 스크롤
+        left: 0,
+        behavior: "smooth",
+      });
+      setCurrentPage(1);
+    }
+  };
+
+  // pdf 업로드 모달 나타나는 함수
+
   return (
-    <S.HomeLayout>
+    <S.HomeLayout ref={outerDivRef}>
       <S.HomeFirstPage>
+        <Header />
+
         <S.UploadPdfButton>
           PDF 업로드로 시작해보기
           <S.PencilImg src={PENCIL} />
         </S.UploadPdfButton>
+        <S.ArrowDownButton onClick={goToNextPage}>
+          <img src={ARROWDOWN} alt="아래로 이동" />
+        </S.ArrowDownButton>
       </S.HomeFirstPage>
       <S.HomeSecondPage>
         <S.FeatureCardWrapper>
