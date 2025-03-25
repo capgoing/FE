@@ -3,6 +3,7 @@ import StandardButton from "../../shared/components/StandardButton";
 import FeatureCard from "../../components/home/FeatureCard";
 import { useRef, useState, useEffect } from "react";
 import Header from "../../components/header/header";
+import Modal from "../../components/list/modal/modal";
 
 // image
 import PENCIL from "../../assets/images/home/pencil.svg";
@@ -14,6 +15,8 @@ import ARROWDOWN from "../../assets/images/home/arrow-down.svg";
 const Home = () => {
   const outerDivRef = useRef();
   const [currentPage, setCurrentPage] = useState(1);
+
+  const [stateUpladButton, setStateUploadButton] = useState(false);
 
   // 스무스하게 움직이는 코드
   useEffect(() => {
@@ -69,19 +72,23 @@ const Home = () => {
   };
 
   // pdf 업로드 모달 나타나는 함수
+  const openModal = () => {
+    setStateUploadButton(!stateUpladButton);
+  };
 
   return (
     <S.HomeLayout ref={outerDivRef}>
       <S.HomeFirstPage>
         <Header />
 
-        <S.UploadPdfButton>
+        <S.UploadPdfButton onClick={openModal}>
           PDF 업로드로 시작해보기
           <S.PencilImg src={PENCIL} />
         </S.UploadPdfButton>
         <S.ArrowDownButton onClick={goToNextPage}>
           <img src={ARROWDOWN} alt="아래로 이동" />
         </S.ArrowDownButton>
+        {stateUpladButton && <Modal onClose={openModal} />}
       </S.HomeFirstPage>
       <S.HomeSecondPage>
         <S.FeatureCardWrapper>

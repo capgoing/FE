@@ -2,6 +2,7 @@ import styled from "styled-components";
 import colors from "../common/colors";
 import MAINBG from "../../assets/images/home/main.svg";
 import MAINBG2 from "../../assets/images/home/mainbg2.svg";
+import { keyframes } from "styled-components";
 
 // import MAINBG from "../../assets/images/home/mainbg.svg";
 
@@ -50,9 +51,19 @@ export const PencilImg = styled.img`
   object-fit: contain;
 `;
 
+const blink = keyframes`
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+`;
+
 export const ArrowDownButton = styled.button`
   position: absolute;
   bottom: 10px;
+  animation: ${blink} 1.5s infinite ease-in-out;
   /* margin-top: 10vh; */
 `;
 
