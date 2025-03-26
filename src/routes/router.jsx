@@ -3,6 +3,7 @@ import RootLayout from '../layouts/root-layout';
 
 import HomePage from "../pages/home/home";
 import ListPage from "../pages/list/list";
+import GraphPage from "../pages/graph/graph";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
       {
         path: "/list",
         element: <ListPage />
+      },
+      {
+        path: "/graph/:id",
+        element: <GraphPage />
       }
     ]
 }]);
