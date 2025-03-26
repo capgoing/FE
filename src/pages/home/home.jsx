@@ -11,11 +11,13 @@ import FEATURE1 from "../../assets/images/home/feature1.svg";
 import FEATURE2 from "../../assets/images/home/feature2.svg";
 import FEATURE3 from "../../assets/images/home/feature3.svg";
 import ARROWDOWN from "../../assets/images/home/arrow-down.svg";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Home = () => {
   const outerDivRef = useRef();
   const [currentPage, setCurrentPage] = useState(1);
 
+  const navigate = useNavigate();
   const [stateUpladButton, setStateUploadButton] = useState(false);
 
   // 스무스하게 움직이는 코드
@@ -71,9 +73,9 @@ const Home = () => {
     }
   };
 
-  // pdf 업로드 모달 나타나는 함수
-  const openModal = () => {
-    setStateUploadButton(!stateUpladButton);
+  // list 페이지로 이동
+  const handleUpladButton = () => {
+    navigate("/list");
   };
 
   return (
@@ -81,14 +83,13 @@ const Home = () => {
       <S.HomeFirstPage>
         <Header />
 
-        <S.UploadPdfButton onClick={openModal}>
+        <S.UploadPdfButton onClick={handleUpladButton}>
           PDF 업로드로 시작해보기
           <S.PencilImg src={PENCIL} />
         </S.UploadPdfButton>
         <S.ArrowDownButton onClick={goToNextPage}>
           <img src={ARROWDOWN} alt="아래로 이동" />
         </S.ArrowDownButton>
-        {stateUpladButton && <Modal onClose={openModal} />}
       </S.HomeFirstPage>
       <S.HomeSecondPage>
         <S.FeatureCardWrapper>
