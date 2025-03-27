@@ -1,9 +1,8 @@
 import * as S from "../../styles/home/home";
-import StandardButton from "../../shared/components/StandardButton";
 import FeatureCard from "../../components/home/FeatureCard";
 import { useRef, useState, useEffect } from "react";
 import Header from "../../components/header/header";
-import Modal from "../../components/list/modal/modal";
+import { useNavigate } from "react-router-dom";
 
 // image
 import PENCIL from "../../assets/images/home/pencil.svg";
@@ -11,7 +10,8 @@ import FEATURE1 from "../../assets/images/home/feature1.svg";
 import FEATURE2 from "../../assets/images/home/feature2.svg";
 import FEATURE3 from "../../assets/images/home/feature3.svg";
 import ARROWDOWN from "../../assets/images/home/arrow-down.svg";
-import { Navigate, useNavigate } from "react-router-dom";
+import HOMEFRAME from "../../assets/images/home/homeframe.svg";
+import LOGO from "../../assets/images/header/logo.png";
 
 const Home = () => {
   const outerDivRef = useRef();
@@ -83,13 +83,19 @@ const Home = () => {
       <S.HomeFirstPage>
         <Header />
 
-        <S.UploadPdfButton onClick={handleUpladButton}>
-          PDF 업로드로 시작해보기
-          <S.PencilImg src={PENCIL} />
-        </S.UploadPdfButton>
-        <S.ArrowDownButton onClick={goToNextPage}>
-          <img src={ARROWDOWN} alt="아래로 이동" />
-        </S.ArrowDownButton>
+        <S.HeaderBottomSection>
+          <S.MainLogoAndButton>
+            <S.HomeFrameImg src={HOMEFRAME} alt="메인 홈 로고"></S.HomeFrameImg>
+            <S.LOGO src={LOGO} />
+            <S.UploadPdfButton onClick={handleUpladButton}>
+              PDF 업로드로 시작해보기
+              <S.PencilImg src={PENCIL} />
+            </S.UploadPdfButton>
+          </S.MainLogoAndButton>
+          <S.ArrowDownButton onClick={goToNextPage}>
+            <img src={ARROWDOWN} alt="아래로 이동" />
+          </S.ArrowDownButton>
+        </S.HeaderBottomSection>
       </S.HomeFirstPage>
       <S.HomeSecondPage>
         <S.FeatureCardWrapper>

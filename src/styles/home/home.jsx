@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import colors from "../common/colors";
-import MAINBG from "../../assets/images/home/main.svg";
+import MAINBG from "../../assets/images/home/mainbg.svg";
 import MAINBG2 from "../../assets/images/home/mainbg2.svg";
 import { keyframes } from "styled-components";
 
@@ -30,19 +30,55 @@ export const HomeFirstPage = styled.div`
   align-items: center;
 `;
 
+export const HeaderBottomSection = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const MainLogoAndButton = styled.div`
+  position: relative;
+  display: inline-block;
+  width: 42.08vw;
+  height: 55.46vh;
+`;
+
+export const LOGO = styled.img`
+  width: 17.6vw;
+  height: 10.6vh;
+  position: absolute;
+  bottom: 30vh;
+  left: 50%;
+  transform: translateX(-50%) translateY(50%); // 가운데 정렬 + 이미지 바깥쪽으로 조금 내림
+  z-index: 2;
+`;
+export const HomeFrameImg = styled.img`
+  width: 100%;
+  height: 100%; // 비율 유지
+  display: block; // 인라인 요소로 처리되면서 공간 차지 안 하는 문제 방지
+  object-fit: contain; // 꽉 차게 or cover도 가능
+`;
 export const UploadPdfButton = styled.button`
-  width: 28.3vw;
+  position: absolute;
+  bottom: 8vh;
+  left: 50%;
+  transform: translateX(-50%) translateY(50%); // 가운데 정렬 + 이미지 바깥쪽으로 조금 내림
+  z-index: 2;
+  width: 28vw;
   height: 7.8vh;
   flex-shrink: 0;
   border-radius: 40.842px;
   background: #fe8f00;
   color: white;
-  font-size: 2.5rem;
+  font-size: 1.5vw;
   margin-top: 55vh;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 2rem; // 텍스트와 이미지 간 간격
+  font-family: "Ownglyph_meetme-Rg";
 `;
 
 export const PencilImg = styled.img`
