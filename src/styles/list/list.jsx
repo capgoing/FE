@@ -4,7 +4,6 @@ import colors from "../common/colors";
 // list.jsx
 export const ListContainer = styled.div`
     width: 75.6vw;
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
