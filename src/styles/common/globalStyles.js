@@ -1,5 +1,5 @@
-import { createGlobalStyle } from 'styled-components';
-import colors from './colors';
+import { createGlobalStyle } from "styled-components";
+import colors from "./colors";
 
 const GlobalStyle = createGlobalStyle`
     @font-face {
@@ -85,6 +85,7 @@ const GlobalStyle = createGlobalStyle`
         html{
             font-size: 50%;
         }
+        
     }
 
     @media screen and (max-width:1199px) {
