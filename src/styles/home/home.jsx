@@ -2,6 +2,7 @@ import styled from "styled-components";
 import colors from "../common/colors";
 import MAINBG from "../../assets/images/home/mainbg.svg";
 import MAINBG2 from "../../assets/images/home/mainbg2.svg";
+import HOMEFRAME from "../../assets/images/home/homeframe.svg";
 import { keyframes } from "styled-components";
 
 // import MAINBG from "../../assets/images/home/mainbg.svg";
@@ -16,12 +17,10 @@ export const HomeLayout = styled.div`
 // 첫번째 페이지
 export const HomeFirstPage = styled.div`
   position: relative;
-  background-image: url(${MAINBG});
+  background: url(${MAINBG}) no-repeat center center;
   background-size: cover; // 배경 이미지를 꽉 채움
-  background-position: center;
-  background-repeat: no-repeat; // 배경 이미지 반복 금지
-  background-clip: content-box;
   background-position-y: 20px;
+  background-attachment: fixed; // 배경이 뷰포트 기준으로 고정
 
   width: 100%;
   height: 100vh;
@@ -42,32 +41,30 @@ export const MainLogoAndButton = styled.div`
   position: relative;
   display: inline-block;
   width: 42.08vw;
-  height: 55.46vh;
 `;
 
 export const LOGO = styled.img`
   width: 17.6vw;
-  height: 10.6vh;
+  height: 20%;
   position: absolute;
-  bottom: 30vh;
+  bottom: 55%;
   left: 50%;
   transform: translateX(-50%) translateY(50%); // 가운데 정렬 + 이미지 바깥쪽으로 조금 내림
   z-index: 2;
 `;
 export const HomeFrameImg = styled.img`
-  width: 100%;
-  height: 100%; // 비율 유지
-  display: block; // 인라인 요소로 처리되면서 공간 차지 안 하는 문제 방지
-  object-fit: contain; // 꽉 차게 or cover도 가능
+  width: 42vw;
+  height: 100%;
+  display: block;
 `;
 export const UploadPdfButton = styled.button`
   position: absolute;
-  bottom: 8vh;
+  bottom: 15%;
   left: 50%;
   transform: translateX(-50%) translateY(50%); // 가운데 정렬 + 이미지 바깥쪽으로 조금 내림
-  z-index: 2;
-  width: 28vw;
-  height: 7.8vh;
+  z-index: 5;
+  width: 70%;
+  height: 13%;
   flex-shrink: 0;
   border-radius: 40.842px;
   background: #fe8f00;
@@ -101,6 +98,11 @@ export const ArrowDownButton = styled.button`
   bottom: 10px;
   animation: ${blink} 1.5s infinite ease-in-out;
   /* margin-top: 10vh; */
+`;
+
+export const ArrowDownImg = styled.img`
+  width: 4.5vw;
+  height: 5vh;
 `;
 
 // 두번째 페이지

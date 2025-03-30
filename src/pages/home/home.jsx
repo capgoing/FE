@@ -93,7 +93,7 @@ const Home = () => {
             </S.UploadPdfButton>
           </S.MainLogoAndButton>
           <S.ArrowDownButton onClick={goToNextPage}>
-            <img src={ARROWDOWN} alt="아래로 이동" />
+            <S.ArrowDownImg src={ARROWDOWN} alt="아래로 이동" />
           </S.ArrowDownButton>
         </S.HeaderBottomSection>
       </S.HomeFirstPage>
