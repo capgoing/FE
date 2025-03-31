@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import colors from "../../styles/common/colors";
+import colors from "../common/colors";
 
-// game.jsx
-export const GameContainer = styled.div`
+// quiz.jsx
+export const QuizContainer = styled.div`
     margin-top: 13.6vw;
     display: flex;
     flex-direction: column;
@@ -10,7 +10,7 @@ export const GameContainer = styled.div`
     gap: 3vw;
 `
 
-export const GameP = styled.p`
+export const QuizP = styled.p`
     font-size: 1.8vw;
     font-weight: 400;
     color: ${colors.gray3};

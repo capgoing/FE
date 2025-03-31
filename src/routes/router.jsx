@@ -6,9 +6,9 @@ import ListPage from "../pages/list/list";
 
 import GraphPage from "../pages/graph/graph";
 
-import GamePage from "../pages/game/game";
-import QnaPage from "../pages/game/qna";
-import ResultPage from "../pages/game/result";
+import QuizPage from "../pages/quiz/quiz";
+import QnaPage from "../pages/quiz/qna";
+import ResultPage from "../pages/quiz/result";
 
 const router = createBrowserRouter([
   {
@@ -24,15 +24,15 @@ const router = createBrowserRouter([
         element: <ListPage />,
       },
       {
-        path: "/graph/:id",
+        path: "graph/:id",
         element: <GraphPage />
       },
       {
-        path: "game",
+        path: "quiz/:id",
         children: [
           {
             index: "true",
-            element: <GamePage />,
+            element: <QuizPage />,
           },
           {
             path: "qna",
