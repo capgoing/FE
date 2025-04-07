@@ -1,24 +1,12 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import ReactFlow, {
-  Controls,
-  ReactFlowProvider,
-  MarkerType,
-  getStraightPath,
-} from "reactflow";
-import styled from "styled-components";
-import colors from "../../styles/common/colors";
+import ReactFlow, { Controls, ReactFlowProvider, MarkerType, getStraightPath } from "reactflow";
+import * as G from "../../styles/graph/graph";
 import { forceSimulation, forceManyBody, forceCenter, forceLink } from "d3-force";
 
 import GraphNode from "./graphNode";
 import { nodes as rawNodes, edges as rawEdges, levelStyles } from "../../mocks/graphData";
 import 'reactflow/dist/style.css';
 
-const GraphFlowContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  border-radius: 2.4vw;
-  background: ${colors.white};
-`;
 
 const nodeTypes = {
   custom: GraphNode,
@@ -61,6 +49,7 @@ const GraphFlow = () => {
           label: node.label,
           level: node.level,
           description: node.description,
+          image: node.image,
         },
         position: { x: node.x, y: node.y },
         draggable: true,
@@ -146,7 +135,7 @@ const GraphFlow = () => {
   }, []);
 
   return (
-    <GraphFlowContainer ref={reactFlowWrapper}>
+    <G.GraphFlowContainer ref={reactFlowWrapper}>
       <ReactFlowProvider>
         <ReactFlow
           nodes={nodes}
@@ -158,11 +147,12 @@ const GraphFlow = () => {
           fitViewOptions={{ padding: 0.2 }}
           onInit={onInit}
           onNodeDoubleClick={handleNodeDoubleClick}
+          proOptions={{ hideAttribution: true }} 
         >
           <Controls />
         </ReactFlow>
       </ReactFlowProvider>
-    </GraphFlowContainer>
+    </G.GraphFlowContainer>
   );
 };
 
