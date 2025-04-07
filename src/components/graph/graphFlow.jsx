@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import ReactFlow, { Controls, ReactFlowProvider, MarkerType, getStraightPath } from "reactflow";
 import * as G from "../../styles/graph/graph";
+import colors from "../../styles/common/colors";
 import { forceSimulation, forceManyBody, forceCenter, forceLink } from "d3-force";
-
+import { useEditMode } from "../../contexts/editModeContext";
 import GraphNode from "./graphNode";
 import { nodes as rawNodes, edges as rawEdges, levelStyles } from "../../mocks/graphData";
 import 'reactflow/dist/style.css';
@@ -13,6 +14,7 @@ const nodeTypes = {
 };
 
 const GraphFlow = () => {
+  const { isEditMode } = useEditMode();
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
   const reactFlowWrapper = useRef(null);
@@ -58,6 +60,10 @@ const GraphFlow = () => {
       };
     });
 
+    const edgeColor = isEditMode ? colors.black : "#f89d36";
+    const labelColor = isEditMode ? colors.white : "#fff8d6";
+    const strokeColor = isEditMode ? colors.black : "#f0c14b";
+
     const edgeWithLabels = rawEdges.map((edge, i) => {
       const sourceNode = simNodes.find(n => n.id === edge.source);
       const targetNode = simNodes.find(n => n.id === edge.target);
@@ -92,18 +98,18 @@ const GraphFlow = () => {
         data: { path },
         markerEnd: {
           type: MarkerType.ArrowClosed,
-          color: '#f89d36',
+          color: edgeColor,
         },
         style: {
           strokeWidth: 2,
-          stroke: '#f89d36',
+          stroke: edgeColor,
           strokeDasharray: '0',
           opacity: 1,
         },
         labelBgStyle: {
-          fill: "#fff8d6",
+          fill: labelColor,
           fillOpacity: 1,
-          stroke: '#f0c14b',
+          stroke: strokeColor,
           strokeWidth: 0.5,
           rx: 4,
           ry: 4,
@@ -118,7 +124,7 @@ const GraphFlow = () => {
 
     setNodes(positionedNodes);
     setEdges(edgeWithLabels);
-  }, []);
+  }, [isEditMode]);
 
   const onInit = (instance) => {
     reactFlowInstance.current = instance;
