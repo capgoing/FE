@@ -1,5 +1,6 @@
 const colors = {
     mainYellow: "#FFD839",
+    subYellow: "#FFF7D6",
     green: "#00B718",
     red: "#FF3838",
     orange: "#FF9400",

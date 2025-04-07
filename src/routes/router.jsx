@@ -3,9 +3,12 @@ import RootLayout from "../layouts/root-layout";
 
 import HomePage from "../pages/home/home";
 import ListPage from "../pages/list/list";
-import GamePage from "../pages/game/game";
-import QnaPage from "../pages/game/qna";
-import ResultPage from "../pages/game/result";
+
+import GraphPage from "../pages/graph/graph";
+
+import QuizPage from "../pages/quiz/quiz";
+import QnaPage from "../pages/quiz/qna";
+import ResultPage from "../pages/quiz/result";
 
 const router = createBrowserRouter([
   {
@@ -16,16 +19,20 @@ const router = createBrowserRouter([
     path: "/",
     element: <RootLayout />,
     children: [
-      {
+      { 
         path: "list",
         element: <ListPage />,
       },
       {
-        path: "game",
+        path: "graph/:id",
+        element: <GraphPage />
+      },
+      {
+        path: "quiz/:id",
         children: [
           {
             index: "true",
-            element: <GamePage />,
+            element: <QuizPage />,
           },
           {
             path: "qna",
@@ -40,5 +47,6 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
 
 export default router;
