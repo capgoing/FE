@@ -19,13 +19,13 @@ const router = createBrowserRouter([
     path: "/",
     element: <RootLayout />,
     children: [
-      { 
+      {
         path: "list",
         element: <ListPage />,
       },
       {
         path: "graph/:id",
-        element: <GraphPage />
+        element: <GraphPage />,
       },
       {
         path: "quiz/:id",
@@ -36,17 +36,16 @@ const router = createBrowserRouter([
           },
           {
             path: "qna",
-            element: <QnaPage />
+            element: <QnaPage />,
           },
           {
             path: "result",
-            element: <ResultPage />
-          }
-        ]
-      }
+            element: <ResultPage />,
+          },
+        ],
+      },
     ],
   },
 ]);
-
 
 export default router;
