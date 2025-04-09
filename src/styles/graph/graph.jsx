@@ -51,7 +51,7 @@ export const GraphFlowContainer = styled.div`
     width: 100%;
     height: 100%;
     border-radius: 2.4vw;
-    background: ${colors.white};
+      background: ${({ theme }) => theme.components?.graphFlowContainer?.background || colors.white};
 `;
 
 // graphNode.jsx
@@ -62,8 +62,13 @@ export const NodeWrapper = styled.div`
   align-items: center;
   justify-content: center;
   gap: 0.2vw;
-  background: ${({ bg }) => colors[bg]};
-  border: 0.15vw solid ${colors.orange2};
+  background: ${({ bg, isEditMode, isZoomedIn }) =>
+    isEditMode && isZoomedIn
+      ? colors.black
+      : isEditMode
+      ? colors.white
+      : colors[bg]};
+  border: 0.15vw solid ${({ isEditMode }) => isEditMode ? colors.black : colors.orange2};
   border-radius: 50%;
   text-align: center;
   box-sizing: border-box;
@@ -87,14 +92,16 @@ export const LabelP = styled.p`
   text-align: ${({ isZoomedIn }) => (isZoomedIn ? 'left' : 'center')};
   font-family: 'Ownglyph_meetme-Rg';
   font-size: ${({ fontSize }) => fontSize};
-  color: ${colors.black};  
+  color: ${({ isEditMode, isZoomedIn }) =>
+    isEditMode && isZoomedIn ? colors.white : colors.black};
 `
 
 export const Description = styled.p`
   font-size: ${({ fontSize }) => fontSize};
-  color: ${colors.black};
   text-align: left;
-`;
+  color: ${({ isEditMode, isZoomedIn }) =>
+    isEditMode && isZoomedIn ? colors.white : colors.black};
+`
 
 export const ImageContainer = styled.img`
   width: 100%;
