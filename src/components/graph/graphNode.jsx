@@ -2,10 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { Handle, Position, useUpdateNodeInternals, useReactFlow } from "reactflow";
 import * as G from "../../styles/graph/graph";
 import { levelStyles } from "../../mocks/graphData";
+import { useEditMode } from "../../contexts/editModeContext";
 
 const GraphNode = ({ id, data }) => {
   const { label, level, description, image } = data;
   const style = levelStyles[level] || levelStyles[1];
+  const { isEditMode } = useEditMode();
 
   const ref = useRef(null);
   const updateNodeInternals = useUpdateNodeInternals();
@@ -34,10 +36,11 @@ const GraphNode = ({ id, data }) => {
       bg={style.background}
       color={style.color}
       isZoomedIn={isZoomedIn}
+      isEditMode={isEditMode}
     >
       <G.NodeLeftContainer>
-        <G.LabelP isZoomedIn={isZoomedIn} fontSize={isZoomedIn ? style.fontSize.zoomIn : style.fontSize.zoomOut}>{label}</G.LabelP>
-        {isZoomedIn && <G.Description fontSize={style.descriptionFontSize}>{description}</G.Description>}
+        <G.LabelP isZoomedIn={isZoomedIn} fontSize={isZoomedIn ? style.fontSize.zoomIn : style.fontSize.zoomOut} isEditMode={isEditMode}>{label}</G.LabelP>
+        {isZoomedIn && <G.Description isZoomedIn={isZoomedIn} fontSize={style.descriptionFontSize} isEditMode={isEditMode}>{description}</G.Description>}
       </G.NodeLeftContainer>
 
       {isZoomedIn && <G.NodeRightContainer>
