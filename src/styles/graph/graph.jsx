@@ -108,3 +108,148 @@ export const ImageContainer = styled.img`
   height: auto;
   object-fit: cover;
 `
+
+// graphMenu.jsx
+export const MenuContainer = styled.div`
+    width: 14.3vw;
+    height: 15vw;
+    background: ${colors.subYellow};
+    border: 0.1vw solid ${colors.mainYellow};
+    border-radius: 1vw;
+    position: absolute;
+    top: 1vw;
+    right: 1vw;
+    color: ${colors.black};
+    padding: 1vw;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vw;
+`
+
+export const MenuTopContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`
+
+export const CloseImg = styled.img`
+    width: 1vw;
+    height: 1vw;
+    cursor: pointer;
+`
+
+export const MenuTitle = styled.p`
+    font-size: 1vw;
+    font-weight: 600;
+`
+
+export const MenuList = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+`
+
+export const MenuItem = styled.div`
+    width: 100%;
+    height: 2vw;
+    font-size: 1vw;
+    font-weight: 600;
+    border-radius: 0.5vw;
+    background: ${colors.white};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+        background: ${colors.mainYellow};
+    }
+`
+
+// graphNodeAdd.jsx
+export const GraphNodeAddContainer = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vw;
+`
+
+export const LabelContainer = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1vw;
+`
+
+export const NodeP = styled.p`
+    font-size: 0.7vw;
+    font-weight: 600;
+`
+
+export const NodeInput = styled.input`
+    width: 100%;
+    height: 2vw;
+    background: ${colors.white};
+    border: 0.1vw solid ${colors.mainYellow};
+    border-radius: 0.5vw;
+    padding: 0.5vw;
+    box-sizing: border-box;
+    font-size: 0.7vw;
+    color: ${colors.black};
+    font-weight: 600;
+`
+
+export const SelectWrapper = styled.div`
+    width: 100%;
+    height: 2vw;
+    position: relative;
+    display: flex;
+    align-items: center;
+`;
+
+export const NodeSelect = styled.select`
+    width: 100%;
+    height: 100%;
+    appearance: none;
+    background: ${colors.white};
+    border: 0.1vw solid ${colors.mainYellow};
+    border-radius: 0.5vw;
+    padding: 0.5vw;
+    padding-right: 2vw;
+    box-sizing: border-box;
+    font-size: 0.7vw;
+    color: ${colors.black};
+    font-weight: 600;
+`;
+
+export const IconWrapper = styled.div`
+    position: absolute;
+    top: 50%;
+    right: 0.8vw;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: ${colors.black};
+    font-size: 1vw;
+`;
+
+
+export const AddButton = styled.button`
+    width: 100%;
+    height: 2vw;
+    background: ${colors.mainYellow};
+    border-radius: 0.5vw;
+    text-align: center;
+    color: ${colors.black};
+    font-size: 0.7vw;
+    margin-top: 1vw;
+    cursor: pointer;
+
+    &:disabled {
+        cursor: not-allowed;
+        background: ${colors.white};
+        border: 0.1vw solid ${colors.mainYellow};
+    }
+`;

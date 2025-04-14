@@ -5,9 +5,16 @@ import { levelStyles } from "../../mocks/graphData";
 import { useEditMode } from "../../contexts/editModeContext";
 
 const GraphNode = ({ id, data }) => {
-  const { label, level, description, image } = data;
+  const { label, level, description, image, onContextMenu } = data;
   const style = levelStyles[level] || levelStyles[1];
   const { isEditMode } = useEditMode();
+ 
+  const handleContextMenu = (e) => {
+    e.preventDefault();
+    if (onContextMenu) {
+      onContextMenu(e, { id, data });
+    }
+  };
 
   const ref = useRef(null);
   const updateNodeInternals = useUpdateNodeInternals();
@@ -32,6 +39,7 @@ const GraphNode = ({ id, data }) => {
   return (
     <G.NodeWrapper
       ref={ref}
+      onContextMenu={handleContextMenu}
       size={style.size}
       bg={style.background}
       color={style.color}
