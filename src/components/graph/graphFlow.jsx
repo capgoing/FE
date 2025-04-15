@@ -182,6 +182,13 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn }) => {
     }
   }, [isClickChatbotBtn]); // 챗봇 열릴 때마다 실행
 
+  // 챗봇 중 수정모드 눌렀을 때 그래프 화면 크기가 원상태로 돌아가도록 함
+  useEffect(() => {
+    if (isEditMode) {
+      setIsClickChatbotBtn(false);
+    }
+  }, [isEditMode]);
+
   return (
     <G.GraphLayout>
       <G.GraphFlowContainer
@@ -211,10 +218,12 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn }) => {
           )}
         </ReactFlowProvider>
       </G.GraphFlowContainer>
-      <Chatbot
-        setIsClickChatbotBtn={setIsClickChatbotBtn}
-        isVisible={isClickChatbotBtn}
-      />
+      {!isEditMode && (
+        <Chatbot
+          setIsClickChatbotBtn={setIsClickChatbotBtn}
+          isVisible={isClickChatbotBtn}
+        />
+      )}
     </G.GraphLayout>
   );
 };
