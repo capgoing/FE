@@ -20,6 +20,9 @@ export const lightTheme = {
         },
         graphFlowContainer: {
             background: colors.white,
+        },
+        soundImgContainer: {
+            background: colors.mainYellow,
         }
     },
   };
@@ -44,6 +47,9 @@ export const lightTheme = {
         },
         graphFlowContainer: {
             background: colors.gray5,
+        },
+        soundImgContainer: {
+            background: colors.white,
         }
     },
   };

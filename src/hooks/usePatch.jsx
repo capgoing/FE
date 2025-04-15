@@ -1,22 +1,16 @@
 import { useState } from "react";
 import { API } from "../apis/axios";
 
-const usePost = (url) => {
+const usePatch = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const post = async (body) => {
+  const patch = async (url, data, config = {}) => {
     try {
       setLoading(true);
       setError(null);
 
-      const isFormData = body instanceof FormData;
-
-      const config = isFormData
-        ? { headers: { "Content-Type": undefined } }
-        : {};
-
-      const response = await API.post(url, body, config);
+      const response = await API.patch(url, data, config);
       return response.data;
     } catch (err) {
       setError(err);
@@ -26,7 +20,7 @@ const usePost = (url) => {
     }
   };
 
-  return { post, loading, error };
+  return { patch, loading, error };
 };
 
-export default usePost;
+export default usePatch;

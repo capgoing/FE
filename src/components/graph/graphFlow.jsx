@@ -7,7 +7,7 @@ import { useEditMode } from "../../contexts/editModeContext";
 import GraphNode from "./graphNode";
 import { nodes as rawNodes, edges as rawEdges, levelStyles } from "../../mocks/graphData";
 import 'reactflow/dist/style.css';
-
+import GraphMenu from "./graphMenu";
 
 const nodeTypes = {
   custom: GraphNode,
@@ -19,6 +19,13 @@ const GraphFlow = () => {
   const [edges, setEdges] = useState([]);
   const reactFlowWrapper = useRef(null);
   const reactFlowInstance = useRef(null);
+  const [selectedNode, setSelectedNode] = useState(null);
+
+  const handleNodeRightClick = useCallback((event, node) => {
+    if (!isEditMode) return;
+    event.preventDefault();
+    setSelectedNode(node);
+  }, [isEditMode]);
 
   useEffect(() => {
     const width = 1000;
@@ -52,6 +59,7 @@ const GraphFlow = () => {
           level: node.level,
           description: node.description,
           image: node.image,
+          onContextMenu: handleNodeRightClick,
         },
         position: { x: node.x, y: node.y },
         draggable: true,
@@ -124,7 +132,7 @@ const GraphFlow = () => {
 
     setNodes(positionedNodes);
     setEdges(edgeWithLabels);
-  }, [isEditMode]);
+  }, [isEditMode, handleNodeRightClick]);
 
   const onInit = (instance) => {
     reactFlowInstance.current = instance;
@@ -157,6 +165,7 @@ const GraphFlow = () => {
         >
           <Controls />
         </ReactFlow>
+        {selectedNode && <GraphMenu node={selectedNode} onClose={() => setSelectedNode(null)}/>}
       </ReactFlowProvider>
     </G.GraphFlowContainer>
   );

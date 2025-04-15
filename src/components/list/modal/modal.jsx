@@ -6,7 +6,7 @@ import usePost from "../../../hooks/usePost";
 const Modal = ({ onClose }) => {
     const [projectName, setProjectName] = useState("");
     const [selectedFile, setSelectedFile] = useState(null);
-    const { post, loading } = usePost("/posts");
+    const { post, loading } = usePost("/upload");
 
     const handleFileChange = (e) => {
         setSelectedFile(e.target.files[0]);

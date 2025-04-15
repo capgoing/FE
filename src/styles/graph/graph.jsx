@@ -51,7 +51,7 @@ export const GraphFlowContainer = styled.div`
     width: 100%;
     height: 100%;
     border-radius: 2.4vw;
-      background: ${({ theme }) => theme.components?.graphFlowContainer?.background || colors.white};
+    background: ${({ theme }) => theme.components?.graphFlowContainer?.background || colors.white};
 `;
 
 // graphNode.jsx
@@ -59,9 +59,10 @@ export const NodeWrapper = styled.div`
   width: ${({ size }) => size};
   height: ${({ size }) => size};
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  gap: 0.2vw;
+  align-items: center;
+  gap: 0.1vw;
   background: ${({ bg, isEditMode, isZoomedIn }) =>
     isEditMode && isZoomedIn
       ? colors.black
@@ -75,6 +76,14 @@ export const NodeWrapper = styled.div`
   position: relative;
   transition: font-size 0.2s ease;
 `;
+
+export const NodeContainer = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.1vw;
+`
 
 export const NodeLeftContainer = styled.div`
   width: 50%;
@@ -108,3 +117,169 @@ export const ImageContainer = styled.img`
   height: auto;
   object-fit: cover;
 `
+
+export const NodeTitleContainer = styled.div`
+  display: flex;
+  gap: ${({ nodeTitleContainerGap }) => nodeTitleContainerGap};
+  align-items: center;
+`
+
+export const SoundImgContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: ${({ soundImgContainerWidth }) => soundImgContainerWidth};
+  height: ${({ soundImgContainerHeight }) => soundImgContainerHeight};
+  border-radius: 50%;
+  background: ${({ theme }) => theme.components?.soundImgContainer?.background || colors.white};
+  cursor: pointer;
+`
+
+export const SoundImg = styled.img`
+  width: ${({ soundImgWidth }) => soundImgWidth};
+`
+
+// graphMenu.jsx
+export const MenuContainer = styled.div`
+    width: 14.3vw;
+    height: 15vw;
+    background: ${colors.subYellow};
+    border: 0.1vw solid ${colors.mainYellow};
+    border-radius: 1vw;
+    position: absolute;
+    top: 1vw;
+    right: 1vw;
+    color: ${colors.black};
+    padding: 1vw;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vw;
+`
+
+export const MenuTopContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`
+
+export const CloseImg = styled.img`
+    width: 1vw;
+    height: 1vw;
+    cursor: pointer;
+`
+
+export const MenuTitle = styled.p`
+    font-size: 1vw;
+    font-weight: 600;
+`
+
+export const MenuList = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vw;
+`
+
+export const MenuItem = styled.div`
+    width: 100%;
+    height: 2vw;
+    font-size: 1vw;
+    font-weight: 600;
+    border-radius: 0.5vw;
+    background: ${colors.white};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+        background: ${colors.mainYellow};
+    }
+`
+
+// graphNodeAdd.jsx
+export const GraphNodeAddContainer = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vw;
+`
+
+export const LabelContainer = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1vw;
+`
+
+export const NodeP = styled.p`
+    font-size: 0.7vw;
+    font-weight: 600;
+`
+
+export const NodeInput = styled.input`
+    width: 100%;
+    height: 2vw;
+    background: ${colors.white};
+    border: 0.1vw solid ${colors.mainYellow};
+    border-radius: 0.5vw;
+    padding: 0.5vw;
+    box-sizing: border-box;
+    font-size: 0.7vw;
+    color: ${colors.black};
+    font-weight: 600;
+`
+
+export const SelectWrapper = styled.div`
+    width: 100%;
+    height: 2vw;
+    position: relative;
+    display: flex;
+    align-items: center;
+`;
+
+export const NodeSelect = styled.select`
+    width: 100%;
+    height: 100%;
+    appearance: none;
+    background: ${colors.white};
+    border: 0.1vw solid ${colors.mainYellow};
+    border-radius: 0.5vw;
+    padding: 0.5vw;
+    padding-right: 2vw;
+    box-sizing: border-box;
+    font-size: 0.7vw;
+    color: ${colors.black};
+    font-weight: 600;
+`;
+
+export const IconWrapper = styled.div`
+    position: absolute;
+    top: 50%;
+    right: 0.8vw;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: ${colors.black};
+    font-size: 1vw;
+`;
+
+
+export const AddButton = styled.button`
+    width: 100%;
+    height: 2vw;
+    background: ${colors.mainYellow};
+    border-radius: 0.5vw;
+    text-align: center;
+    color: ${colors.black};
+    font-size: 0.7vw;
+    margin-top: 1vw;
+    cursor: pointer;
+
+    &:disabled {
+        cursor: not-allowed;
+        background: ${colors.white};
+        border: 0.1vw solid ${colors.mainYellow};
+    }
+`;
