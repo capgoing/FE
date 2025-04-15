@@ -1,19 +1,34 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import ReactFlow, { Controls, ReactFlowProvider, MarkerType, getStraightPath } from "reactflow";
+import ReactFlow, {
+  Controls,
+  ReactFlowProvider,
+  MarkerType,
+  getStraightPath,
+} from "reactflow";
 import * as G from "../../styles/graph/graph";
 import colors from "../../styles/common/colors";
-import { forceSimulation, forceManyBody, forceCenter, forceLink } from "d3-force";
+import {
+  forceSimulation,
+  forceManyBody,
+  forceCenter,
+  forceLink,
+} from "d3-force";
 import { useEditMode } from "../../contexts/editModeContext";
 import GraphNode from "./graphNode";
-import { nodes as rawNodes, edges as rawEdges, levelStyles } from "../../mocks/graphData";
-import 'reactflow/dist/style.css';
+import {
+  nodes as rawNodes,
+  edges as rawEdges,
+  levelStyles,
+} from "../../mocks/graphData";
+import "reactflow/dist/style.css";
 import GraphMenu from "./graphMenu";
+import Chatbot from "./chatbot/Chatbot";
 
 const nodeTypes = {
   custom: GraphNode,
 };
 
-const GraphFlow = () => {
+const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn }) => {
   const { isEditMode } = useEditMode();
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
@@ -21,11 +36,14 @@ const GraphFlow = () => {
   const reactFlowInstance = useRef(null);
   const [selectedNode, setSelectedNode] = useState(null);
 
-  const handleNodeRightClick = useCallback((event, node) => {
-    if (!isEditMode) return;
-    event.preventDefault();
-    setSelectedNode(node);
-  }, [isEditMode]);
+  const handleNodeRightClick = useCallback(
+    (event, node) => {
+      if (!isEditMode) return;
+      event.preventDefault();
+      setSelectedNode(node);
+    },
+    [isEditMode]
+  );
 
   useEffect(() => {
     const width = 1000;
@@ -42,14 +60,19 @@ const GraphFlow = () => {
     const simulation = forceSimulation(simNodes)
       .force("charge", forceManyBody().strength(-500))
       .force("center", forceCenter(centerX, centerY))
-      .force("link", forceLink(simLinks).id((d) => d.id).distance(180))
+      .force(
+        "link",
+        forceLink(simLinks)
+          .id((d) => d.id)
+          .distance(180)
+      )
       .stop();
 
     for (let i = 0; i < 300; ++i) simulation.tick();
 
     const positionedNodes = simNodes.map((node) => {
       const style = levelStyles[node.level] || levelStyles[1];
-      const size = parseFloat(style.size) / 100 * width;
+      const size = (parseFloat(style.size) / 100) * width;
 
       return {
         id: node.id,
@@ -73,8 +96,8 @@ const GraphFlow = () => {
     const strokeColor = isEditMode ? colors.black : "#f0c14b";
 
     const edgeWithLabels = rawEdges.map((edge, i) => {
-      const sourceNode = simNodes.find(n => n.id === edge.source);
-      const targetNode = simNodes.find(n => n.id === edge.target);
+      const sourceNode = simNodes.find((n) => n.id === edge.source);
+      const targetNode = simNodes.find((n) => n.id === edge.target);
 
       const dx = targetNode.x - sourceNode.x;
       const dy = targetNode.y - sourceNode.y;
@@ -111,7 +134,7 @@ const GraphFlow = () => {
         style: {
           strokeWidth: 2,
           stroke: edgeColor,
-          strokeDasharray: '0',
+          strokeDasharray: "0",
           opacity: 1,
         },
         labelBgStyle: {
@@ -125,7 +148,7 @@ const GraphFlow = () => {
         labelStyle: {
           fontWeight: 600,
           fontSize: 12,
-          fill: '#333',
+          fill: "#333",
         },
       };
     });
@@ -144,30 +167,55 @@ const GraphFlow = () => {
       const zoom = levelStyles[level]?.zoom || 4;
       const centerX = node.position.x + (node.width || 100) / 2;
       const centerY = node.position.y + (node.height || 100) / 2;
-      reactFlowInstance.current.setCenter(centerX, centerY, { zoom, duration: 500 });
+      reactFlowInstance.current.setCenter(centerX, centerY, {
+        zoom,
+        duration: 500,
+      });
     }
   }, []);
 
+  useEffect(() => {
+    if (reactFlowInstance.current) {
+      setTimeout(() => {
+        reactFlowInstance.current.fitView({ padding: 0.2, duration: 300 });
+      }, 350); // 챗봇 애니메이션 시간과 맞춤
+    }
+  }, [isClickChatbotBtn]); // 챗봇 열릴 때마다 실행
+
   return (
-    <G.GraphFlowContainer ref={reactFlowWrapper}>
-      <ReactFlowProvider>
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          nodeTypes={nodeTypes}
-          fitView
-          panOnDrag={true}
-          zoomOnScroll={true}
-          fitViewOptions={{ padding: 0.2 }}
-          onInit={onInit}
-          onNodeDoubleClick={handleNodeDoubleClick}
-          proOptions={{ hideAttribution: true }} 
-        >
-          <Controls />
-        </ReactFlow>
-        {selectedNode && <GraphMenu node={selectedNode} onClose={() => setSelectedNode(null)}/>}
-      </ReactFlowProvider>
-    </G.GraphFlowContainer>
+    <G.GraphLayout>
+      <G.GraphFlowContainer
+        ref={reactFlowWrapper}
+        isChatbotOpen={isClickChatbotBtn}
+      >
+        <ReactFlowProvider>
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            nodeTypes={nodeTypes}
+            fitView
+            panOnDrag={true}
+            zoomOnScroll={true}
+            fitViewOptions={{ padding: 0.2 }}
+            onInit={onInit}
+            onNodeDoubleClick={handleNodeDoubleClick}
+            proOptions={{ hideAttribution: true }}
+          >
+            <Controls />
+          </ReactFlow>
+          {selectedNode && (
+            <GraphMenu
+              node={selectedNode}
+              onClose={() => setSelectedNode(null)}
+            />
+          )}
+        </ReactFlowProvider>
+      </G.GraphFlowContainer>
+      <Chatbot
+        setIsClickChatbotBtn={setIsClickChatbotBtn}
+        isVisible={isClickChatbotBtn}
+      />
+    </G.GraphLayout>
   );
 };
 
