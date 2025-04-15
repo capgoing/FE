@@ -119,10 +119,11 @@ const Qna = () => {
               ))}
             </Q.DropItemContainer>
           ))} */}
-          <Q.DropItemContainer>
+          <Q.DropItemContainer mode={mode}>
             {droppedList.map((word, idx) => (
               <Q.DropItem
                 key={idx}
+                mode={mode}
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={() => handleDrop(idx)}
                 onClick={() => handleSlotClick(idx)}
