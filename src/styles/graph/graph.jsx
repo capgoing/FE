@@ -51,7 +51,7 @@ export const GraphFlowContainer = styled.div`
     width: 100%;
     height: 100%;
     border-radius: 2.4vw;
-      background: ${({ theme }) => theme.components?.graphFlowContainer?.background || colors.white};
+    background: ${({ theme }) => theme.components?.graphFlowContainer?.background || colors.white};
 `;
 
 // graphNode.jsx
@@ -59,9 +59,10 @@ export const NodeWrapper = styled.div`
   width: ${({ size }) => size};
   height: ${({ size }) => size};
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  gap: 0.2vw;
+  align-items: center;
+  gap: 0.1vw;
   background: ${({ bg, isEditMode, isZoomedIn }) =>
     isEditMode && isZoomedIn
       ? colors.black
@@ -75,6 +76,14 @@ export const NodeWrapper = styled.div`
   position: relative;
   transition: font-size 0.2s ease;
 `;
+
+export const NodeContainer = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.1vw;
+`
 
 export const NodeLeftContainer = styled.div`
   width: 50%;
@@ -107,6 +116,27 @@ export const ImageContainer = styled.img`
   width: 100%;
   height: auto;
   object-fit: cover;
+`
+
+export const NodeTitleContainer = styled.div`
+  display: flex;
+  gap: ${({ nodeTitleContainerGap }) => nodeTitleContainerGap};
+  align-items: center;
+`
+
+export const SoundImgContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: ${({ soundImgContainerWidth }) => soundImgContainerWidth};
+  height: ${({ soundImgContainerHeight }) => soundImgContainerHeight};
+  border-radius: 50%;
+  background: ${({ theme }) => theme.components?.soundImgContainer?.background || colors.white};
+  cursor: pointer;
+`
+
+export const SoundImg = styled.img`
+  width: ${({ soundImgWidth }) => soundImgWidth};
 `
 
 // graphMenu.jsx
@@ -148,7 +178,7 @@ export const MenuList = styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 1vw;
+    gap: 1.5vw;
 `
 
 export const MenuItem = styled.div`

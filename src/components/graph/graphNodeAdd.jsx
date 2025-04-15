@@ -1,14 +1,12 @@
 import * as G from "../../styles/graph/graph";
-import { nodes as nodeList } from "../../mocks/graphData";
 import { useEffect, useState } from "react";
-import { FiChevronDown } from "react-icons/fi";
 import usePost from "../../hooks/usePost";
-
 
 const GraphNodeAdd = ({ node }) => {
     const [selectedId, setSelectedId] = useState(node.id);
     const [name, setName] = useState("");
-    const isDisabled = !name.trim() || !selectedId;
+    const [description, setDescription] = useState("");
+    const isDisabled = !name.trim() || !description.trim();
     const { post, loading, error } = usePost("/users");
 
     useEffect(() => {
@@ -20,11 +18,12 @@ const GraphNodeAdd = ({ node }) => {
             const body = {
                 parentId: selectedId,
                 name: name.trim(),
+                description: description.trim(),
             };
             const response = await post(body);
             alert("노드가 추가되었습니다.");
             setName("");
-            setSelectedId(node.id);
+            setDescription("");
             console.log(response);
         } catch (err) {
             console.error("노드 추가 실패:", err);
@@ -39,19 +38,8 @@ const GraphNodeAdd = ({ node }) => {
             </G.LabelContainer>
 
             <G.LabelContainer>
-                <G.NodeP>노드 위치</G.NodeP>
-                <G.SelectWrapper>
-                    <G.NodeSelect value={selectedId} onChange={(e) => setSelectedId(e.target.value)}>
-                        {nodeList.map((n) => (
-                            <option key={n.id} value={n.label}>
-                                {n.label}
-                            </option>
-                        ))}
-                    </G.NodeSelect>
-                    <G.IconWrapper>
-                        <FiChevronDown />
-                    </G.IconWrapper>
-                </G.SelectWrapper>
+                <G.NodeP>노드 설명</G.NodeP>
+                <G.NodeInput value={description} onChange={(e) => setDescription(e.target.value)} />
             </G.LabelContainer>
 
             <G.AddButton onClick={handleSubmit} disabled={isDisabled || loading}>

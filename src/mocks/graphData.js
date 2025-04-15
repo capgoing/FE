@@ -109,6 +109,10 @@ export const levelStyles = {
     zoom: 6,
     fontSize: { zoomIn: "1vw", zoomOut: "1.5vw" },
     descriptionFontSize: "0.2vw",
+    nodeTitleContainerGap: "0.2vw",
+    soundImgContainerWidth: "1vw",
+    soundImgContainerHeight: "0.8vw",
+    soundImgWidth: "0.5vw",
   },
   1: {
     background: "orange2",
@@ -116,6 +120,10 @@ export const levelStyles = {
     zoom: 9,
     fontSize: { zoomIn: "0.9vw", zoomOut: "1.3vw" },
     descriptionFontSize: "0.15vw",
+    nodeTitleContainerGap: "0.15vw",
+    soundImgContainerWidth: "0.8vw",
+    soundImgContainerHeight: "0.6vw",
+    soundImgWidth: "0.3vw",
   },
   2: {
     background: "mainYellow",
@@ -123,5 +131,9 @@ export const levelStyles = {
     zoom: 12,
     fontSize: { zoomIn: "0.8vw", zoomOut: "1.2vw" },
     descriptionFontSize: "0.1vw",
+    nodeTitleContainerGap: "0.1vw",
+    soundImgContainerWidth: "0.6vw",
+    soundImgContainerHeight: "0.4vw",
+    soundImgWidth: "0.3vw",
   },
 };

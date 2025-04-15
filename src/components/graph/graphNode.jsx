@@ -3,6 +3,7 @@ import { Handle, Position, useUpdateNodeInternals, useReactFlow } from "reactflo
 import * as G from "../../styles/graph/graph";
 import { levelStyles } from "../../mocks/graphData";
 import { useEditMode } from "../../contexts/editModeContext";
+import Sound from "../../assets/images/graph/sound.png";
 
 const GraphNode = ({ id, data }) => {
   const { label, level, description, image, onContextMenu } = data;
@@ -46,16 +47,24 @@ const GraphNode = ({ id, data }) => {
       isZoomedIn={isZoomedIn}
       isEditMode={isEditMode}
     >
-      <G.NodeLeftContainer>
-        <G.LabelP isZoomedIn={isZoomedIn} fontSize={isZoomedIn ? style.fontSize.zoomIn : style.fontSize.zoomOut} isEditMode={isEditMode}>{label}</G.LabelP>
-        {isZoomedIn && <G.Description isZoomedIn={isZoomedIn} fontSize={style.descriptionFontSize} isEditMode={isEditMode}>{description}</G.Description>}
-      </G.NodeLeftContainer>
+      <G.NodeContainer>
+        <G.NodeLeftContainer>
+          <G.NodeTitleContainer nodeTitleContainerGap={style.nodeTitleContainerGap}>
+            {isZoomedIn && 
+              <G.SoundImgContainer soundImgContainerWidth={style.soundImgContainerWidth} soundImgContainerHeight={style.soundImgContainerHeight}>
+                <G.SoundImg src={Sound} alt="sound" soundImgWidth={style.soundImgWidth} />
+              </G.SoundImgContainer>
+            }
+            <G.LabelP isZoomedIn={isZoomedIn} fontSize={isZoomedIn ? style.fontSize.zoomIn : style.fontSize.zoomOut} isEditMode={isEditMode}>{label}</G.LabelP>
+          </G.NodeTitleContainer>
+          {isZoomedIn && <G.Description isZoomedIn={isZoomedIn} fontSize={style.descriptionFontSize} isEditMode={isEditMode}>{description}</G.Description>}
+        </G.NodeLeftContainer>
 
-      {isZoomedIn && <G.NodeRightContainer>
-        <G.ImageContainer src={image} alt="image" />
-      </G.NodeRightContainer>
-      }
-
+        {isZoomedIn && <G.NodeRightContainer>
+          <G.ImageContainer src={image} alt="image" />
+        </G.NodeRightContainer>
+        }
+      </G.NodeContainer>
 
       <Handle
         type="source"
