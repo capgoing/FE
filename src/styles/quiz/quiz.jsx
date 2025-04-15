@@ -171,13 +171,13 @@ export const DraaggableItem = styled.div`
 `;
 
 export const DropItemContainer = styled.div`
-  max-width: 100%;
+  width: 100%;
   height: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
   display: flex;
+  flex-direction: ${({ mode }) => (mode === "hard" ? "column" : "row")};
   justify-content: center;
   align-items: center;
   padding: 0 3vw;
@@ -185,7 +185,8 @@ export const DropItemContainer = styled.div`
 `;
 
 export const DropItem = styled.div`
-  min-width: 8vw;
+  width: ${({ mode }) => (mode === "hard" ? "100%" : "8vw")};
+  /* min-width: ${({ mode }) => (mode === "hard" ? "auto" : "8vw")}; */
 
   border-radius: 50px;
   border: 3px solid ${colors.orange2};
