@@ -3,20 +3,78 @@ import colors from "../common/colors";
 
 // quiz.jsx
 export const QuizContainer = styled.div`
-  margin-top: 13.6vw;
+  width: 100%;
+  margin-top: 4.9vw;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3vw;
 `;
 
 export const QuizP = styled.p`
   font-size: 1.8vw;
-  font-weight: 400;
-  color: ${colors.gray3};
+  font-weight: 700;
+  color: ${colors.brown};
   font-family: "Ownglyph_meetme-Rg";
 `;
 
+export const ListQuizContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 5.75vw;
+  width: 100%;
+  margin-top: 4.5vw;
+`
+
+export const ItemQuizContainer = styled.div`
+  width: 20.7vw;
+  height: 25.2vw;
+  border-radius: 2.5vw;
+  box-shadow:
+    0.25vw 0.2vw 0.59vw rgba(0, 0, 0, 0.25),
+    0.15vw 0.4vw 0.5vw rgba(254, 143, 0, 0.20);
+  background: ${colors.white};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+`
+
+export const ItemQuizP = styled.p`
+  font-size: 2vw;
+  font-weight: 700;
+  color: ${colors.brown};
+  margin-top: 3vw;
+  font-family: "Ownglyph_meetme-Rg";
+`
+
+export const ItemQuizP2 = styled(ItemQuizP)`
+  font-size: 1.25vw;
+  font-weight: 400;
+  color: ${colors.gray3};
+  text-align: center;
+  width: 80%;
+  margin-top: 1vw;
+`
+
+export const ImageContainer = styled.div`
+  position: relative;
+`
+
+export const ItemQuizImg = styled.img`
+  width: 11.75vw;
+  height: 11.75vw;
+  margin-top: 2vw;
+`
+
+export const ItemQuizImg2 = styled.img`
+  width: 5vw;
+  height: 5vw;
+  position: absolute;
+  top: -1vw;
+  left: 10vw;
+`
+
+// 인서 안 씀
 export const ButtonContainer = styled.div`
   display: flex;
   gap: 3vw;

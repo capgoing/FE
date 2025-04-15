@@ -1,26 +1,12 @@
 import * as Q from "../../styles/quiz/quiz";
-import { useNavigate, useParams } from "react-router-dom";
+import ListQuiz from "../../components/quiz/quiz/list-quiz";
 
 const Quiz = () => {
-  const navigate = useNavigate();
-  const { id } = useParams();
-
-  const handleQnaClick = (mode) => {
-    navigate(`/quiz/${id}/qna?mode=${mode}`);
-  };
-
   return (
     <div className="pageContainer">
       <Q.QuizContainer>
-        <Q.QuizP>난이도 선택</Q.QuizP>
-        <Q.ButtonContainer>
-          <Q.StageButton onClick={() => handleQnaClick("easy")}>
-            쉬움
-          </Q.StageButton>
-          <Q.StageButton onClick={() => handleQnaClick("hard")}>
-            어려움
-          </Q.StageButton>{" "}
-        </Q.ButtonContainer>
+        <Q.QuizP>다양한 퀴즈로 개념을 다시 확인해요!</Q.QuizP>
+        <ListQuiz />
       </Q.QuizContainer>
     </div>
   );

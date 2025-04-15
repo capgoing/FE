@@ -35,7 +35,7 @@ const router = createBrowserRouter([
             element: <QuizPage />,
           },
           {
-            path: "qna",
+            path: ":mode",
             element: <QnaPage />,
           },
           {
