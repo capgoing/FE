@@ -215,7 +215,7 @@ export const QnaBottomContainer = styled.div`
   gap: 2vw;
 `;
 
-export const DraaggableItemContainer = styled.div`
+export const AswerOptionItemContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -273,9 +273,9 @@ export const QnaModeLayout = styled.div`
   height: 100%;
 `;
 
-export const ListenUpQuestionContainer = styled.div`
+export const QnaQuestionContainer = styled.div`
   width: 100%;
-  height: 60%;
+  height: ${({ $height }) => $height || "60%"};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -312,4 +312,36 @@ export const ConfirmButton = styled.button`
   font-weight: 400;
   color: ${colors.white};
   font-family: "Ownglyph_meetme-Rg";
+`;
+
+// Connect.jsx
+export const ConnectQuestionContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+`;
+
+export const OptionItem = styled.div`
+  cursor: pointer;
+  width: auto;
+  height: 100%;
+  border-radius: 50px;
+  background: ${({ $isSelected }) => ($isSelected ? "#FE8F00" : "#f0f0f0")};
+  color: ${({ $isSelected }) => ($isSelected ? "#ffffff" : "#000000")};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Ownglyph_meetme-Rg";
+  font-size: 1.5vw;
+  padding: 1.2vw;
+`;
+
+// Picture.jsx
+export const PictureImg = styled.img`
+  width: 20.2vw;
+  height: 20.2vw;
+  margin-top: 2vw;
 `;

@@ -1,8 +1,9 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
-import * as Q from "../../../../styles/quiz/quiz.jsx";
-import Modal from "../../modal/modal.jsx";
-import LISTENUP from "../../../../assets/images/quiz/listenup.svg";
+import * as Q from "../../../styles/quiz/quiz.jsx";
+import Modal from "../modal/modal.jsx";
+import LISTENUP from "../../../assets/images/quiz/listenup.svg";
+import AnswerOptionList from "./AnswerOptionList.jsx";
 
 export default function ListenUp() {
   const [isOpen, setIsOpen] = useState(false);
@@ -102,13 +103,13 @@ export default function ListenUp() {
 
   return (
     <Q.QnaModeLayout>
-      <Q.ListenUpQuestionContainer>
+      <Q.QnaQuestionContainer>
         <Q.QuestionText>들은 순서대로 문장을 선택해보세요!</Q.QuestionText>
         <Q.ListenupImg src={LISTENUP} />
         <Q.ListenAgainButton>다시 듣기</Q.ListenAgainButton>
         <Q.ConfirmButton onClick={handleCheckAnswer}>정답 확인</Q.ConfirmButton>
         <Q.QuizCount>{currentQuizNum} / 5</Q.QuizCount>
-      </Q.ListenUpQuestionContainer>
+      </Q.QnaQuestionContainer>
 
       {/* answer 문자열값 텍스트 길이에 맞게 늘어나도록 스타일 조정 필요 */}
       {/* {data?.questions?.map((question, qIdx) => (
@@ -137,7 +138,7 @@ export default function ListenUp() {
       </Q.DropItemContainer>
       <Q.QnaBottomContainer>
         {/* {data?.questions?.map((question, qIdx) => (
-                  <Q.DraaggableItemContainer key={qIdx}>
+                  <Q.AswerOptionItemContainer key={qIdx}>
                     {question.shuffled.map((word, idx) => (
                       <Q.DraaggableItem
                         key={idx}
@@ -147,21 +148,13 @@ export default function ListenUp() {
                         {word}
                       </Q.DraaggableItem>
                     ))}
-                  </Q.DraaggableItemContainer>
+                  </Q.AswerOptionItemContainer>
                 ))} */}
-        <Q.DraaggableItemContainer>
-          {dragList.map((word, idx) =>
-            word ? ( // 드래그된 후 제거된 항목은 undefined나 null이 될 수 있음
-              <Q.DraaggableItem
-                key={idx}
-                draggable
-                onDragStart={() => handleDragStart(idx)}
-              >
-                {word}
-              </Q.DraaggableItem>
-            ) : null
-          )}
-        </Q.DraaggableItemContainer>
+        <AnswerOptionList
+          options={dragList}
+          isDraggable={true}
+          onDragStart={handleDragStart}
+        />
       </Q.QnaBottomContainer>
       {isOpen && <Modal onClose={handleCloseModal} />}
     </Q.QnaModeLayout>
