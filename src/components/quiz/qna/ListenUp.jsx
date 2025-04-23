@@ -1,9 +1,10 @@
 import React from "react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import * as Q from "../../../styles/quiz/quiz.jsx";
 import Modal from "../modal/modal.jsx";
 import LISTENUP from "../../../assets/images/quiz/listenup.svg";
 import AnswerOptionList from "./AnswerOptionList.jsx";
+import { speak, stop } from "../../../utils/tts.jsx";
 
 export default function ListenUp() {
   const [isOpen, setIsOpen] = useState(false);
@@ -101,12 +102,21 @@ export default function ListenUp() {
     }
   };
 
+  // tts
+  const handleSoundClick = useCallback(() => {
+    const currentAnswerArray = dummyData.questions[currentQuizNum - 1].answer;
+    const sentence = currentAnswerArray.join(" "); // 단어들을 띄어쓰기 포함 문장으로 합침
+    speak(sentence); // TTS 실행
+  }, [currentQuizNum]);
+
   return (
     <Q.QnaModeLayout>
       <Q.QnaQuestionContainer>
         <Q.QuestionText>들은 순서대로 문장을 선택해보세요!</Q.QuestionText>
         <Q.ListenupImg src={LISTENUP} />
-        <Q.ListenAgainButton>다시 듣기</Q.ListenAgainButton>
+        <Q.ListenAgainButton onClick={handleSoundClick}>
+          다시 듣기
+        </Q.ListenAgainButton>
         <Q.ConfirmButton onClick={handleCheckAnswer}>정답 확인</Q.ConfirmButton>
         <Q.QuizCount>{currentQuizNum} / 5</Q.QuizCount>
       </Q.QnaQuestionContainer>
