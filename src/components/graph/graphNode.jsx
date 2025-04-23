@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Handle, Position, useUpdateNodeInternals, useReactFlow } from "reactflow";
 import * as G from "../../styles/graph/graph";
 import { levelStyles } from "../../mocks/graphData";
 import { useEditMode } from "../../contexts/editModeContext";
 import Sound from "../../assets/images/graph/sound.png";
+import { speak, stop } from "../../utils/tts";
 
 const GraphNode = ({ id, data }) => {
   const { label, level, description, image, onContextMenu } = data;
@@ -17,6 +18,11 @@ const GraphNode = ({ id, data }) => {
     }
   };
 
+  // tts
+  const handleSoundClick = useCallback(() => {
+    speak(description);
+  }, [description]);
+
   const ref = useRef(null);
   const updateNodeInternals = useUpdateNodeInternals();
   const { getZoom } = useReactFlow();
@@ -29,13 +35,20 @@ const GraphNode = ({ id, data }) => {
   useEffect(() => {
     const checkZoom = () => {
       const currentZoom = getZoom();
-      setIsZoomedIn(currentZoom >= style.zoom);
+      const zoomCheck = currentZoom >= style.zoom;
+  
+      if (!zoomCheck && isZoomedIn) {
+        stop();
+      }
+  
+      setIsZoomedIn(zoomCheck);
     };
-
+  
     checkZoom();
     const interval = setInterval(checkZoom, 300);
     return () => clearInterval(interval);
-  }, [getZoom, style.zoom]);
+  }, [getZoom, style.zoom, isZoomedIn]);
+  
 
   return (
     <G.NodeWrapper
@@ -51,7 +64,7 @@ const GraphNode = ({ id, data }) => {
         <G.NodeLeftContainer>
           <G.NodeTitleContainer nodeTitleContainerGap={style.nodeTitleContainerGap}>
             {isZoomedIn && 
-              <G.SoundImgContainer soundImgContainerWidth={style.soundImgContainerWidth} soundImgContainerHeight={style.soundImgContainerHeight}>
+              <G.SoundImgContainer soundImgContainerWidth={style.soundImgContainerWidth} soundImgContainerHeight={style.soundImgContainerHeight} onClick={handleSoundClick}>
                 <G.SoundImg src={Sound} alt="sound" soundImgWidth={style.soundImgWidth} />
               </G.SoundImgContainer>
             }
