@@ -1,21 +1,23 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import useGet from "../../../hooks/useGet.jsx";
 import * as Q from "../../../styles/quiz/quiz.jsx";
 import AnswerOptionList from "./AnswerOptionList.jsx";
 import Modal from "../modal/modal.jsx";
 
 export default function Connect() {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
   const [currentQuizNum, setCurrentQuizNum] = useState(1);
-  const [isCorrect, setIsCorrect] = useState(false);
+  const [correctNum, setCorrectNum] = useState(0);
+
   const [answerOptions, setAnswerOptions] = useState([]);
   const [selectedIdx, setSelectedIdx] = useState(null);
 
-  const { id: graphId } = useParams(); // 그래프 id값 가져오기
-  const { data, loading, error } = useGet(`/quiz/${graphId}?mode=connect`); // 퀴즈 api 불러오기
+  const { id: graphId, mode: modeName } = useParams(); // 그래프 id값 가져오기
+  const { data, loading, error } = useGet(`/quiz/${graphId}?mode=${modeName}`); // 퀴즈 api 불러오기
 
   // ✅ 더미 데이터
   const dummyData = {
@@ -53,14 +55,24 @@ export default function Connect() {
     const selectedAnswer = answerOptions[selectedIdx];
     const result = selectedAnswer === currentQuestion.answer;
 
-    setIsCorrect(result);
+    if (result) setCorrectNum((prev) => prev + 1);
     setIsOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsOpen(false);
-    if (isCorrect) {
-      setCurrentQuizNum((prev) => prev + 1); // 모달을 닫을 때 정답일 경우에만 다음 퀴즈로 이동
+    const isLast = currentQuizNum >= dummyData.questions.length;
+
+    if (isLast) {
+      navigate(`/quiz/${graphId}/result`, {
+        state: {
+          total: dummyData.questions.length,
+          correct: correctNum,
+          mode: modeName,
+        },
+      });
+    } else {
+      setCurrentQuizNum((prev) => prev + 1);
     }
   };
 

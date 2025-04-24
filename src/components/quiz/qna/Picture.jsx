@@ -1,17 +1,19 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import useGet from "../../../hooks/useGet.jsx";
 import * as Q from "../../../styles/quiz/quiz.jsx";
 import AnswerOptionList from "./AnswerOptionList.jsx";
 import Modal from "../modal/modal.jsx";
 
 export default function Picture() {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
   const [currentQuizNum, setCurrentQuizNum] = useState(1);
   const [currentQuiz, setCurrentQuiz] = useState([]);
-  const [isCorrect, setIsCorrect] = useState(false);
+  const [correctNum, setCorrectNum] = useState(0);
+
   const [answerOptions, setAnswerOptions] = useState([]);
   const [selectedIdx, setSelectedIdx] = useState(null);
 
@@ -61,14 +63,24 @@ export default function Picture() {
     const selectedAnswer = answerOptions[selectedIdx];
     const result = selectedAnswer === currentQuiz.answer;
 
-    setIsCorrect(result);
+    if (result) setCorrectNum((prev) => prev + 1);
     setIsOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsOpen(false);
-    if (isCorrect) {
-      setCurrentQuizNum((prev) => prev + 1); // 모달을 닫을 때 정답일 경우에만 다음 퀴즈로 이동
+    const isLast = currentQuizNum >= dummyData.questions.length;
+
+    if (isLast) {
+      navigate(`/quiz/${graphId}/result`, {
+        state: {
+          total: dummyData.questions.length,
+          correct: correctNum,
+          mode: modeName,
+        },
+      });
+    } else {
+      setCurrentQuizNum((prev) => prev + 1);
     }
   };
 

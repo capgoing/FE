@@ -1,5 +1,7 @@
 import React from "react";
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import useGet from "../../../hooks/useGet.jsx";
 import * as Q from "../../../styles/quiz/quiz.jsx";
 import Modal from "../modal/modal.jsx";
 import LISTENUP from "../../../assets/images/quiz/listenup.svg";
@@ -7,16 +9,20 @@ import AnswerOptionList from "./AnswerOptionList.jsx";
 import { speak, stop } from "../../../utils/tts.jsx";
 
 export default function ListenUp() {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
   const [currentQuizNum, setCurrentQuizNum] = useState(1);
-  const [isCorrect, setIsCorrect] = useState(false);
+  const [correctNum, setCorrectNum] = useState(0);
 
   // 드래그앤드롭 상태변수들
   const [dragList, setDragList] = useState([]); // 드래그 가능한 단어들
   const [droppedList, setDroppedList] = useState([]); // 드롭된 정답 슬롯
   const dragItemRef = useRef(null); // 현재 드래그 중인 단어 인덱스
   const [hiddenIndices, setHiddenIndices] = useState([]);
+
+  const { id: graphId, mode: modeName } = useParams(); // 그래프 id값 가져오기
+  const { data, loading, error } = useGet(`/quiz/${graphId}?mode=${modeName}`); // 퀴즈 api 불러오기
 
   // ✅ 더미 데이터
   const dummyData = {
@@ -92,13 +98,24 @@ export default function ListenUp() {
       dummyData.questions[currentQuizNum - 1].answer.join("");
     const userAnswer = droppedList.join("");
     const result = currentAnswer === userAnswer;
-    setIsCorrect(result);
+    if (result) setCorrectNum((prev) => prev + 1);
     setIsOpen(true);
   };
+
   const handleCloseModal = () => {
     setIsOpen(false);
-    if (isCorrect) {
-      setCurrentQuizNum((prev) => prev + 1); // 모달을 닫을 때 정답일 경우에만 다음 퀴즈로 이동
+    const isLast = currentQuizNum >= dummyData.questions.length;
+
+    if (isLast) {
+      navigate(`/quiz/${graphId}/result`, {
+        state: {
+          total: dummyData.questions.length,
+          correct: correctNum,
+          mode: modeName,
+        },
+      });
+    } else {
+      setCurrentQuizNum((prev) => prev + 1);
     }
   };
 
