@@ -23,21 +23,20 @@ export const ListQuizContainer = styled.div`
   gap: 5.75vw;
   width: 100%;
   margin-top: 4.5vw;
-`
+`;
 
 export const ItemQuizContainer = styled.div`
   width: 20.7vw;
   height: 25.2vw;
   border-radius: 2.5vw;
-  box-shadow:
-    0.25vw 0.2vw 0.59vw rgba(0, 0, 0, 0.25),
-    0.15vw 0.4vw 0.5vw rgba(254, 143, 0, 0.20);
+  box-shadow: 0.25vw 0.2vw 0.59vw rgba(0, 0, 0, 0.25),
+    0.15vw 0.4vw 0.5vw rgba(254, 143, 0, 0.2);
   background: ${colors.white};
   display: flex;
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-`
+`;
 
 export const ItemQuizP = styled.p`
   font-size: 2vw;
@@ -45,7 +44,7 @@ export const ItemQuizP = styled.p`
   color: ${colors.brown};
   margin-top: 3vw;
   font-family: "Ownglyph_meetme-Rg";
-`
+`;
 
 export const ItemQuizP2 = styled(ItemQuizP)`
   font-size: 1.25vw;
@@ -54,17 +53,17 @@ export const ItemQuizP2 = styled(ItemQuizP)`
   text-align: center;
   width: 80%;
   margin-top: 1vw;
-`
+`;
 
 export const ImageContainer = styled.div`
   position: relative;
-`
+`;
 
 export const ItemQuizImg = styled.img`
   width: 11.75vw;
   height: 11.75vw;
   margin-top: 2vw;
-`
+`;
 
 export const ItemQuizImg2 = styled.img`
   width: 5vw;
@@ -72,7 +71,7 @@ export const ItemQuizImg2 = styled.img`
   position: absolute;
   top: -1vw;
   left: 10vw;
-`
+`;
 
 // 인서 안 씀
 export const ButtonContainer = styled.div`
@@ -132,7 +131,8 @@ export const ModalP2 = styled(ModalP)`
 
 export const CloseButton = styled.button`
   width: 6.5vw;
-  height: 3.4vw;
+  height: 3vw;
+
   border-radius: 1.7vw;
   background: ${colors.orange};
   font-size: 1.5vw;
@@ -153,7 +153,7 @@ export const ResultContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 2vw 0 3vw 0;
+  margin: 2vw 0 3vh 0;
 `;
 
 export const InnerResultContainer = styled.div`
@@ -189,26 +189,33 @@ export const ResultButton = styled.button`
 `;
 
 // qna.jsx
+export const QnaMainContainer = styled.div`
+  width: 100%;
+  height: 33.5vw;
+  margin: 2vw 0 3vh 0;
+`;
 export const QuizCount = styled.div`
   position: absolute;
-  right: 3vw;
+  right: 0;
   bottom: 0;
   color: ${colors.brown};
   font-size: 3.5vw;
   font-family: "Ownglyph_meetme-Rg";
 `;
 
-export const QuizBottomContainer = styled.div`
+export const QnaBottomContainer = styled.div`
   width: 100%;
   height: 6vw;
   background-color: ${colors.white};
   border-radius: 3vw;
+  margin-top: 2.5vh;
   padding: 1vw 3vw;
   display: flex;
   justify-content: space-around;
   gap: 2vw;
 `;
-export const DraaggableItemContainer = styled.div`
+
+export const AswerOptionItemContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -230,7 +237,9 @@ export const DraaggableItem = styled.div`
 
 export const DropItemContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: 40%;
+  background-color: ${colors.white};
+  border-radius: 2vw;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -256,4 +265,83 @@ export const DropItem = styled.div`
   font-family: "Ownglyph_meetme-Rg";
   font-size: 1.5vw;
   padding: 1.2vw;
+`;
+
+// ListenUp.jsx
+export const QnaModeLayout = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+export const QnaQuestionContainer = styled.div`
+  width: 100%;
+  height: ${({ $height }) => $height || "60%"};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+`;
+
+export const QuestionText = styled.div`
+  color: ${colors.brown};
+  font-size: 3.5rem;
+  font-family: "Ownglyph_meetme-Rg";
+`;
+
+export const ListenupImg = styled.img`
+  width: 10.2vw;
+  height: 10.2vw;
+  margin-top: 2vw;
+`;
+
+export const ListenAgainButton = styled.button`
+  color: ${colors.brown};
+  font-size: 3rem;
+  font-family: "Ownglyph_meetme-Rg";
+`;
+
+export const ConfirmButton = styled.button`
+  width: 6.5vw;
+  height: 3vw;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 1.7vw;
+  background: ${colors.orange};
+  font-size: 1.5vw;
+  font-weight: 400;
+  color: ${colors.white};
+  font-family: "Ownglyph_meetme-Rg";
+`;
+
+// Connect.jsx
+export const ConnectQuestionContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+`;
+
+export const OptionItem = styled.div`
+  cursor: pointer;
+  width: auto;
+  height: 100%;
+  border-radius: 50px;
+  background: ${({ $isSelected }) => ($isSelected ? "#FE8F00" : "#f0f0f0")};
+  color: ${({ $isSelected }) => ($isSelected ? "#ffffff" : "#000000")};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Ownglyph_meetme-Rg";
+  font-size: 1.5vw;
+  padding: 1.2vw;
+`;
+
+// Picture.jsx
+export const PictureImg = styled.img`
+  width: 20.2vw;
+  height: 20.2vw;
+  margin-top: 2vw;
 `;
