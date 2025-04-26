@@ -1,25 +1,11 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import ReactFlow, {
-  Controls,
-  ReactFlowProvider,
-  MarkerType,
-  getStraightPath,
-} from "reactflow";
+import ReactFlow, { Controls, ReactFlowProvider, MarkerType, getStraightPath, } from "reactflow";
 import * as G from "../../styles/graph/graph";
 import colors from "../../styles/common/colors";
-import {
-  forceSimulation,
-  forceManyBody,
-  forceCenter,
-  forceLink,
-} from "d3-force";
+import { forceSimulation, forceManyBody, forceCenter, forceLink, } from "d3-force";
 import { useEditMode } from "../../contexts/editModeContext";
 import GraphNode from "./graphNode";
-import {
-  nodes as rawNodes,
-  edges as rawEdges,
-  levelStyles,
-} from "../../mocks/graphData";
+import { nodes as rawNodes, edges as rawEdges, levelStyles, } from "../../mocks/graphData";
 import "reactflow/dist/style.css";
 import GraphMenu from "./graphMenu";
 import Chatbot from "./chatbot/Chatbot";
@@ -80,6 +66,7 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn }) => {
         data: {
           label: node.label,
           level: node.level,
+          group: node.group,
           includeSentence: node.includeSentence,
           image: node.image,
           onContextMenu: handleNodeRightClick,

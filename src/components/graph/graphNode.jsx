@@ -1,14 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Handle, Position, useUpdateNodeInternals, useReactFlow } from "reactflow";
 import * as G from "../../styles/graph/graph";
-import { levelStyles } from "../../mocks/graphData";
+import { levelStyles, groupStyles } from "../../mocks/graphData";
 import { useEditMode } from "../../contexts/editModeContext";
 import Sound from "../../assets/images/graph/sound.png";
 import { speak, stop } from "../../utils/tts";
 
 const GraphNode = ({ id, data }) => {
-  const { label, level, includeSentence, image, onContextMenu } = data;
+  const { label, level, group, includeSentence, image, onContextMenu } = data;
   const style = levelStyles[level] || levelStyles[1];
+  const style2 = groupStyles[group] || groupStyles[1];
   const { isEditMode } = useEditMode();
  
   const handleContextMenu = (e) => {
@@ -55,7 +56,7 @@ const GraphNode = ({ id, data }) => {
       ref={ref}
       onContextMenu={handleContextMenu}
       size={style.size}
-      bg={style.background}
+      bg={style2.background}
       color={style.color}
       isZoomedIn={isZoomedIn}
       isEditMode={isEditMode}
