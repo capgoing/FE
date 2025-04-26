@@ -1,10 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import * as s from "../../../styles/list/list";
-import colors from "../../../styles/common/colors";
 import Delete from "../../../assets/images/list/delete.png";
+import ListenUp from "../../../assets/images/list/listenUp.png";
+import Connect from "../../../assets/images/list/connect.png";
+import Picture from "../../../assets/images/list/picture.png";
 import useDelete from "../../../hooks/useDelete";
 
-const ItemWork = ({ id, name }) => {
+const ItemWork = ({ id, name, listenUpPerfect, connectPerfect, picturePerfect }) => {
     const navigate = useNavigate();
     const { remove, loading } = useDelete();
 
@@ -29,10 +31,17 @@ const ItemWork = ({ id, name }) => {
         <s.ItemContainer id={id}>
            <s.InnerItemContainer>
                 <s.TopContainer>
-                    <div className="quizContainer">
-                        <s.QuizP>쉬움 만점!</s.QuizP>
-                        <s.QuizP style={{color: colors.red}}>어려움 만점!</s.QuizP>
-                    </div>
+                    <s.ItemQuizContainer>
+                        {listenUpPerfect && (
+                            <s.QuizImg src={ListenUp} style={{ width: "2.8vw", height: "3.15vw" }} alt="ListenUpPerfect" />
+                        )}
+                        {connectPerfect && (
+                            <s.QuizImg src={Connect} alt="ConnectPerfect" />
+                        )}
+                        {picturePerfect && (
+                            <s.QuizImg src={Picture} alt="PicturePerfect" />
+                        )}
+                    </s.ItemQuizContainer>
                     <s.DeleteButton onClick={handleDelete}><s.DeleteImg src={Delete} alt="delete"/></s.DeleteButton>
                 </s.TopContainer>
                 <s.BottomContainer>

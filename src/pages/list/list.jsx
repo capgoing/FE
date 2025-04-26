@@ -5,7 +5,7 @@ import ListWork from "../../components/list/yesList/list-work";
 
 
 const List = () => {
-    const { data } = useGet("/users");
+    const { data } = useGet("/todos");
 
     return (
         <div className="pageContainer">
