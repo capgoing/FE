@@ -7,7 +7,7 @@ import Sound from "../../assets/images/graph/sound.png";
 import { speak, stop } from "../../utils/tts";
 
 const GraphNode = ({ id, data }) => {
-  const { label, level, description, image, onContextMenu } = data;
+  const { label, level, includeSentence, image, onContextMenu } = data;
   const style = levelStyles[level] || levelStyles[1];
   const { isEditMode } = useEditMode();
  
@@ -20,8 +20,8 @@ const GraphNode = ({ id, data }) => {
 
   // tts
   const handleSoundClick = useCallback(() => {
-    speak(description);
-  }, [description]);
+    speak(includeSentence);
+  }, [includeSentence]);
 
   const ref = useRef(null);
   const updateNodeInternals = useUpdateNodeInternals();
@@ -70,7 +70,7 @@ const GraphNode = ({ id, data }) => {
             }
             <G.LabelP isZoomedIn={isZoomedIn} fontSize={isZoomedIn ? style.fontSize.zoomIn : style.fontSize.zoomOut} isEditMode={isEditMode}>{label}</G.LabelP>
           </G.NodeTitleContainer>
-          {isZoomedIn && <G.Description isZoomedIn={isZoomedIn} fontSize={style.descriptionFontSize} isEditMode={isEditMode}>{description}</G.Description>}
+          {isZoomedIn && <G.IncludeSentence isZoomedIn={isZoomedIn} fontSize={style.includeSentenceFontSize} isEditMode={isEditMode}>{includeSentence}</G.IncludeSentence>}
         </G.NodeLeftContainer>
 
         {isZoomedIn && <G.NodeRightContainer>

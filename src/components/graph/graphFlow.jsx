@@ -80,7 +80,7 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn }) => {
         data: {
           label: node.label,
           level: node.level,
-          description: node.description,
+          includeSentence: node.includeSentence,
           image: node.image,
           onContextMenu: handleNodeRightClick,
         },

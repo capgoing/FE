@@ -6,7 +6,7 @@ import usePatch from "../../hooks/usePatch";
 const GraphNodeEdit = ({ node }) => {
     const [selectedId, setSelectedId] = useState(node.id);
     const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
+    const [includeSentence, setIncludeSentence] = useState("");
 
     const { data } = useGet(`/users/${selectedId}`);
     const { patch, loading, error } = usePatch();
@@ -20,7 +20,7 @@ const GraphNodeEdit = ({ node }) => {
     useEffect(() => {
         if (data) {
             setName(data.name || "");
-            setDescription(data.email || "");
+            setIncludeSentence(data.email || "");
         }
     }, [data]);
 
@@ -28,7 +28,7 @@ const GraphNodeEdit = ({ node }) => {
         try {
           const response = await patch(`/users/${selectedId}`, {
             label: name,
-            description: description,
+            includeSentence: includeSentence,
           });
           alert("수정이 완료되었습니다.");
           console.log("수정 완료:", response);
@@ -37,7 +37,7 @@ const GraphNodeEdit = ({ node }) => {
         }
       };
 
-    const isDisabled = !name?.trim() || !description?.trim(); 
+    const isDisabled = !name?.trim() || !includeSentence?.trim(); 
 
     return (
         <G.GraphNodeAddContainer>
@@ -47,8 +47,8 @@ const GraphNodeEdit = ({ node }) => {
             </G.LabelContainer>
 
             <G.LabelContainer>
-                <G.NodeP>노드 설명</G.NodeP>
-                <G.NodeInput value={description} onChange={(e) => setDescription(e.target.value)} />
+                <G.NodeP>포함된 문장</G.NodeP>
+                <G.NodeInput value={includeSentence} onChange={(e) => setIncludeSentence(e.target.value)} />
             </G.LabelContainer>
 
             <G.AddButton onClick={handleUpdate} disabled={isDisabled || loading}>

@@ -5,7 +5,7 @@ import usePost from "../../hooks/usePost";
 const GraphNodeAdd = ({ node }) => {
     const [selectedId, setSelectedId] = useState(node.id);
     const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
+    const [includeSentence, setIncludeSentence] = useState("");
     const isDisabled = !name.trim() || !description.trim();
     const { post, loading, error } = usePost("/users");
 
@@ -18,12 +18,12 @@ const GraphNodeAdd = ({ node }) => {
             const body = {
                 parentId: selectedId,
                 name: name.trim(),
-                description: description.trim(),
+                includeSentence: includeSentence.trim(),
             };
             const response = await post(body);
             alert("노드가 추가되었습니다.");
             setName("");
-            setDescription("");
+            setIncludeSentence("");
             console.log(response);
         } catch (err) {
             console.error("노드 추가 실패:", err);
@@ -38,8 +38,8 @@ const GraphNodeAdd = ({ node }) => {
             </G.LabelContainer>
 
             <G.LabelContainer>
-                <G.NodeP>노드 설명</G.NodeP>
-                <G.NodeInput value={description} onChange={(e) => setDescription(e.target.value)} />
+                <G.NodeP>포함된 문장</G.NodeP>
+                <G.NodeInput value={includeSentence} onChange={(e) => setIncludeSentence(e.target.value)} />
             </G.LabelContainer>
 
             <G.AddButton onClick={handleSubmit} disabled={isDisabled || loading}>
