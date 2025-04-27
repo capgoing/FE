@@ -40,12 +40,12 @@ export const InnerItemContainer = styled.div`
     width: 100%;
     height: 12.85vw;
     padding: 1vw;
-    background: ${colors.white};
+    background: ${({ $backgroundImage }) => $backgroundImage ? `url(${$backgroundImage}) center/cover no-repeat` : `${colors.white}`};
     border-radius: 1.25vw;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-`
+`;
 
 export const TopContainer = styled.div`
     width: 100%;

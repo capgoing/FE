@@ -5,13 +5,15 @@ import ListWork from "../../components/list/yesList/list-work";
 
 
 const List = () => {
-    const { data } = useGet("/todos");
+    const { data } = useGet("/graph");
+    // console.log(data);
+    const graphList = data?.data?.graph;
 
     return (
         <div className="pageContainer">
             <s.ListContainer>
-                {Array.isArray(data) && data.length > 0 ? (
-                    <ListWork data={data} />
+                {Array.isArray(graphList) && graphList.length > 0 ? (
+                    <ListWork data={graphList} />
                     ) : (
                     <NotList />
                 )}
