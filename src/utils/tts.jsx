@@ -7,6 +7,7 @@ export const speak = (text, lang = "ko-KR") => {
   
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = lang;
+    utterance.rate = 0.7;
     window.speechSynthesis.speak(utterance);
   };
   
