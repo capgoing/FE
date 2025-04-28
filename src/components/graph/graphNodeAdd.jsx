@@ -1,13 +1,16 @@
 import * as G from "../../styles/graph/graph";
 import { useEffect, useState } from "react";
 import usePost from "../../hooks/usePost";
+import { useParams } from "react-router-dom";
 
 const GraphNodeAdd = ({ node }) => {
+    const { id } = useParams();
     const [selectedId, setSelectedId] = useState(node.id);
-    const [name, setName] = useState("");
+    const [nodeLabel, setNodeLabel] = useState("");
+    const [edgeLabel, setEdgeLabel] = useState("")
     const [includeSentence, setIncludeSentence] = useState("");
-    const isDisabled = !name.trim() || !description.trim();
-    const { post, loading, error } = usePost("/users");
+    const isDisabled = !nodeLabel.trim() || !edgeLabel.trim() || !includeSentence.trim();
+    const { post, loading, error } = usePost(`/graph/${id}`);
 
     useEffect(() => {
         setSelectedId(node.id);
@@ -17,12 +20,14 @@ const GraphNodeAdd = ({ node }) => {
         try {
             const body = {
                 parentId: selectedId,
-                name: name.trim(),
+                nodeLabel: nodeLabel.trim(),
+                edgeLabel: edgeLabel.trim(),
                 includeSentence: includeSentence.trim(),
             };
             const response = await post(body);
             alert("노드가 추가되었습니다.");
-            setName("");
+            setNodeLabel("");
+            setEdgeLabel("");
             setIncludeSentence("");
             console.log(response);
         } catch (err) {
@@ -34,7 +39,12 @@ const GraphNodeAdd = ({ node }) => {
         <G.GraphNodeAddContainer>
             <G.LabelContainer>
                 <G.NodeP>노드 이름</G.NodeP>
-                <G.NodeInput value={name} onChange={(e) => setName(e.target.value)} />
+                <G.NodeInput value={nodeLabel} onChange={(e) => setNodeLabel(e.target.value)} />
+            </G.LabelContainer>
+
+            <G.LabelContainer>
+                <G.NodeP>엣지 이름</G.NodeP>
+                <G.NodeInput value={edgeLabel} onChange={(e) => setEdgeLabel(e.target.value)} />
             </G.LabelContainer>
 
             <G.LabelContainer>
