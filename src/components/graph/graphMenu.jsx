@@ -4,8 +4,10 @@ import { useState } from "react";
 import GraphNodeAdd from "./graphNodeAdd";
 import GraphNodeEdit from "./graphNodeEdit";
 import useDelete from "../../hooks/useDelete";
+import { useParams } from "react-router-dom";
 
 const GraphMenu = ({ node, onClose }) => {
+    const { id: graphId } = useParams();
     const { id, data } = node;
     const [isAddMode, setIsAddMode] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
@@ -13,9 +15,10 @@ const GraphMenu = ({ node, onClose }) => {
 
     const handleDelete = async () => {
         try {
-          const response = await remove(`/users/${id}`);
+          const response = await remove(`/graph/${graphId}/${id}`);
           alert("노드가 삭제되었습니다.");
-          console.log(response);
+          // console.log(response);
+          window.location.reload();
           onClose();
         } catch (err) {
           console.error("노드 삭제 실패:", err);

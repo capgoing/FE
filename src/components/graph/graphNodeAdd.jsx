@@ -8,8 +8,7 @@ const GraphNodeAdd = ({ node }) => {
     const [selectedId, setSelectedId] = useState(node.id);
     const [nodeLabel, setNodeLabel] = useState("");
     const [edgeLabel, setEdgeLabel] = useState("")
-    const [includeSentence, setIncludeSentence] = useState("");
-    const isDisabled = !nodeLabel.trim() || !edgeLabel.trim() || !includeSentence.trim();
+    const isDisabled = !nodeLabel.trim() || !edgeLabel.trim();
     const { post, loading, error } = usePost(`/graph/${id}`);
 
     useEffect(() => {
@@ -22,14 +21,16 @@ const GraphNodeAdd = ({ node }) => {
                 parentId: selectedId,
                 nodeLabel: nodeLabel.trim(),
                 edgeLabel: edgeLabel.trim(),
-                includeSentence: includeSentence.trim(),
             };
+
+            // console.log("보내는 데이터:", body);
+            
             const response = await post(body);
             alert("노드가 추가되었습니다.");
             setNodeLabel("");
             setEdgeLabel("");
-            setIncludeSentence("");
-            console.log(response);
+            // console.log(response);
+            window.location.reload();
         } catch (err) {
             console.error("노드 추가 실패:", err);
         }
@@ -45,11 +46,6 @@ const GraphNodeAdd = ({ node }) => {
             <G.LabelContainer>
                 <G.NodeP>엣지 이름</G.NodeP>
                 <G.NodeInput value={edgeLabel} onChange={(e) => setEdgeLabel(e.target.value)} />
-            </G.LabelContainer>
-
-            <G.LabelContainer>
-                <G.NodeP>포함된 문장</G.NodeP>
-                <G.NodeInput value={includeSentence} onChange={(e) => setIncludeSentence(e.target.value)} />
             </G.LabelContainer>
 
             <G.AddButton onClick={handleSubmit} disabled={isDisabled || loading}>

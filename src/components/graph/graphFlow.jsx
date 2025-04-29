@@ -183,7 +183,7 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn, nodeData, edgeData
             <Controls />
           </ReactFlow>
           {selectedNode && (
-            <GraphMenu node={selectedNode} onClose={() => setSelectedNode(null)} />
+            <GraphMenu node={selectedNode} onClose={() => setSelectedNode(null)}/>
           )}
         </ReactFlowProvider>
       </G.GraphFlowContainer>
