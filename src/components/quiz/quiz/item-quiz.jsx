@@ -1,16 +1,11 @@
 import * as Q from "../../../styles/quiz/quiz";
 import { useNavigate, useParams } from "react-router-dom";
-import { useTTS } from "../../../contexts/TTSContext.jsx";
+
 const ItemQuiz = ({ data }) => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { setShouldSpeak } = useTTS();
 
   const handleItemClick = () => {
-    if (data.mode === "listenUp") {
-      localStorage.setItem("shouldSpeak", "true");
-      setShouldSpeak(true); // 클릭 감지!
-    }
     navigate(`/quiz/${data.id}/${data.mode}`);
   };
 
@@ -19,7 +14,10 @@ const ItemQuiz = ({ data }) => {
       <Q.ItemQuizP>{data.title}</Q.ItemQuizP>
       <Q.ItemQuizP2>
         {data.subTitle.split("\n").map((line, i) => (
-          <div key={i}>{line}</div>
+          <span key={i}>
+            {line}
+            <br />
+          </span>
         ))}
       </Q.ItemQuizP2>
 

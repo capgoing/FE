@@ -7,9 +7,10 @@ export default function AnswerOptionList({
   onClick,
   isDraggable = false,
   onDragStart,
+  mode,
 }) {
   return (
-    <Q.AswerOptionItemContainer>
+    <Q.AswerOptionItemContainer $mode={mode}>
       {options.map((word, idx) =>
         word ? (
           isDraggable ? (
