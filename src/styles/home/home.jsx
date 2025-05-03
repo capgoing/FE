@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import colors from "../common/colors";
 import MAINBG from "../../assets/images/home/mainbg.svg";
-import MAINBG2 from "../../assets/images/home/mainbg2.svg";
+import MAINBG2 from "../../assets/images/home/mainbg3.svg";
 import HOMEFRAME from "../../assets/images/home/homeframe.svg";
 import { keyframes } from "styled-components";
+import { style } from "framer-motion/client";
 
 // import MAINBG from "../../assets/images/home/mainbg.svg";
 
@@ -47,7 +48,7 @@ export const LOGO = styled.img`
   width: 17.6vw;
   height: 20%;
   position: absolute;
-  bottom: 55%;
+  bottom: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(50%); // 가운데 정렬 + 이미지 바깥쪽으로 조금 내림
   z-index: 2;
@@ -112,7 +113,7 @@ export const HomeSecondPage = styled.div`
   background-position: center;
 
   width: 100%;
-  min-height: 100vh;
+  min-height: 200vh;
   display: flex;
   justify-content: center; // 가로 중앙 정렬
   align-items: center; // 세로 중앙 정렬
@@ -139,6 +140,7 @@ export const FeatureCardGrid = styled.div`
 
 // 두번째 페이지 - 기능 설명 카드
 export const FeatureCardLayout = styled.div`
+  width: 25vw; // 추가
   height: ${({ isWide }) => (isWide ? "30vh" : "60vh")};
   flex-shrink: 0;
   border-radius: 40px;
@@ -151,6 +153,7 @@ export const FeatureCardLayout = styled.div`
   gap: 1.2rem;
   overflow: hidden;
   box-sizing: border-box;
+  box-shadow: 5px 5px 5px 3px rgba(0, 0, 0, 0.5);
 `;
 
 export const FeatureImgBox = styled.div`
@@ -204,4 +207,31 @@ export const FeatureDescriptionText = styled.div`
   white-space: pre-line; // 줄바꿈
   word-break: break-word; // 긴 단어가 넘칠 경우 줄바꿈
   overflow-wrap: break-word;
+`;
+
+// FeatureItem.jsx
+export const FeatureItemContainer = styled.div`
+  width: 70%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+`;
+export const FeatureCardContainer = styled.div`
+  width: 100%;
+
+  display: flex;
+  align-items: center; // 가운데 정렬
+  gap: 1.5rem;
+  position: relative;
+  justify-content: space-between;
+`;
+
+export const StepP = styled.div`
+  width: 30%;
+  text-align: center;
+  font-size: 6.5rem;
+  font-family: "Pretendard";
+  font-weight: bold;
+  color: ${colors.brown};
+  text-align: center;
 `;
