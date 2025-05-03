@@ -1,10 +1,10 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import useGet from "../../../hooks/useGet.jsx";
 import * as Q from "../../../styles/quiz/quiz.jsx";
 import AnswerOptionList from "./AnswerOptionList.jsx";
 import Modal from "../modal/modal.jsx";
+import usePost from "../../../hooks/usePost.jsx";
 
 export default function Connect() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export default function Connect() {
   const [selectedIdx, setSelectedIdx] = useState(null);
 
   const { id: graphId, mode: modeName } = useParams(); // 그래프 id값 가져오기
-  const { data, loading, error } = useGet(`/quiz/${graphId}?mode=${modeName}`); // 퀴즈 api 불러오기
+  const { data, loading, error } = usePost(`/quiz/${graphId}?mode=${modeName}`); // 퀴즈 api 불러오기
 
   // ✅ 더미 데이터
   const dummyData = {
@@ -39,14 +39,14 @@ export default function Connect() {
 
   // 통신 연결 시 주석 해제
   useEffect(() => {
-    /*     if (data?.quizzes?.questions?.length > 0) {
+    if (data?.quizzes?.questions?.length > 0) {
       const currentQuestion = data.quizzes.questions[currentQuizNum - 1];
       setAnswerOptions(currentQuestion.shuffledOptions);
-    } */
+    }
 
     // 통신 연결 시 삭제
-    setAnswerOptions(dummyData.questions[currentQuizNum - 1].shuffledOptions);
-    console.log(answerOptions);
+    // setAnswerOptions(dummyData.questions[currentQuizNum - 1].shuffledOptions);
+    // console.log(answerOptions);
   }, [data, currentQuizNum]);
 
   // 정답확인버튼을 눌렀을 때

@@ -345,3 +345,12 @@ export const PictureImg = styled.img`
   height: 20.2vw;
   margin-top: 2vw;
 `;
+
+// Loading.jsx
+export const LoadingContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
