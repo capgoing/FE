@@ -54,6 +54,17 @@ export const TopContainer = styled.div`
     align-items: flex-start;
 `
 
+export const ItemQuizContainer = styled.div`
+    display: flex;
+    align-items: flex-start;
+`
+
+export const QuizImg = styled.img`
+    width: 3.35vw;
+    height: 3.35vw;
+`
+
+// 인서 안 씀
 export const QuizP = styled.p`
     font-size: 1.5vw;
     font-family: "Ownglyph_meetme-Rg";

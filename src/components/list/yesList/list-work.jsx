@@ -8,7 +8,10 @@ const ListWork = ({ data }) => {
                 <ItemWork 
                     key={item.id}
                     id={item.id}
-                    name={item.name}
+                    name={item.title}
+                    listenUpPerfect={item.completed}
+                    connectPerfect={item.completed}
+                    picturePerfect={item.completed}
                 />
             ))}
         </s.ListWorkContainer>

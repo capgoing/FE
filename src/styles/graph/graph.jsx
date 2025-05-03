@@ -121,7 +121,7 @@ export const LabelP = styled.p`
     isEditMode && isZoomedIn ? colors.white : colors.black};
 `;
 
-export const Description = styled.p`
+export const IncludeSentence = styled.p`
   font-size: ${({ fontSize }) => fontSize};
   text-align: left;
   color: ${({ isEditMode, isZoomedIn }) =>
