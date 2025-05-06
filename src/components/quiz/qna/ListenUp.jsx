@@ -7,6 +7,7 @@ import LISTENUP from "../../../assets/images/quiz/listenup.svg";
 import AnswerOptionList from "./AnswerOptionList.jsx";
 import { speak, stop } from "../../../utils/tts.jsx";
 import usePost from "../../../hooks/usePost.jsx";
+import usePatch from "../../../hooks/usePatch.jsx";
 import Loading from "./Loading.jsx";
 import { useTTS } from "../../../contexts/TTSContext.jsx";
 
@@ -25,6 +26,7 @@ export default function ListenUp() {
 
   const { id: graphId, mode: modeName } = useParams(); // 그래프 id값 가져오기
   const { post, loading, error } = usePost(`/quiz/${graphId}?mode=${modeName}`); // 퀴즈 api 불러오기
+  const { patch } = usePatch();
   const [data, setData] = useState(null);
 
   //const { shouldSpeak, setShouldSpeak } = useTTS();
@@ -118,14 +120,26 @@ export default function ListenUp() {
     setIsOpen(true);
   };
 
-  const handleCloseModal = () => {
+  const handleCloseModal = async () => {
     setIsOpen(false);
-    const isLast = currentQuizNum >= data.data.quizzes.quizzes.length;
+    const total = data.data.quizzes.quizzes.length;
+    const isLast = currentQuizNum >= total;
+    const isPerfect = correctNum === total;
 
     if (isLast) {
+      if (isPerfect) {
+        try {
+          const result = await patch(
+            `/quiz/perfect-score/${graphId}?mode=${modeName}`
+          );
+          console.log("Perfect score patch success" + result);
+        } catch (e) {
+          console.error("Perfect score patch error:", e);
+        }
+      }
       navigate(`/quiz/${graphId}/result`, {
         state: {
-          total: data.data.quizzes.quizzes.length,
+          total,
           correct: correctNum,
           mode: modeName,
         },
