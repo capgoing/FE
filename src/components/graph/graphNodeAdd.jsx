@@ -1,13 +1,15 @@
 import * as G from "../../styles/graph/graph";
 import { useEffect, useState } from "react";
 import usePost from "../../hooks/usePost";
+import { useParams } from "react-router-dom";
 
 const GraphNodeAdd = ({ node }) => {
+    const { id } = useParams();
     const [selectedId, setSelectedId] = useState(node.id);
-    const [name, setName] = useState("");
-    const [includeSentence, setIncludeSentence] = useState("");
-    const isDisabled = !name.trim() || !description.trim();
-    const { post, loading, error } = usePost("/users");
+    const [nodeLabel, setNodeLabel] = useState("");
+    const [edgeLabel, setEdgeLabel] = useState("")
+    const isDisabled = !nodeLabel.trim() || !edgeLabel.trim();
+    const { post, loading, error } = usePost(`/graph/${id}`);
 
     useEffect(() => {
         setSelectedId(node.id);
@@ -17,14 +19,18 @@ const GraphNodeAdd = ({ node }) => {
         try {
             const body = {
                 parentId: selectedId,
-                name: name.trim(),
-                includeSentence: includeSentence.trim(),
+                nodeLabel: nodeLabel.trim(),
+                edgeLabel: edgeLabel.trim(),
             };
+
+            // console.log("보내는 데이터:", body);
+            
             const response = await post(body);
             alert("노드가 추가되었습니다.");
-            setName("");
-            setIncludeSentence("");
-            console.log(response);
+            setNodeLabel("");
+            setEdgeLabel("");
+            // console.log(response);
+            window.location.reload();
         } catch (err) {
             console.error("노드 추가 실패:", err);
         }
@@ -34,12 +40,12 @@ const GraphNodeAdd = ({ node }) => {
         <G.GraphNodeAddContainer>
             <G.LabelContainer>
                 <G.NodeP>노드 이름</G.NodeP>
-                <G.NodeInput value={name} onChange={(e) => setName(e.target.value)} />
+                <G.NodeInput value={nodeLabel} onChange={(e) => setNodeLabel(e.target.value)} />
             </G.LabelContainer>
 
             <G.LabelContainer>
-                <G.NodeP>포함된 문장</G.NodeP>
-                <G.NodeInput value={includeSentence} onChange={(e) => setIncludeSentence(e.target.value)} />
+                <G.NodeP>엣지 이름</G.NodeP>
+                <G.NodeInput value={edgeLabel} onChange={(e) => setEdgeLabel(e.target.value)} />
             </G.LabelContainer>
 
             <G.AddButton onClick={handleSubmit} disabled={isDisabled || loading}>

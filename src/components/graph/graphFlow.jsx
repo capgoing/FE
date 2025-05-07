@@ -5,7 +5,7 @@ import colors from "../../styles/common/colors";
 import { forceSimulation, forceManyBody, forceCenter, forceLink, } from "d3-force";
 import { useEditMode } from "../../contexts/editModeContext";
 import GraphNode from "./graphNode";
-import { nodes as rawNodes, edges as rawEdges, levelStyles, } from "../../mocks/graphData";
+import { levelStyles } from "../../mocks/graphData";
 import "reactflow/dist/style.css";
 import GraphMenu from "./graphMenu";
 import Chatbot from "./chatbot/Chatbot";
@@ -14,10 +14,8 @@ const nodeTypes = {
   custom: GraphNode,
 };
 
-const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn }) => {
+const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn, nodeData, edgeData }) => {
   const { isEditMode } = useEditMode();
-  const [nodes, setNodes] = useState([]);
-  const [edges, setEdges] = useState([]);
   const reactFlowWrapper = useRef(null);
   const reactFlowInstance = useRef(null);
   const [selectedNode, setSelectedNode] = useState(null);
@@ -31,14 +29,19 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn }) => {
     [isEditMode]
   );
 
+  const [processedNodes, setProcessedNodes] = useState([]);
+  const [processedEdges, setProcessedEdges] = useState([]);
+
   useEffect(() => {
+    if (!nodeData || !edgeData) return;
+
     const width = 1000;
     const height = 800;
     const centerX = width / 2;
     const centerY = height / 2;
 
-    const simNodes = rawNodes.map((node) => ({ ...node }));
-    const simLinks = rawEdges.map((edge) => ({
+    const simNodes = nodeData.map((node) => ({ ...node }));
+    const simLinks = edgeData.map((edge) => ({
       source: edge.source,
       target: edge.target,
     }));
@@ -82,7 +85,7 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn }) => {
     const labelColor = isEditMode ? colors.white : "#fff8d6";
     const strokeColor = isEditMode ? colors.black : "#f0c14b";
 
-    const edgeWithLabels = rawEdges.map((edge, i) => {
+    const edgeWithLabels = edgeData.map((edge) => {
       const sourceNode = simNodes.find((n) => n.id === edge.source);
       const targetNode = simNodes.find((n) => n.id === edge.target);
 
@@ -140,9 +143,9 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn }) => {
       };
     });
 
-    setNodes(positionedNodes);
-    setEdges(edgeWithLabels);
-  }, [isEditMode, handleNodeRightClick]);
+    setProcessedNodes(positionedNodes);
+    setProcessedEdges(edgeWithLabels);
+  }, [nodeData, edgeData, isEditMode, handleNodeRightClick]);
 
   const onInit = (instance) => {
     reactFlowInstance.current = instance;
@@ -161,35 +164,17 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn }) => {
     }
   }, []);
 
-  useEffect(() => {
-    if (reactFlowInstance.current) {
-      setTimeout(() => {
-        reactFlowInstance.current.fitView({ padding: 0.2, duration: 300 });
-      }, 350); // 챗봇 애니메이션 시간과 맞춤
-    }
-  }, [isClickChatbotBtn]); // 챗봇 열릴 때마다 실행
-
-  // 챗봇 중 수정모드 눌렀을 때 그래프 화면 크기가 원상태로 돌아가도록 함
-  useEffect(() => {
-    if (isEditMode) {
-      setIsClickChatbotBtn(false);
-    }
-  }, [isEditMode]);
-
   return (
     <G.GraphLayout>
-      <G.GraphFlowContainer
-        ref={reactFlowWrapper}
-        isChatbotOpen={isClickChatbotBtn}
-      >
+      <G.GraphFlowContainer ref={reactFlowWrapper} isChatbotOpen={isClickChatbotBtn}>
         <ReactFlowProvider>
           <ReactFlow
-            nodes={nodes}
-            edges={edges}
+            nodes={processedNodes}
+            edges={processedEdges}
             nodeTypes={nodeTypes}
             fitView
-            panOnDrag={true}
-            zoomOnScroll={true}
+            panOnDrag
+            zoomOnScroll
             fitViewOptions={{ padding: 0.2 }}
             onInit={onInit}
             onNodeDoubleClick={handleNodeDoubleClick}
@@ -198,10 +183,7 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn }) => {
             <Controls />
           </ReactFlow>
           {selectedNode && (
-            <GraphMenu
-              node={selectedNode}
-              onClose={() => setSelectedNode(null)}
-            />
+            <GraphMenu node={selectedNode} onClose={() => setSelectedNode(null)}/>
           )}
         </ReactFlowProvider>
       </G.GraphFlowContainer>
