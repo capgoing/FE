@@ -9,7 +9,7 @@ import GraphPage from "../pages/graph/graph";
 import QuizPage from "../pages/quiz/quiz";
 import QnaPage from "../pages/quiz/qna";
 import ResultPage from "../pages/quiz/result";
-
+import { TTSProvider } from "../contexts/TTSContext";
 const router = createBrowserRouter([
   {
     path: "/", // 홈은 Layout 없이 직접 렌더링
