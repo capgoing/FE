@@ -1,51 +1,47 @@
 import React, { useEffect, useState } from "react";
 import * as G from "../../../styles/graph/graph";
-
+import usePost from "../../../hooks/usePost";
 // images
 import CHATBOT from "../../../assets/images/graph/chatbot.png";
 import CLOSE from "../../../assets/images/header/close.png";
+import { useParams } from "react-router-dom";
 
 export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
+  const { id } = useParams();
   const [input, setInput] = useState(""); // 입력값
-  const [messages, setMessages] = useState([]); // 대화 목록
 
-  // 메세지 목록 더미 데이터 (통신시 삭제할 예정)
+  const [messages, setMessages] = useState(() => {
+    const savedMessages = sessionStorage.getItem(`chatbot_graph_${id}`);
+    return savedMessages
+      ? JSON.parse(savedMessages)
+      : [{ from: "bot", text: "안녕하세요! 궁금한 게 있으신가요?" }];
+  }); // 대화 목록
+  const { post, loading, error } = usePost(`/chatbot/${id}`);
+
+  // 메시지가 변경될 때마다 localStorage에 저장
   useEffect(() => {
-    setMessages([
-      { from: "bot", text: "안녕하세요! 궁금한 걸 물어보세요 😊" },
-      { from: "user", text: "태양은 어떤 역할을 해?" },
-      { from: "bot", text: "태양은 지구에 빛과 열을 주는 별이에요!" },
-      { from: "user", text: "태양은 어떤 역할을 해?" },
-      { from: "bot", text: "태양은 지구에 빛과 열을 주는 별이에요!" },
-      { from: "user", text: "태양은 어떤 역할을 해?" },
-      { from: "bot", text: "태양은 지구에 빛과 열을 주는 별이에요!" },
-      { from: "user", text: "태양은 어떤 역할을 해?" },
-      { from: "bot", text: "태양은 지구에 빛과 열을 주는 별이에요!" },
-      { from: "user", text: "태양은 어떤 역할을 해?" },
-    ]);
-  }, []);
+    sessionStorage.setItem(`chatbot_graph_${id}`, JSON.stringify(messages));
+  }, [messages, id]);
 
+  // 챗봇 닫기
   const handleCloseClick = () => {
     setIsClickChatbotBtn(false);
   };
 
+  // 챗봇 전송
   const handleSubmit = async () => {
     if (!input.trim()) return;
+    setInput("");
 
     // 사용자 메시지 추가
     setMessages((prev) => [...prev, { from: "user", text: input }]);
 
     try {
-      const response = await fetch(`/chatbot/${graphId}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          isNewChat: messages.length === 0, // 첫 메시지면 true
-          chatContent: input,
-        }),
+      const result = await post({
+        isNewChat: messages.length === 1, // 첫 메시지면 true
+        chatContent: input,
       });
 
-      const result = await response.json();
       const reply = result.data?.chatContent || "응답 오류";
 
       // 챗봇 응답 추가
@@ -79,6 +75,11 @@ export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
               <G.ChatP>{msg.text}</G.ChatP>
             </G.ChatBox>
           ))}
+          {loading && (
+            <G.ChatBox from="bot">
+              <G.ChatP>답변 생성 중이에요..</G.ChatP>
+            </G.ChatBox>
+          )}
         </G.ChatContent>
         <G.ChatInputContainer>
           <G.ChatInput
