@@ -204,8 +204,8 @@ export const QuizCount = styled.div`
 `;
 
 export const QnaBottomContainer = styled.div`
-  width: 100%;
-  height: 6vw;
+  width: ${(props) => (props.$mode === "picture" ? "60%" : "100%")};
+  height: ${(props) => (props.$mode === "picture" ? "100%" : "6vw")};
   background-color: ${colors.white};
   border-radius: 3vw;
   margin-top: 2.5vh;
@@ -213,6 +213,9 @@ export const QnaBottomContainer = styled.div`
   display: flex;
   justify-content: space-around;
   gap: 2vw;
+  margin-left: ${({ $mode }) => ($mode === "picture" ? "20%" : null)};
+  max-height: 25vw; /* 원하는 최대 높이로 조정 */
+  overflow-y: auto;
 `;
 
 export const AswerOptionItemContainer = styled.div`
@@ -220,6 +223,10 @@ export const AswerOptionItemContainer = styled.div`
   height: 100%;
   display: flex;
   justify-content: space-around;
+  flex-direction: ${({ $mode }) => ($mode === "picture" ? "column" : "row")};
+  align-items: ${({ $mode }) =>
+    $mode === "picture" ? "center" : "flex-start"};
+  gap: 2vw;
 `;
 
 export const DraaggableItem = styled.div`
@@ -324,6 +331,12 @@ export const ConnectQuestionContainer = styled.div`
   position: relative;
 `;
 
+export const GraphContainer = styled.div`
+  width: 50vw;
+  height: 30vw;
+  margin-top: 2vw;
+`;
+
 export const OptionItem = styled.div`
   cursor: pointer;
   width: auto;
@@ -344,4 +357,18 @@ export const PictureImg = styled.img`
   width: 20.2vw;
   height: 20.2vw;
   margin-top: 2vw;
+`;
+export const PictureContainer = styled.div`
+  width: 100%;
+  margin-top: 5vw;
+  display: flex;
+`;
+
+// Loading.jsx
+export const LoadingContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

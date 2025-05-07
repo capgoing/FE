@@ -12,6 +12,7 @@ import FEATURE3 from "../../assets/images/home/feature3.svg";
 import ARROWDOWN from "../../assets/images/home/arrow-down.svg";
 import HOMEFRAME from "../../assets/images/home/homeframe.svg";
 import LOGO from "../../assets/images/header/logo.png";
+import FeatureItem from "../../components/home/FeatureItem";
 
 const Home = () => {
   const outerDivRef = useRef();
@@ -21,7 +22,7 @@ const Home = () => {
   const [stateUpladButton, setStateUploadButton] = useState(false);
 
   // 스무스하게 움직이는 코드
-  useEffect(() => {
+  /*   useEffect(() => {
     const pageHeight = window.innerHeight;
 
     const wheelHandler = (e) => {
@@ -50,7 +51,7 @@ const Home = () => {
     return () => {
       currentDiv.removeEventListener("wheel", wheelHandler);
     };
-  }, [currentPage]);
+  }, [currentPage]); */
 
   // 다음 페이지로 이동하는 함수
   const goToNextPage = () => {
@@ -98,7 +99,8 @@ const Home = () => {
         </S.HeaderBottomSection>
       </S.HomeFirstPage>
       <S.HomeSecondPage>
-        <S.FeatureCardWrapper>
+        <FeatureItem />
+        {/* <S.FeatureCardWrapper>
           <S.FeatureCardGrid>
             <FeatureCard
               img={FEATURE1}
@@ -140,7 +142,7 @@ const Home = () => {
               isWide
             />
           </S.FeatureCardGrid>
-        </S.FeatureCardWrapper>
+        </S.FeatureCardWrapper> */}
       </S.HomeSecondPage>
     </S.HomeLayout>
   );
