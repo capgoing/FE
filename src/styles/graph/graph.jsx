@@ -159,7 +159,7 @@ export const SoundImg = styled.img`
 // graphMenu.jsx
 export const MenuContainer = styled.div`
   width: 14.3vw;
-  height: 15vw;
+  // height: 15vw;
   background: ${colors.subYellow};
   border: 0.1vw solid ${colors.mainYellow};
   border-radius: 1vw;

@@ -33,6 +33,7 @@ const Modal = ({ onClose }) => {
             alert("업로드 되었습니다.");
             console.log(response);
             onClose();
+            window.location.reload();
         } catch (err) {
             alert("업로드를 실패하였습니다.");
         }

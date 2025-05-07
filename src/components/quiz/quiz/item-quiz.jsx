@@ -6,7 +6,7 @@ const ItemQuiz = ({ data }) => {
   const navigate = useNavigate();
 
   const handleItemClick = () => {
-    navigate(`/quiz/${data.id}/${data.mode}`);
+    navigate(`/quiz/${id}/${data.mode}`);
   };
 
   return (
