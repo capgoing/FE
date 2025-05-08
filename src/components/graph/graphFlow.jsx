@@ -53,7 +53,15 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn, nodeData, edgeData
         "link",
         forceLink(simLinks)
           .id((d) => d.id)
-          .distance(180)
+          .distance((link) => {
+            const sourceLevel = link.source.level ?? nodeData.find(n => n.id === link.source.id)?.level;
+            const targetLevel = link.target.level ?? nodeData.find(n => n.id === link.target.id)?.level;
+          
+            if (sourceLevel === 0 || targetLevel === 0) return 400;
+            return 300;
+          })
+          
+          
       )
       .stop();
 

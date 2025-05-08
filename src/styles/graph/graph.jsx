@@ -1,5 +1,11 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import colors from "../common/colors";
+
+const wave = keyframes`
+  0% { opacity: 0.5 }
+  50% { opacity: 1 }
+  100% { opacity: 0.5 }
+`;
 
 export const GraphContainer = styled.div`
   width: 76vw;
@@ -310,7 +316,7 @@ export const ChatbotLayout = styled.div`
   overflow: hidden;
   height: 96%;
   background-color: ${colors.subYellow};
-  border-radius: 2.4vw;
+  border-radius: 1.5vw;
   position: relative;
   z-index: 10;
   margin: 1vw;
@@ -334,47 +340,94 @@ export const ChatContent = styled.div`
   flex-direction: column;
   gap: 1vw;
   overflow-y: auto;
-  margin-bottom: 1vh;
+  margin-bottom: 1.5vw;
 `;
 
 export const ChatBox = styled.div`
   max-width: 70%;
   padding: 1vw;
-  border-radius: 1.2vw;
+  border-radius: 2.4vw;
   background-color: ${colors.white};
   align-self: ${({ from }) => (from === "user" ? "flex-end" : "flex-start")};
 `;
 
 export const ChatP = styled.p`
-  font-size: 1.5rem;
+  font-size: 1vw;
+  font-weight: 400;
+  color: ${colors.brown};
+  font-family: "Ownglyph_meetme-Rg";
 `;
+
+export const ChatLoadingP = styled.div`
+  font-size: 1vw;
+  font-weight: 400;
+  color: ${colors.brown};
+  font-family: "Ownglyph_meetme-Rg";
+
+  span {
+    display: inline-block;
+    animation: ${wave} 1.2s infinite;
+  }
+
+  span:nth-child(1) { animation-delay: 0s; }
+  span:nth-child(2) { animation-delay: 0.1s; }
+  span:nth-child(3) { animation-delay: 0.2s; }
+  span:nth-child(4) { animation-delay: 0.3s; }
+  span:nth-child(5) { animation-delay: 0.4s; }
+  span:nth-child(6) { animation-delay: 0.5s; }
+  span:nth-child(7) { animation-delay: 0.6s; }
+  span:nth-child(8) { animation-delay: 0.7s; }
+  span:nth-child(9) { animation-delay: 0.8s; }
+  span:nth-child(10) { animation-delay: 0.9s; }
+  span:nth-child(11) { animation-delay: 1s; }
+  span:nth-child(12) { animation-delay: 1.1s; }
+`;
+
 
 export const ChatInputContainer = styled.div`
   width: 100%;
-  height: 19%;
+  height: 20%;
   position: relative;
   display: flex;
   align-items: flex-start;
-  bottom: 0;
+  bottom: 0.8vw;
   padding: 1vw;
   background-color: ${colors.white};
   border-radius: 1vw;
 `;
 
-export const ChatInput = styled.input`
+export const ChatInput = styled.textarea`
   width: 100%;
-  height: auto;
-  border-radius: 1vw;
+  height: 100%;
+  resize: none;
+  outline: none;
+  border: none;
+  font-size: 1vw;
+  font-weight: 400;
+  font-family: "Ownglyph_meetme-Rg";
+
+  &:focus {
+    outline: none;
+    border: none;
+  }
 `;
+
 export const ChatSubmitButton = styled.button`
   position: absolute;
-  right: 1vw;
-  bottom: 1vw;
+  right: 0.8vw;
+  bottom: 0.8vw;
   padding: 0.5vw 1vw;
-  border-radius: 1vw;
-  background-color: ${colors.orange};
+  border-radius: 2.4vw;
+  background-color: ${colors.orange2};
   color: ${colors.white};
-  font-weight: 600;
+  font-weight: 400;
+  font-size: 1vw;
+  font-family: "Ownglyph_meetme-Rg";
   border: none;
   cursor: pointer;
+
+  &:disabled {
+    background-color: ${colors.gray2};
+    cursor: not-allowed;
+  }   
 `;
