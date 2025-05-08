@@ -11,7 +11,9 @@ const Graph = () => {
   const { isEditMode } = useEditMode();
   const [isClickChatbotBtn, setIsClickChatbotBtn] = useState(false);
   const { data, loading } = useGet(`/graph/${id}`);
+  
   console.log("그래프 데이터", data);
+
   const nodeData = data?.data?.nodes;
   const edgeData = data?.data?.edges;
 
