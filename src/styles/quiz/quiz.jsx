@@ -242,6 +242,7 @@ export const DraaggableItem = styled.div`
   font-family: "Ownglyph_meetme-Rg";
   font-size: 1.5vw;
   padding: 1.2vw;
+  cursor: grabbing;
 `;
 
 export const DropItemContainer = styled.div`
@@ -261,9 +262,7 @@ export const DropItemContainer = styled.div`
 `;
 
 export const DropItem = styled.div`
-  width: ${({ mode }) => (mode === "hard" ? "100%" : "8vw")};
-  /* min-width: ${({ mode }) => (mode === "hard" ? "auto" : "8vw")}; */
-
+  min-width: 8vw;
   border-radius: 50px;
   border: 3px solid ${colors.orange2};
 
@@ -274,6 +273,7 @@ export const DropItem = styled.div`
   font-family: "Ownglyph_meetme-Rg";
   font-size: 1.5vw;
   padding: 1.2vw;
+  cursor: pointer;
 `;
 
 // ListenUp.jsx
