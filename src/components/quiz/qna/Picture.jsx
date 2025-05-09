@@ -52,7 +52,7 @@ export default function Picture() {
   useEffect(() => {
     // graphId, modeName이 있을 때만 요청
     if (graphId && modeName) {
-      //post().then(setData).catch(console.error);
+      post().then(setData).catch(console.error);
     }
   }, [graphId, modeName]);
 
@@ -64,15 +64,15 @@ export default function Picture() {
 
   // 통신 연결 시 주석 해제
   useEffect(() => {
-    // if (quizList) {
-    //   setAnswerOptions(quizList.shuffled);
-    //   setCurrentQuiz(quizList);
-    // }
+    if (quizList) {
+      setAnswerOptions(quizList.shuffled);
+      setCurrentQuiz(quizList);
+    }
 
     // 통신 연결 시 삭제
-    setCurrentQuiz(dummyData.questions[currentQuizNum - 1]);
-    setAnswerOptions(dummyData.questions[currentQuizNum - 1].shuffledOptions);
-    console.log(answerOptions);
+    // setCurrentQuiz(dummyData.questions[currentQuizNum - 1]);
+    // setAnswerOptions(dummyData.questions[currentQuizNum - 1].shuffledOptions);
+    // console.log(answerOptions);
   }, [data, currentQuizNum]);
 
   // 정답확인버튼을 눌렀을 때

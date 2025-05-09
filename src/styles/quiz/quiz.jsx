@@ -206,18 +206,17 @@ export const QuizCount = styled.div`
 `;
 
 export const QnaBottomContainer = styled.div`
-  width: ${(props) => (props.$mode === "picture" ? "60%" : "100%")};
+  width: ${(props) => (props.$mode === "picture" ? "80%" : "100%")};
   height: ${(props) => (props.$mode === "picture" ? "100%" : "6vw")};
   background-color: ${colors.white};
   border-radius: 3vw;
-  margin-top: 2.5vh;
+  margin-top: ${({ $mode }) => ($mode === "picture" ? "0" : "2.5vh")};
   padding: 1vw 3vw;
   display: flex;
   justify-content: space-around;
   gap: 2vw;
-  margin-left: ${({ $mode }) => ($mode === "picture" ? "20%" : null)};
-  max-height: 25vw; /* 원하는 최대 높이로 조정 */
-  overflow-y: auto;
+  margin-left: ${({ $mode }) => ($mode === "picture" ? "5vw" : null)};
+  max-height: 80%;
 `;
 
 export const AswerOptionItemContainer = styled.div`
@@ -229,6 +228,8 @@ export const AswerOptionItemContainer = styled.div`
   align-items: ${({ $mode }) =>
     $mode === "picture" ? "center" : "flex-start"};
   gap: 2vw;
+  overflow-y: auto;
+  padding: 0 1vw;
 `;
 
 export const DraaggableItem = styled.div`
@@ -355,15 +356,19 @@ export const OptionItem = styled.div`
 `;
 
 // Picture.jsx
-export const PictureImg = styled.img`
-  width: 20.2vw;
-  height: 20.2vw;
-  margin-top: 2vw;
-`;
 export const PictureContainer = styled.div`
   width: 100%;
   margin-top: 5vw;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5%;
+  //background-color: red;
+`;
+
+export const PictureImg = styled.img`
+  width: 60%;
+  height: 80%;
 `;
 
 // Loading.jsx

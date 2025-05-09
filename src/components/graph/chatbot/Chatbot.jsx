@@ -32,29 +32,29 @@ export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
   // 챗봇 전송
   const handleSubmit = async () => {
     if (!input.trim() || loading) return;
-  
+
     const userInput = input;
     setInput("");
-  
+
     setMessages((prev) => [...prev, { from: "user", text: userInput }]);
-  
+
     try {
       const result = await post({
         isNewChat: messages.length === 1,
         chatContent: userInput,
       });
-  
+
       const reply = result.data?.chatContent || "응답 오류";
       setMessages((prev) => [...prev, { from: "bot", text: reply }]);
     } catch (err) {
       setMessages((prev) => [...prev, { from: "bot", text: "에러 발생!" }]);
     }
   };
-  
+
   // 챗봇 전송 후 하단으로 이동
   useEffect(() => {
     sessionStorage.setItem(`chatbot_graph_${id}`, JSON.stringify(messages));
-    
+
     if (bottomRef.current) {
       bottomRef.current.scrollIntoView({ behavior: "smooth" });
     }
@@ -86,9 +86,9 @@ export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
           {loading && (
             <G.ChatBox from="bot">
               <G.ChatLoadingP>
-              {loadingText.split("").map((char, i) => (
-                <span key={i}>{char === " " ? "\u00A0" : char}</span>
-              ))}
+                {loadingText.split("").map((char, i) => (
+                  <span key={i}>{char === " " ? "\u00A0" : char}</span>
+                ))}
               </G.ChatLoadingP>
             </G.ChatBox>
           )}
@@ -104,9 +104,10 @@ export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
                 handleSubmit();
               }
             }}
-            
           ></G.ChatInput>
-          <G.ChatSubmitButton onClick={handleSubmit} disabled={loading}>전송</G.ChatSubmitButton>
+          <G.ChatSubmitButton onClick={handleSubmit} disabled={loading}>
+            전송
+          </G.ChatSubmitButton>
         </G.ChatInputContainer>
       </G.ChattingContainer>
     </G.ChatbotLayout>
