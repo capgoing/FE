@@ -57,7 +57,7 @@ export default function Connect() {
       ...node,
       label: node.id === questionTargetId ? "?" : node.label,
     }));
-  }, [knowledgeGraph, quizList, currentQuizNum]);
+  }, [knowledgeGraph, quizList, currentQuizNum]); // ← currentQuizNum 포함
 
   // 통신 연결 시 주석 해제
   useEffect(() => {
@@ -191,7 +191,7 @@ export default function Connect() {
         },
       };
     });
-  }, [knowledgeGraph]);
+  }, [processedNodes]);
 
   const edges = useMemo(
     () =>
@@ -214,12 +214,15 @@ export default function Connect() {
           <Loading />
         </Q.LoadingContainer>
       ) : (
-        <>
-          <Q.QnaQuestionContainer $height="100%">
-            <Q.QuestionText>다음 ? 과 가장 관련이 있는 단어는?</Q.QuestionText>
-            <Q.GraphContainer>
-              <ReactFlowProvider>
+        <ReactFlowProvider>
+          <>
+            <Q.QnaQuestionContainer $height="100%">
+              <Q.QuestionText>
+                다음 ? 과 가장 관련이 있는 단어는?
+              </Q.QuestionText>
+              <Q.GraphContainer>
                 <ReactFlow
+                  key={currentQuizNum}
                   nodes={nodes || []}
                   edges={edges || []}
                   fitView
@@ -232,32 +235,31 @@ export default function Connect() {
                   elementsSelectable={false}
                 >
                   <Background />
-                  {/* <Controls /> 컨트롤 버튼도 숨기려면 주석 */}
                 </ReactFlow>
-              </ReactFlowProvider>
-            </Q.GraphContainer>
-            <Q.ConfirmButton onClick={handleCheckAnswer}>
-              정답 확인
-            </Q.ConfirmButton>
-            <Q.QuizCount>
-              {currentQuizNum} / {quizList.length}
-            </Q.QuizCount>
-          </Q.QnaQuestionContainer>
-          <Q.QnaBottomContainer>
-            <AnswerOptionList
-              options={answerOptions}
-              selectedIdx={selectedIdx}
-              onClick={handleOptionClick}
-            />
-          </Q.QnaBottomContainer>
-          {isOpen && (
-            <Modal
-              onClose={handleCloseModal}
-              isCorrect={isCorrect}
-              correctAnswer={correctAnswer}
-            />
-          )}
-        </>
+              </Q.GraphContainer>
+              <Q.ConfirmButton onClick={handleCheckAnswer}>
+                정답 확인
+              </Q.ConfirmButton>
+              <Q.QuizCount>
+                {currentQuizNum} / {quizList.length}
+              </Q.QuizCount>
+            </Q.QnaQuestionContainer>
+            <Q.QnaBottomContainer>
+              <AnswerOptionList
+                options={answerOptions}
+                selectedIdx={selectedIdx}
+                onClick={handleOptionClick}
+              />
+            </Q.QnaBottomContainer>
+            {isOpen && (
+              <Modal
+                onClose={handleCloseModal}
+                isCorrect={isCorrect}
+                correctAnswer={correctAnswer}
+              />
+            )}
+          </>
+        </ReactFlowProvider>
       )}
     </Q.QnaModeLayout>
   );
