@@ -100,8 +100,9 @@ export const ModalContainer = styled.div`
   min-height: 30vw;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding: 2.2vw 7.5vw 1.75vw 7.5vw;
+  padding: 2.2vw 5vw 1.75vw 5vw;
   background: ${colors.white};
   border-radius: 2vw;
 `;
@@ -127,6 +128,7 @@ export const ModalP2 = styled(ModalP)`
   line-height: 175%;
   text-align: center;
   margin-bottom: 2vw;
+  white-space: pre-line;
 `;
 
 export const CloseButton = styled.button`

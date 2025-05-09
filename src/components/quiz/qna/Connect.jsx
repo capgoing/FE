@@ -32,24 +32,6 @@ export default function Connect() {
   // const [nodes, setNodes] = useState([]);
   // const [edges, setEdges] = useState([]);
 
-  // ✅ 더미 데이터
-  /* const dummyData = {
-    questions: [
-      {
-        shuffledOptions: ["동물", "식물", "우주", "사람", "컴퓨터"],
-        answer: "동물",
-      },
-      {
-        shuffledOptions: ["달", "사람", "바람", "기분", "사과"],
-        answer: "사람",
-      },
-      {
-        shuffledOptions: ["모자", "바지", "물", "행성", "창문"],
-        answer: "행성",
-      },
-    ],
-  }; */
-
   useEffect(() => {
     // graphId, modeName이 있을 때만 요청
     if (graphId && modeName) {
@@ -64,7 +46,7 @@ export default function Connect() {
 
   const quizList = data?.data?.quizzes?.quizList || [];
   const knowledgeGraph = data?.data?.quizzes?.knowledgeGraph;
-  const questionTargetId = quizList[currentQuizNum - 1]?.questionTargetId;
+  //const questionTargetId = quizList[currentQuizNum - 1]?.questionTargetId;
 
   const processedNodes = useMemo(() => {
     if (!knowledgeGraph) return [];
@@ -258,7 +240,9 @@ export default function Connect() {
             <Q.ConfirmButton onClick={handleCheckAnswer}>
               정답 확인
             </Q.ConfirmButton>
-            <Q.QuizCount>{currentQuizNum} / 5</Q.QuizCount>
+            <Q.QuizCount>
+              {currentQuizNum} / {quizList.length}
+            </Q.QuizCount>
           </Q.QnaQuestionContainer>
           <Q.QnaBottomContainer>
             <AnswerOptionList

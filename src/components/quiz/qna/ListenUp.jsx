@@ -14,6 +14,8 @@ import { useTTS } from "../../../contexts/TTSContext.jsx";
 export default function ListenUp() {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [correctAnswer, setCorrectAnswer] = useState("");
 
   const [currentQuizNum, setCurrentQuizNum] = useState(1);
   const [correctNum, setCorrectNum] = useState(0);
@@ -28,22 +30,6 @@ export default function ListenUp() {
   const { post, loading, error } = usePost(`/quiz/${graphId}?mode=${modeName}`); // 퀴즈 api 불러오기
   const { patch } = usePatch();
   const [data, setData] = useState(null);
-
-  //const { shouldSpeak, setShouldSpeak } = useTTS();
-
-  // ✅ 더미 데이터
-  /*   const dummyData = {
-    questions: [
-      {
-        shuffled: ["개를", "좋아한다", "나는", "정말"],
-        answer: ["나는", "개를", "정말", "좋아한다"],
-      },
-      {
-        shuffled: ["강아지를", "보면", "웃는", "사람이", "많다"],
-        answer: ["사람이", "강아지를", "보면", "웃는", "많다"],
-      },
-    ],
-  }; */
 
   // 통신 연결 시 주석 해제
   useEffect(() => {
@@ -66,14 +52,6 @@ export default function ListenUp() {
       setDroppedList(Array(currentQuestion.answer.length).fill("")); // 빈칸 초기화
     }
   }, [data, currentQuizNum]);
-
-  /*  useEffect(() => {
-    const currentQuestion = dummyData.questions[currentQuizNum - 1];
-    console.log(currentQuestion);
-
-    setDragList(currentQuestion.shuffled);
-    setDroppedList(Array(currentQuestion.answer.length).fill(""));
-  }, [currentQuizNum]); */
 
   const handleDragStart = (index) => {
     dragItemRef.current = index;
@@ -116,7 +94,12 @@ export default function ListenUp() {
     const currentAnswer = quizList[currentQuizNum - 1].answer.join("");
     const userAnswer = droppedList.join("");
     const result = currentAnswer === userAnswer;
-    if (result) setCorrectNum((prev) => prev + 1);
+    setIsCorrect(result);
+    if (result) {
+      setCorrectNum((prev) => prev + 1);
+    } else {
+      setCorrectAnswer(quizList[currentQuizNum - 1].description);
+    }
     setIsOpen(true);
   };
 
@@ -169,7 +152,6 @@ export default function ListenUp() {
       handleSound();
       //setShouldSpeak(false); // 플래그 초기화
     }
-    // eslint-disable-next-line
   }, [quizList, currentQuizNum]);
 
   return (
@@ -189,7 +171,9 @@ export default function ListenUp() {
             <Q.ConfirmButton onClick={handleCheckAnswer}>
               정답 확인
             </Q.ConfirmButton>
-            <Q.QuizCount>{currentQuizNum} / 5</Q.QuizCount>
+            <Q.QuizCount>
+              {currentQuizNum} / {quizList.length}
+            </Q.QuizCount>
           </Q.QnaQuestionContainer>
 
           {/* answer 문자열값 텍스트 길이에 맞게 늘어나도록 스타일 조정 필요 */}
@@ -212,7 +196,13 @@ export default function ListenUp() {
               onDragStart={handleDragStart}
             />
           </Q.QnaBottomContainer>
-          {isOpen && <Modal onClose={handleCloseModal} />}
+          {isOpen && (
+            <Modal
+              onClose={handleCloseModal}
+              isCorrect={isCorrect}
+              correctAnswer={correctAnswer}
+            />
+          )}
         </>
       )}
     </Q.QnaModeLayout>
