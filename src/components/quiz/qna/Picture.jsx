@@ -14,6 +14,8 @@ export default function Picture() {
   const [currentQuizNum, setCurrentQuizNum] = useState(1);
   const [currentQuiz, setCurrentQuiz] = useState([]);
   const [correctNum, setCorrectNum] = useState(0);
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [correctAnswer, setCorrectAnswer] = useState("");
 
   const [answerOptions, setAnswerOptions] = useState([]);
   const [selectedIdx, setSelectedIdx] = useState(null);
@@ -78,6 +80,8 @@ export default function Picture() {
     //const currentQuestion = dummyData.questions[currentQuizNum - 1];
     const selectedAnswer = answerOptions[selectedIdx];
     const result = selectedAnswer === currentQuiz.answer;
+    setIsCorrect(result);
+    setCorrectAnswer(currentQuiz.answer);
 
     if (result) setCorrectNum((prev) => prev + 1);
     setIsOpen(true);
@@ -134,7 +138,13 @@ export default function Picture() {
             </Q.PictureContainer>
           </Q.QnaQuestionContainer>
 
-          {isOpen && <Modal onClose={handleCloseModal} />}
+          {isOpen && (
+            <Modal
+              onClose={handleCloseModal}
+              isCorrect={isCorrect}
+              correctAnswer={correctAnswer}
+            />
+          )}
         </>
       )}
     </Q.QnaModeLayout>

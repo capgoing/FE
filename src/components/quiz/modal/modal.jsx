@@ -15,7 +15,7 @@ const Modal = ({ onClose, isCorrect, correctAnswer }) => {
         <Q.ModalP2>
           {isCorrect ? null : (
             <>
-              정답 :
+              정답은
               <br />"{correctAnswer}"
               <br />
             </>

@@ -22,9 +22,11 @@ export default function Connect() {
 
   const [currentQuizNum, setCurrentQuizNum] = useState(1);
   const [correctNum, setCorrectNum] = useState(0);
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [correctAnswer, setCorrectAnswer] = useState("");
 
   const [answerOptions, setAnswerOptions] = useState([]);
-  const [selectedIdx, setSelectedIdx] = useState(null);
+  const [selectedIdx, setSelectedIdx] = useState(0);
 
   const { id: graphId, mode: modeName } = useParams(); // 그래프 id값 가져오기
   const { post, loading, error } = usePost(`/quiz/${graphId}?mode=${modeName}`); // 퀴즈 api 불러오기
@@ -62,12 +64,8 @@ export default function Connect() {
     if (quizList.length > 0) {
       const currentQuestion = quizList[currentQuizNum - 1];
       setAnswerOptions(currentQuestion.shuffledOptions);
-      // setNodes(knowledgeGraph.nodes);
-      // setEdges(knowledgeGraph.edges);
+      setSelectedIdx(null); // 문제가 바뀔 때마다 선택 초기화
     }
-    // 통신 연결 시 삭제
-    // setAnswerOptions(dummyData.questions[currentQuizNum - 1].shuffledOptions);
-    // console.log(answerOptions);
   }, [data, currentQuizNum]);
 
   // 정답확인버튼을 눌렀을 때
@@ -75,15 +73,16 @@ export default function Connect() {
     const currentQuestion = quizList[currentQuizNum - 1];
     const selectedAnswer = answerOptions[selectedIdx];
     const result = selectedAnswer === currentQuestion.answer;
-
+    setIsCorrect(result);
+    setCorrectAnswer(currentQuestion.answer);
     if (result) setCorrectNum((prev) => prev + 1);
     setIsOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsOpen(false);
+    setSelectedIdx(null);
     const isLast = currentQuizNum >= quizList.length;
-
     if (isLast) {
       navigate(`/quiz/${graphId}/result`, {
         state: {
@@ -251,7 +250,13 @@ export default function Connect() {
               onClick={handleOptionClick}
             />
           </Q.QnaBottomContainer>
-          {isOpen && <Modal onClose={handleCloseModal} />}
+          {isOpen && (
+            <Modal
+              onClose={handleCloseModal}
+              isCorrect={isCorrect}
+              correctAnswer={correctAnswer}
+            />
+          )}
         </>
       )}
     </Q.QnaModeLayout>
