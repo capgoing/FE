@@ -2,13 +2,15 @@ import React, { useEffect, useState, useCallback, useRef } from "react";
 import ReactFlow, { Controls, ReactFlowProvider, MarkerType, getStraightPath, } from "reactflow";
 import * as G from "../../styles/graph/graph";
 import colors from "../../styles/common/colors";
-import { forceSimulation, forceManyBody, forceCenter, forceLink, } from "d3-force";
+import { forceSimulation, forceManyBody, forceCenter, forceLink } from "d3-force";
 import { useEditMode } from "../../contexts/editModeContext";
 import GraphNode from "./graphNode";
 import { levelStyles } from "../../mocks/graphData";
 import "reactflow/dist/style.css";
 import GraphMenu from "./graphMenu";
 import Chatbot from "./chatbot/Chatbot";
+import { useParams } from "react-router-dom";
+import useGet from "../../hooks/useGet";
 
 const nodeTypes = {
   custom: GraphNode,
@@ -19,6 +21,17 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn, nodeData, edgeData
   const reactFlowWrapper = useRef(null);
   const reactFlowInstance = useRef(null);
   const [selectedNode, setSelectedNode] = useState(null);
+  const [nodeDetail, setNodeDetail] = useState(null);
+  const { id: graphId } = useParams();
+
+  const { get, data, loading, error } = useGet();
+
+  useEffect(() => {
+    if (data) {
+      setNodeDetail(data.data);
+      console.log(nodeDetail);
+    }
+  }, [data]);
 
   const handleNodeRightClick = useCallback(
     (event, node) => {
@@ -160,6 +173,12 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn, nodeData, edgeData
   };
 
   const handleNodeDoubleClick = useCallback((event, node) => {
+    setSelectedNode(node);
+    
+    setTimeout(() => {
+      get(`/graph/${graphId}/${node.id}`);
+    }, 0);
+
     if (reactFlowInstance.current) {
       const level = node.data?.level;
       const zoom = levelStyles[level]?.zoom || 4;
@@ -170,7 +189,7 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn, nodeData, edgeData
         duration: 500,
       });
     }
-  }, []);
+}, [get, graphId]);
 
   return (
     <G.GraphLayout>
@@ -190,7 +209,7 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn, nodeData, edgeData
           >
             <Controls />
           </ReactFlow>
-          {selectedNode && (
+          {isEditMode && selectedNode && (
             <GraphMenu node={selectedNode} onClose={() => setSelectedNode(null)}/>
           )}
         </ReactFlowProvider>

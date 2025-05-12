@@ -7,7 +7,8 @@ import { useParams } from "react-router-dom";
 
 export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
   const { id } = useParams();
-  const [input, setInput] = useState(""); // 입력값
+  const [input, setInput] = useState("");
+  const [isComposing, setIsComposing] = useState(false);
   const loadingText = "답변 생성 중이에요..";
   const bottomRef = useRef(null);
 
@@ -16,24 +17,22 @@ export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
     return savedMessages
       ? JSON.parse(savedMessages)
       : [{ from: "bot", text: "안녕하세요! 궁금한 게 있으신가요?" }];
-  }); // 대화 목록
+  });
+
   const { post, loading, error } = usePost(`/chatbot/${id}`);
 
-  // 메시지가 변경될 때마다 localStorage에 저장
   useEffect(() => {
     sessionStorage.setItem(`chatbot_graph_${id}`, JSON.stringify(messages));
   }, [messages, id]);
 
-  // 챗봇 닫기
   const handleCloseClick = () => {
     setIsClickChatbotBtn(false);
   };
 
-  // 챗봇 전송
   const handleSubmit = async () => {
     if (!input.trim() || loading) return;
-
     const userInput = input;
+
     setInput("");
 
     setMessages((prev) => [...prev, { from: "user", text: userInput }]);
@@ -58,7 +57,7 @@ export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
     if (bottomRef.current) {
       bottomRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages, id]);
+  }, [messages]);
 
   return (
     <G.ChatbotLayout isVisible={isVisible}>
@@ -94,12 +93,15 @@ export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
           )}
           <div ref={bottomRef} />
         </G.ChatContent>
+
         <G.ChatInputContainer>
           <G.ChatInput
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            onCompositionStart={() => setIsComposing(true)}
+            onCompositionEnd={() => setIsComposing(false)}
             onKeyDown={(e) => {
-              if (e.key === "Enter" && !loading) {
+              if (e.key === "Enter" && !isComposing && !loading) {
                 e.preventDefault();
                 handleSubmit();
               }
