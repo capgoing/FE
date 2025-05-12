@@ -74,10 +74,16 @@ const GraphNode = ({ id, data }) => {
           {isZoomedIn && <G.IncludeSentence isZoomedIn={isZoomedIn} fontSize={style.includeSentenceFontSize} isEditMode={isEditMode}>{includeSentence}</G.IncludeSentence>}
         </G.NodeLeftContainer>
 
-        {isZoomedIn && <G.NodeRightContainer>
-          <G.ImageContainer src={image} alt="image" />
-        </G.NodeRightContainer>
-        }
+        {isZoomedIn && image && (
+          <G.NodeRightContainer>
+            <img
+              src={image}
+              alt="image"
+              loading="eager"
+              style={{ width: '100%', height: '100%', objectFit: 'cover'}}
+            />
+          </G.NodeRightContainer>
+        )}
       </G.NodeContainer>
 
       <Handle

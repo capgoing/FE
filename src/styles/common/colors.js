@@ -13,6 +13,17 @@ const colors = {
     gray5: "#F0F0F0",
     black: "#000000",
     white: "#FFFFFF",
+
+    groupId1: "#FF3838",
+    groupId2: "#FF9400",
+    groupId3: "#FFD839",
+    groupId4: "#00B718",
+    groupId5: "#1500FF",
+    groupId6: "#7700FF",
+    groupId7: "#FF00FB",
+    groupId8: "#FF006A",
+    groupId9: "#00AAFF",
+    groupId10: "#00FF44",
 };
 
 export default colors;
