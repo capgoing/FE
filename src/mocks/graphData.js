@@ -35,13 +35,34 @@ export const levelStyles = {
 };
 
 export const groupStyles = {
-  0: {
-    background: "red",
-  },
   1: {
-    background: "gray",
+    background: "groupId1",
   },
   2: {
-    background: "orange2",
+    background: "groupId2",
+  },
+  3: {
+    background: "groupId3",
+  },
+  4: {
+    background: "groupId4",
+  },
+  5: {
+    background: "groupId5",
+  },
+  6: {
+    background: "groupId6",
+  },
+  7: {
+    background: "groupId7",
+  },
+  8: {
+    background: "groupId8",
+  },
+  9: {
+    background: "groupId9",
+  },
+  10: {
+    background: "groupId10",
   }
 };
