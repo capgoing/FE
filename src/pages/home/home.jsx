@@ -3,6 +3,7 @@ import FeatureCard from "../../components/home/FeatureCard";
 import { useRef, useState, useEffect } from "react";
 import Header from "../../components/header/header";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
 // image
 import PENCIL from "../../assets/images/home/pencil.svg";
@@ -10,7 +11,7 @@ import FEATURE1 from "../../assets/images/home/feature1.svg";
 import FEATURE2 from "../../assets/images/home/feature2.svg";
 import FEATURE3 from "../../assets/images/home/feature3.svg";
 import ARROWDOWN from "../../assets/images/home/arrow-down.svg";
-import HOMEFRAME from "../../assets/images/home/homeframe.svg";
+//import HOMEFRAME from "../../assets/images/home/homeframe.svg";
 import LOGO from "../../assets/images/header/logo.png";
 import FeatureItem from "../../components/home/FeatureItem";
 
@@ -86,7 +87,7 @@ const Home = () => {
 
         <S.HeaderBottomSection>
           <S.MainLogoAndButton>
-            <S.HomeFrameImg src={HOMEFRAME} alt="메인 홈 로고"></S.HomeFrameImg>
+            {/* <S.HomeFrameImg src={HOMEFRAME} alt="메인 홈 로고"></S.HomeFrameImg> */}
             <S.LOGO src={LOGO} />
             <S.UploadPdfButton onClick={handleUpladButton}>
               PDF 업로드로 시작해보기

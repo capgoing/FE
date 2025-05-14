@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import colors from "../common/colors";
 import MAINBG from "../../assets/images/home/mainbg.svg";
-import MAINBG2 from "../../assets/images/home/mainbg3.svg";
-import HOMEFRAME from "../../assets/images/home/homeframe.svg";
+import MAINBG2 from "../../assets/images/home/mainbg2.svg";
+
 import { keyframes } from "styled-components";
 import { style } from "framer-motion/client";
 
@@ -20,7 +20,7 @@ export const HomeFirstPage = styled.div`
   position: relative;
   background: url(${MAINBG}) no-repeat center center;
   background-size: cover; // 배경 이미지를 꽉 채움
-  background-position-y: 20px;
+
   background-attachment: fixed; // 배경이 뷰포트 기준으로 고정
 
   width: 100%;
@@ -39,19 +39,18 @@ export const HeaderBottomSection = styled.div`
 `;
 
 export const MainLogoAndButton = styled.div`
-  position: relative;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1vw;
   width: 42.08vw;
 `;
 
 export const LOGO = styled.img`
-  width: 17.6vw;
-  height: 20%;
-  position: absolute;
-  bottom: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(50%); // 가운데 정렬 + 이미지 바깥쪽으로 조금 내림
-  z-index: 2;
+  width: 18vw;
+  height: 10vw;
+  display: block;
+  margin-bottom: 2vw;
 `;
 export const HomeFrameImg = styled.img`
   width: 42vw;
@@ -59,24 +58,21 @@ export const HomeFrameImg = styled.img`
   display: block;
 `;
 export const UploadPdfButton = styled.button`
-  position: absolute;
-  bottom: 15%;
-  left: 50%;
-  transform: translateX(-50%) translateY(50%); // 가운데 정렬 + 이미지 바깥쪽으로 조금 내림
-  z-index: 5;
-  width: 70%;
-  height: 13%;
-  flex-shrink: 0;
-  border-radius: 40.842px;
-  background: #fe8f00;
-  color: white;
-  font-size: 1.5vw;
-  margin-top: 55vh;
+  background: #f89d36;
+  color: #fff;
+  border: none;
+  border-radius: 2vw;
+  padding: 1.2vw 5vw;
+  font-size: 1.3vw;
+  font-family: "Ownglyph_meetme-Rg";
+  font-weight: 600;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 2rem; // 텍스트와 이미지 간 간격
-  font-family: "Ownglyph_meetme-Rg";
+  gap: 0.7vw;
+  cursor: pointer;
+  margin-top: 2vw;
+  box-shadow: 0 0.2vw 0.5vw rgba(0, 0, 0, 0.08);
+  transition: background 0.2s;
 `;
 
 export const PencilImg = styled.img`
