@@ -14,6 +14,8 @@ export default function Picture() {
   const [currentQuizNum, setCurrentQuizNum] = useState(1);
   const [currentQuiz, setCurrentQuiz] = useState([]);
   const [correctNum, setCorrectNum] = useState(0);
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [correctAnswer, setCorrectAnswer] = useState("");
 
   const [answerOptions, setAnswerOptions] = useState([]);
   const [selectedIdx, setSelectedIdx] = useState(null);
@@ -50,7 +52,7 @@ export default function Picture() {
   useEffect(() => {
     // graphId, modeName이 있을 때만 요청
     if (graphId && modeName) {
-      //post().then(setData).catch(console.error);
+      post().then(setData).catch(console.error);
     }
   }, [graphId, modeName]);
 
@@ -62,15 +64,15 @@ export default function Picture() {
 
   // 통신 연결 시 주석 해제
   useEffect(() => {
-    // if (quizList) {
-    //   setAnswerOptions(quizList.shuffled);
-    //   setCurrentQuiz(quizList);
-    // }
+    if (quizList) {
+      setAnswerOptions(quizList.shuffled);
+      setCurrentQuiz(quizList);
+    }
 
     // 통신 연결 시 삭제
-    setCurrentQuiz(dummyData.questions[currentQuizNum - 1]);
-    setAnswerOptions(dummyData.questions[currentQuizNum - 1].shuffledOptions);
-    console.log(answerOptions);
+    // setCurrentQuiz(dummyData.questions[currentQuizNum - 1]);
+    // setAnswerOptions(dummyData.questions[currentQuizNum - 1].shuffledOptions);
+    // console.log(answerOptions);
   }, [data, currentQuizNum]);
 
   // 정답확인버튼을 눌렀을 때
@@ -78,6 +80,8 @@ export default function Picture() {
     //const currentQuestion = dummyData.questions[currentQuizNum - 1];
     const selectedAnswer = answerOptions[selectedIdx];
     const result = selectedAnswer === currentQuiz.answer;
+    setIsCorrect(result);
+    setCorrectAnswer(currentQuiz.answer);
 
     if (result) setCorrectNum((prev) => prev + 1);
     setIsOpen(true);
@@ -134,7 +138,13 @@ export default function Picture() {
             </Q.PictureContainer>
           </Q.QnaQuestionContainer>
 
-          {isOpen && <Modal onClose={handleCloseModal} />}
+          {isOpen && (
+            <Modal
+              onClose={handleCloseModal}
+              isCorrect={isCorrect}
+              correctAnswer={correctAnswer}
+            />
+          )}
         </>
       )}
     </Q.QnaModeLayout>

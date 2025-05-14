@@ -22,33 +22,17 @@ export default function Connect() {
 
   const [currentQuizNum, setCurrentQuizNum] = useState(1);
   const [correctNum, setCorrectNum] = useState(0);
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [correctAnswer, setCorrectAnswer] = useState("");
 
   const [answerOptions, setAnswerOptions] = useState([]);
-  const [selectedIdx, setSelectedIdx] = useState(null);
+  const [selectedIdx, setSelectedIdx] = useState(0);
 
   const { id: graphId, mode: modeName } = useParams(); // 그래프 id값 가져오기
   const { post, loading, error } = usePost(`/quiz/${graphId}?mode=${modeName}`); // 퀴즈 api 불러오기
   const [data, setData] = useState(null);
   // const [nodes, setNodes] = useState([]);
   // const [edges, setEdges] = useState([]);
-
-  // ✅ 더미 데이터
-  /* const dummyData = {
-    questions: [
-      {
-        shuffledOptions: ["동물", "식물", "우주", "사람", "컴퓨터"],
-        answer: "동물",
-      },
-      {
-        shuffledOptions: ["달", "사람", "바람", "기분", "사과"],
-        answer: "사람",
-      },
-      {
-        shuffledOptions: ["모자", "바지", "물", "행성", "창문"],
-        answer: "행성",
-      },
-    ],
-  }; */
 
   useEffect(() => {
     // graphId, modeName이 있을 때만 요청
@@ -64,7 +48,7 @@ export default function Connect() {
 
   const quizList = data?.data?.quizzes?.quizList || [];
   const knowledgeGraph = data?.data?.quizzes?.knowledgeGraph;
-  const questionTargetId = quizList[currentQuizNum - 1]?.questionTargetId;
+  //const questionTargetId = quizList[currentQuizNum - 1]?.questionTargetId;
 
   const processedNodes = useMemo(() => {
     if (!knowledgeGraph) return [];
@@ -73,19 +57,15 @@ export default function Connect() {
       ...node,
       label: node.id === questionTargetId ? "?" : node.label,
     }));
-  }, [knowledgeGraph, quizList, currentQuizNum]);
+  }, [knowledgeGraph, quizList, currentQuizNum]); // ← currentQuizNum 포함
 
   // 통신 연결 시 주석 해제
   useEffect(() => {
     if (quizList.length > 0) {
       const currentQuestion = quizList[currentQuizNum - 1];
       setAnswerOptions(currentQuestion.shuffledOptions);
-      // setNodes(knowledgeGraph.nodes);
-      // setEdges(knowledgeGraph.edges);
+      setSelectedIdx(null); // 문제가 바뀔 때마다 선택 초기화
     }
-    // 통신 연결 시 삭제
-    // setAnswerOptions(dummyData.questions[currentQuizNum - 1].shuffledOptions);
-    // console.log(answerOptions);
   }, [data, currentQuizNum]);
 
   // 정답확인버튼을 눌렀을 때
@@ -93,15 +73,16 @@ export default function Connect() {
     const currentQuestion = quizList[currentQuizNum - 1];
     const selectedAnswer = answerOptions[selectedIdx];
     const result = selectedAnswer === currentQuestion.answer;
-
+    setIsCorrect(result);
+    setCorrectAnswer(currentQuestion.answer);
     if (result) setCorrectNum((prev) => prev + 1);
     setIsOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsOpen(false);
+    setSelectedIdx(null);
     const isLast = currentQuizNum >= quizList.length;
-
     if (isLast) {
       navigate(`/quiz/${graphId}/result`, {
         state: {
@@ -210,7 +191,7 @@ export default function Connect() {
         },
       };
     });
-  }, [knowledgeGraph]);
+  }, [processedNodes]);
 
   const edges = useMemo(
     () =>
@@ -233,12 +214,15 @@ export default function Connect() {
           <Loading />
         </Q.LoadingContainer>
       ) : (
-        <>
-          <Q.QnaQuestionContainer $height="100%">
-            <Q.QuestionText>다음 ? 과 가장 관련이 있는 단어는?</Q.QuestionText>
-            <Q.GraphContainer>
-              <ReactFlowProvider>
+        <ReactFlowProvider>
+          <>
+            <Q.QnaQuestionContainer $height="100%">
+              <Q.QuestionText>
+                다음 ? 과 가장 관련이 있는 단어는?
+              </Q.QuestionText>
+              <Q.GraphContainer>
                 <ReactFlow
+                  key={currentQuizNum}
                   nodes={nodes || []}
                   edges={edges || []}
                   fitView
@@ -251,24 +235,31 @@ export default function Connect() {
                   elementsSelectable={false}
                 >
                   <Background />
-                  {/* <Controls /> 컨트롤 버튼도 숨기려면 주석 */}
                 </ReactFlow>
-              </ReactFlowProvider>
-            </Q.GraphContainer>
-            <Q.ConfirmButton onClick={handleCheckAnswer}>
-              정답 확인
-            </Q.ConfirmButton>
-            <Q.QuizCount>{currentQuizNum} / 5</Q.QuizCount>
-          </Q.QnaQuestionContainer>
-          <Q.QnaBottomContainer>
-            <AnswerOptionList
-              options={answerOptions}
-              selectedIdx={selectedIdx}
-              onClick={handleOptionClick}
-            />
-          </Q.QnaBottomContainer>
-          {isOpen && <Modal onClose={handleCloseModal} />}
-        </>
+              </Q.GraphContainer>
+              <Q.ConfirmButton onClick={handleCheckAnswer}>
+                정답 확인
+              </Q.ConfirmButton>
+              <Q.QuizCount>
+                {currentQuizNum} / {quizList.length}
+              </Q.QuizCount>
+            </Q.QnaQuestionContainer>
+            <Q.QnaBottomContainer>
+              <AnswerOptionList
+                options={answerOptions}
+                selectedIdx={selectedIdx}
+                onClick={handleOptionClick}
+              />
+            </Q.QnaBottomContainer>
+            {isOpen && (
+              <Modal
+                onClose={handleCloseModal}
+                isCorrect={isCorrect}
+                correctAnswer={correctAnswer}
+              />
+            )}
+          </>
+        </ReactFlowProvider>
       )}
     </Q.QnaModeLayout>
   );

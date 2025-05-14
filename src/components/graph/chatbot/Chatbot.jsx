@@ -31,8 +31,8 @@ export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
 
   const handleSubmit = async () => {
     if (!input.trim() || loading) return;
+    const userInput = input;
 
-    const userInput = input.trim();
     setInput("");
 
     setMessages((prev) => [...prev, { from: "user", text: userInput }]);
@@ -50,7 +50,10 @@ export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
     }
   };
 
+  // 챗봇 전송 후 하단으로 이동
   useEffect(() => {
+    sessionStorage.setItem(`chatbot_graph_${id}`, JSON.stringify(messages));
+
     if (bottomRef.current) {
       bottomRef.current.scrollIntoView({ behavior: "smooth" });
     }
@@ -103,7 +106,7 @@ export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
                 handleSubmit();
               }
             }}
-          />
+          ></G.ChatInput>
           <G.ChatSubmitButton onClick={handleSubmit} disabled={loading}>
             전송
           </G.ChatSubmitButton>
