@@ -5,6 +5,7 @@ import router from "./routes/router";
 import { useEditMode } from "./contexts/editModeContext";
 import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./styles/common/theme";
+import { TTSProvider } from "./contexts/TTSContext";
 
 function App() {
   const { isEditMode, setIsEditMode } = useEditMode();
@@ -43,10 +44,12 @@ function App() {
   }, [setIsEditMode]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <TTSProvider>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </TTSProvider>
   );
 }
 

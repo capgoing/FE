@@ -4,7 +4,7 @@ import * as G from "../../styles/graph/graph";
 import { levelStyles, groupStyles } from "../../mocks/graphData";
 import { useEditMode } from "../../contexts/editModeContext";
 import Sound from "../../assets/images/graph/sound.png";
-import { speak, stop } from "../../utils/tts";
+import { useTTS } from "../../contexts/TTSContext";
 
 const GraphNode = ({ id, data }) => {
   const { label, level, group, includeSentence, image, onContextMenu } = data;
@@ -19,10 +19,12 @@ const GraphNode = ({ id, data }) => {
     }
   };
 
+  const { speak, stop } = useTTS();
+
   // tts
   const handleSoundClick = useCallback(() => {
     speak(includeSentence);
-  }, [includeSentence]);
+  }, [includeSentence, speak]);
 
   const ref = useRef(null);
   const updateNodeInternals = useUpdateNodeInternals();
@@ -48,7 +50,7 @@ const GraphNode = ({ id, data }) => {
     checkZoom();
     const interval = setInterval(checkZoom, 300);
     return () => clearInterval(interval);
-  }, [getZoom, style.zoom, isZoomedIn]);
+  }, [getZoom, style.zoom, isZoomedIn, stop]);
   
 
   return (
