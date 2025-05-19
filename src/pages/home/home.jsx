@@ -17,6 +17,7 @@ import FeatureItem from "../../components/home/FeatureItem";
 
 const Home = () => {
   const outerDivRef = useRef();
+  const secondPageRef = useRef();
   const [currentPage, setCurrentPage] = useState(1);
 
   const navigate = useNavigate();
@@ -24,23 +25,11 @@ const Home = () => {
 
   // 다음 페이지로 이동하는 함수
   const goToNextPage = () => {
-    const pageHeight = window.innerHeight;
-
-    if (currentPage === 1) {
-      outerDivRef.current.scrollTo({
-        top: pageHeight, // 두 번째 페이지로 스크롤
-        left: 0,
-        behavior: "smooth",
-      });
-      setCurrentPage(2);
-    } else if (currentPage === 2) {
-      outerDivRef.current.scrollTo({
-        top: pageHeight * 2, // 세 번째 페이지로 스크롤
-        left: 0,
-        behavior: "smooth",
-      });
-      setCurrentPage(1);
-    }
+    const topOffset = secondPageRef.current.offsetTop;
+    window.scrollTo({
+      top: topOffset,
+      behavior: "smooth",
+    });
   };
 
   // list 페이지로 이동
@@ -67,7 +56,7 @@ const Home = () => {
           </S.ArrowDownButton>
         </S.HeaderBottomSection>
       </S.HomeFirstPage>
-      <S.HomeSecondPage>
+      <S.HomeSecondPage ref={secondPageRef}>
         <FeatureItem />
       </S.HomeSecondPage>
       {/* <S.HomeSecondPage> */}

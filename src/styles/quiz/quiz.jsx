@@ -338,6 +338,8 @@ export const GraphContainer = styled.div`
   width: 50vw;
   height: 30vw;
   margin-top: 2vw;
+  background-color: ${colors.white};
+  border-radius: 2vw;
 `;
 
 export const OptionItem = styled.div`

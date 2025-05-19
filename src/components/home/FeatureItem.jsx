@@ -16,8 +16,8 @@ export default function FeatureItem() {
         transition={{ duration: 0.6 }}
         viewport={{ once: false }}
       >
-        <S.FeatureCardContainer>
-          <S.StepP>STEP 01</S.StepP>
+        <S.FeatureCardContainer $position="right">
+          {/* <S.StepP>STEP 01</S.StepP> */}
 
           <FeatureCard
             img={FEATURE1}
@@ -58,7 +58,7 @@ export default function FeatureItem() {
 게임처럼 풀어보며 자연스럽게 개념을 반복 학습할 수 있어요.
 즐겁고 몰입감 있는 환경 속에서 학습 효과도 함께 높여보세요!`}
           />
-          <S.StepP>STEP 02</S.StepP>
+          {/* <S.StepP>STEP 02</S.StepP> */}
         </S.FeatureCardContainer>
       </motion.div>
 
@@ -68,8 +68,8 @@ export default function FeatureItem() {
         transition={{ duration: 0.6, delay: 0.4 }}
         viewport={{ once: false }}
       >
-        <S.FeatureCardContainer>
-          <S.StepP>STEP 03</S.StepP>
+        <S.FeatureCardContainer $position="right">
+          {/* <S.StepP>STEP 03</S.StepP> */}
           <FeatureCard
             img={FEATURE3}
             subtitle={"공부하다가 모르는 개념이 나오면?"}

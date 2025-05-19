@@ -15,6 +15,7 @@ import "reactflow/dist/style.css";
 import { useMemo } from "react";
 import { levelStyles, groupStyles } from "../../../mocks/graphData";
 import Loading from "./Loading.jsx";
+import colors from "../../../styles/common/colors";
 
 export default function Connect() {
   const navigate = useNavigate();
@@ -107,6 +108,7 @@ export default function Connect() {
     const rootNodes = processedNodes.filter((n) => n.level === 0);
     const level1Nodes = processedNodes.filter((n) => n.level === 1);
     const level2Nodes = processedNodes.filter((n) => n.level === 2);
+
     // 중심 좌표
     const centerX = 600;
     const centerY = 350;
@@ -159,27 +161,42 @@ export default function Connect() {
         seen.add(n.id);
       }
     }
+    const level3Nodes = processedNodes.filter((n) => n.level === 3);
+    const level3NodePositions = level3Nodes.map((node, i) => ({
+      ...node,
+      x: centerX + i * 120 - 100, // 단순 가로 나열 예시
+      y: centerY + 300,
+    }));
 
     // 모든 노드 합치기
     const allNodes = [
       ...rootNodePositions,
       ...level1NodePositions,
       ...uniqueLevel2,
+      ...level3NodePositions,
     ];
 
     // 스타일 적용
     return allNodes.map((node) => {
       const levelStyle = levelStyles[node.level] || levelStyles[1];
-      const groupStyle = groupStyles[node.level] || {};
+      const groupStyle = groupStyles[node.group] || {};
+      const backgroundColor = colors[groupStyle.background] || levelStyle.color;
+      const labelColor = "#fff8d6";
+
       return {
         id: node.id,
-        type: "custom",
+        type: "straight",
         data: { label: node.label },
         position: { x: node.x, y: node.y },
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+          color: "#f89d36",
+        },
         style: {
           width: levelStyle.size,
           height: levelStyle.size,
-          background: groupStyle.background || levelStyle.color,
+          stroke: "#f89d36",
+          background: backgroundColor,
           borderRadius: "50%",
           display: "flex",
           alignItems: "center",
@@ -202,6 +219,28 @@ export default function Connect() {
             target: edge.target,
             label: edge.label,
             type: "straight",
+            animated: false,
+            style: {
+              stroke: "#f89d36",
+              strokeWidth: 2,
+            },
+            labelBgStyle: {
+              fill: "#fff8d6",
+              fillOpacity: 1,
+              stroke: "#f89d36",
+              strokeWidth: 0.5,
+              rx: 4,
+              ry: 4,
+            },
+            labelStyle: {
+              fontWeight: 600,
+              fontSize: 12,
+              fill: "#333", // 텍스트 색
+            },
+            markerEnd: {
+              type: MarkerType.ArrowClosed,
+              color: "#f89d36",
+            },
           }))
         : [],
     [knowledgeGraph]
