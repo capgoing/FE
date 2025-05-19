@@ -1,7 +1,7 @@
 import { KJUR } from "jsrsasign";
 
 const SERVICE_ACCOUNT_EMAIL = import.meta.env.VITE_GOOGLE_API_ACCOUNT_EMAIL;
-const PRIVATE_KEY = import.meta.env.VITE_GOOGLE_API_PRIVATE_KEY;
+const PRIVATE_KEY = import.meta.env.VITE_GOOGLE_API_PRIVATE_KEY.replaceAll("\\n", "\n");
 const SCOPES = "https://www.googleapis.com/auth/cloud-platform";
 
 export async function getAccessToken() {
