@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import colors from "../common/colors";
-import MAINBG from "../../assets/images/home/mainbg.svg";
-import MAINBG2 from "../../assets/images/home/mainbg2.svg";
+import MAINBG from "../../assets/images/home/bg.png";
+//import MAINBG from "../../assets/images/home/mainbg.svg";
+import MAINBG2 from "../../assets/images/home/bg2.svg";
 
 import { keyframes } from "styled-components";
 import { style } from "framer-motion/client";
@@ -10,21 +11,23 @@ import { style } from "framer-motion/client";
 
 export const HomeLayout = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 440vh;
   overflow-y: auto;
   scroll-behavior: smooth;
+  background: url(${MAINBG}) top center;
+  background-size: cover;
+  background-attachment: scroll;
 `;
 
 // 첫번째 페이지
 export const HomeFirstPage = styled.div`
   position: relative;
-  background: url(${MAINBG}) no-repeat center center;
+  /* background: url(${MAINBG}) no-repeat center center;
   background-size: cover; // 배경 이미지를 꽉 채움
-
-  background-attachment: fixed; // 배경이 뷰포트 기준으로 고정
+  background-attachment: fixed; // 배경이 뷰포트 기준으로 고정 */
 
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - 6vh);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,34 +38,39 @@ export const HeaderBottomSection = styled.div`
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
 `;
 
 export const MainLogoAndButton = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1vw;
-  width: 42.08vw;
+  margin-top: 8vw;
+`;
+
+export const LogoText = styled.p`
+  margin-bottom: 1.5vw;
+  color: ${colors.brown};
+  text-align: center;
+  text-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
+  font-family: "Ownglyph meetme";
+  font-size: 1.7vw;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 `;
 
 export const LOGO = styled.img`
-  width: 18vw;
-  height: 10vw;
-  display: block;
-  margin-bottom: 2vw;
-`;
-export const HomeFrameImg = styled.img`
-  width: 42vw;
-  height: 100%;
+  width: 20vw;
+
   display: block;
 `;
+
 export const UploadPdfButton = styled.button`
-  background: #f89d36;
+  background: ${colors.orange};
   color: #fff;
   border: none;
   border-radius: 2vw;
-  padding: 1.2vw 5vw;
+  padding: 1.4vw 10vw;
   font-size: 1.3vw;
   font-family: "Ownglyph_meetme-Rg";
   font-weight: 600;
@@ -73,6 +81,10 @@ export const UploadPdfButton = styled.button`
   margin-top: 2vw;
   box-shadow: 0 0.2vw 0.5vw rgba(0, 0, 0, 0.08);
   transition: background 0.2s;
+
+  &:hover {
+    background: #ffa32d; // 원하는 색상으로 변경
+  }
 `;
 
 export const PencilImg = styled.img`
@@ -92,9 +104,8 @@ const blink = keyframes`
 
 export const ArrowDownButton = styled.button`
   position: absolute;
-  bottom: 10px;
+  bottom: -2vw;
   animation: ${blink} 1.5s infinite ease-in-out;
-  /* margin-top: 10vh; */
 `;
 
 export const ArrowDownImg = styled.img`
@@ -104,15 +115,13 @@ export const ArrowDownImg = styled.img`
 
 // 두번째 페이지
 export const HomeSecondPage = styled.div`
-  background-image: url(${MAINBG2});
-  background-size: cover;
-  background-position: center;
-
   width: 100%;
-  min-height: 200vh;
+  min-height: calc(100vh - 6vh); // 화면 전체 높이 확보
   display: flex;
-  justify-content: center; // 가로 중앙 정렬
-  align-items: center; // 세로 중앙 정렬
+  justify-content: center;
+  align-items: flex-start; // 위쪽 정렬
+  padding-top: 5vw; // 원하는 만큼만 띄우기
+  margin-top: 0; // 기존 margin-top 제거
 `;
 
 export const FeatureCardWrapper = styled.div`
@@ -208,18 +217,21 @@ export const FeatureDescriptionText = styled.div`
 // FeatureItem.jsx
 export const FeatureItemContainer = styled.div`
   width: 70%;
-  height: 90%;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  margin-top: 5vw;
 `;
 export const FeatureCardContainer = styled.div`
   width: 100%;
-
   display: flex;
+  flex-direction: ${({ $position }) =>
+    $position === "right" ? "row-reverse" : "row"};
   align-items: center; // 가운데 정렬
   gap: 1.5rem;
   position: relative;
   justify-content: space-between;
+  margin-bottom: 25vw;
 `;
 
 export const StepP = styled.div`
