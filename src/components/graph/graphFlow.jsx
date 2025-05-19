@@ -158,7 +158,7 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn, nodeData, edgeData
         },
         labelStyle: {
           fontWeight: 600,
-          fontSize: 12,
+          fontSize: 16,
           fill: "#333",
         },
       };

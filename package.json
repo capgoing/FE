@@ -13,6 +13,7 @@
     "axios": "^1.8.4",
     "d3-force": "^3.0.0",
     "framer-motion": "^12.11.0",
+    "jsrsasign": "^11.1.0",
     "react": "^19.0.0",
     "react-chatbot-kit": "^2.2.2",
     "react-dom": "^19.0.0",
