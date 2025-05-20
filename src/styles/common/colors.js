@@ -1,12 +1,19 @@
 const colors = {
-    mainYellow: "#FFD839",
+    mainYellow: "#FFC800",
+    hardYellow: "#FFB800",
+    subYellow: "#FFEFA0",
+    textYellow: "#F5BE00",
+    mainWhite: "#FFFFFF",
     mainBlue: "#8EE2FF",
-    subYellow: "#FFF7D6",
-    green: "#00B718",
+    // blue 후보: AFD3FA,B3D8FF
+    subBlue: "#B3D8FF",
+    // green: "#00B718",
+    green: "#FFB800", //노란색
     red: "#FF3838",
     orange: "#FF9400",
     orange2: "#FE8F00",
-    brown: "#7D4D00",
+    // 기존) brown: "#7D4D00",
+    brown: "#653E00", 
     gray: "#D9D9D9",
     gray2: "#F2F3F2",
     gray3: "#888686",
