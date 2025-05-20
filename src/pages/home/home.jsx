@@ -13,6 +13,9 @@ import FEATURE3 from "../../assets/images/home/feature3.svg";
 import ARROWDOWN from "../../assets/images/home/arrow-down.svg";
 //import HOMEFRAME from "../../assets/images/home/homeframe.svg";
 import LOGO from "../../assets/images/header/logo.png";
+import LOGOIcon1 from "../../assets/images/home/icon1.png";
+import LOGOIcon2 from "../../assets/images/home/icon2.png";
+import Cloud from "../../assets/images/home/cloud.png";
 import FeatureItem from "../../components/home/FeatureItem";
 
 const Home = () => {
@@ -41,9 +44,11 @@ const Home = () => {
     <S.HomeLayout ref={outerDivRef}>
       <S.HomeFirstPage>
         <Header />
-
         <S.HeaderBottomSection>
+          <S.Cloud src = {Cloud}></S.Cloud>
           <S.MainLogoAndButton>
+            <S.LogoIcon1 src = {LOGOIcon1} ></S.LogoIcon1>
+            <S.LogoIcon2 src = {LOGOIcon2} ></S.LogoIcon2>
             {/* <S.HomeFrameImg src={HOMEFRAME} alt="메인 홈 로고"></S.HomeFrameImg> */}
             <S.LogoText>줄글의 미로에서, 지식의 지도까지</S.LogoText>
             <S.LOGO src={LOGO} />
