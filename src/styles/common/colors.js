@@ -5,7 +5,6 @@ const colors = {
     textYellow: "#F5BE00",
     mainWhite: "#FFFFFF",
     mainBlue: "#8EE2FF",
-    // 기존) mainBlue: "#8EE2FF",
     // blue 후보: AFD3FA,B3D8FF
     subBlue: "#B3D8FF",
     // green: "#00B718",
