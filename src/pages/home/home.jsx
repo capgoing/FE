@@ -25,10 +25,20 @@ const Home = () => {
   const firstPageRef = useRef();
   const secondPageRef = useRef();
   const thirdPageRef = useRef();
-  const [currentPage, setCurrentPage] = useState(1); // 이 줄이 빠졌어요!
+  const [currentPage, setCurrentPage] = useState(1); 
 
   const navigate = useNavigate();
   const [stateUpladButton, setStateUploadButton] = useState(false);
+
+  // 자동으로 페이지 내려가도록 하는 메서드
+  useEffect(() => {
+    const interval = setInterval(() => {
+      goToNextPage();
+    }, 7000); // 7초마다
+
+    return () => clearInterval(interval); // 컴포넌트 언마운트 시 정리
+  }, [currentPage]); // currentPage가 바뀔 때마다 타이머 초기화 (선택 사항)
+
 
   // 다음 페이지로 이동하는 함수
   const goToNextPage = () => {
