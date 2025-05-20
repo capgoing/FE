@@ -13,8 +13,8 @@ export const HeaderContainer = styled.div`
 
 export const InnerHeaderContainer = styled.div`
   width: 76vw;
-  height: 6vw;
-  border-radius: 3vw;
+  height: 4.5vw;
+  border-radius: 2.4vw;
   background: ${({ theme }) =>
     theme.components?.innerHeaderContainer?.background || colors.white};
   display: flex;
