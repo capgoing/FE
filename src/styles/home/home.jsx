@@ -2,7 +2,6 @@ import styled from "styled-components";
 import colors from "../common/colors";
 import MAINBG from "../../assets/images/home/bg.png";
 //import MAINBG from "../../assets/images/home/mainbg.svg";
-import MAINBG2 from "../../assets/images/home/bg2.svg";
 
 import { keyframes } from "styled-components";
 import { style } from "framer-motion/client";
@@ -23,6 +22,15 @@ const sparkle = keyframes`
   50% { opacity: 1; }
 `;
 
+const blink = keyframes`
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+`;
+
 // 좌우로 살짝 움직이는 애니메이션
 const drift = keyframes`
   0% { transform: translateX(0); }
@@ -30,15 +38,26 @@ const drift = keyframes`
   100% { transform: translateX(0); }
 `;
 
+export const BackgroundImg = styled.img`
+  position: absolute; // 스크롤 내리면 배경 따라 내려가도록
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: auto;
+  min-height: 100%;
+  z-index: -1;
+  object-fit: contain; // 비율 유지 + 꽉 채우기
+  display: block;      
+  `;
+
 export const HomeLayout = styled.div`
   width: 100%;
-  height: 440vh;
-  overflow-y: auto;
+  height: 300vh;
+  overflow: hidden; // 스크롤 안 되도록 막기
   scroll-behavior: smooth;
-  background: url(${MAINBG}) top center;
-  background-size: cover;
-  background-attachment: scroll;
+  position: relative; // 내부 요소 기준 포지셔닝을 위해 필요
 `;
+
 
 // 첫번째 페이지
 export const HomeFirstPage = styled.div`
@@ -123,8 +142,8 @@ export const UploadPdfButton = styled.button`
   color: #fff;
   border: none;
   border-radius: 2vw;
-  padding: 1.4vw 10vw;
-  font-size: 1.3vw;
+  padding: 1.3vw 7.5vw;
+  font-size: 1.8vw;
   font-family: "Ownglyph_meetme-Rg";
   font-weight: 600;
   display: flex;
@@ -146,20 +165,18 @@ export const PencilImg = styled.img`
   object-fit: contain;
 `;
 
-const blink = keyframes`
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.2;
-  }
+export const ArrowDownButton = styled.button`
+  position: fixed; // 고정
+  bottom: 2vw;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  animation: ${blink} 1.5s infinite ease-in-out;
+  background: none;
+  border: none;
+  cursor: pointer;
 `;
 
-export const ArrowDownButton = styled.button`
-  position: absolute;
-  bottom: -2vw;
-  animation: ${blink} 1.5s infinite ease-in-out;
-`;
 
 export const ArrowDownImg = styled.img`
   width: 4.5vw;
