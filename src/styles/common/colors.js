@@ -1,5 +1,6 @@
 const colors = {
     mainYellow: "#FFD839",
+    mainBlue: "#8EE2FF",
     subYellow: "#FFF7D6",
     green: "#00B718",
     red: "#FF3838",
@@ -14,16 +15,16 @@ const colors = {
     black: "#000000",
     white: "#FFFFFF",
 
-    groupId1: "#FF3838",
-    groupId2: "#FF9400",
-    groupId3: "#FFD839",
-    groupId4: "#00B718",
-    groupId5: "#1500FF",
-    groupId6: "#7700FF",
-    groupId7: "#FF00FB",
-    groupId8: "#FF006A",
-    groupId9: "#00AAFF",
-    groupId10: "#00FF44",
+    groupId1: "#FFB3BA",
+    groupId2: "#FAD0C4",
+    groupId3: "#FFF9C4",
+    groupId4: "#B5F2D4",
+    groupId5: "#AEC6CF",
+    groupId6: "#C5C9F9",
+    groupId7: "#FFDAC1",
+    groupId8: "#E2F0CB",
+    groupId9: "#FAD0C4",
+    groupId10: "#D5AAFF",
 };
 
 export default colors;
