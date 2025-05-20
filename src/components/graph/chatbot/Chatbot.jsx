@@ -61,21 +61,21 @@ export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
 
   return (
     <G.ChatbotLayout isVisible={isVisible}>
-      <G.ChatbotHeader>
-        <G.CommonButtonImg
-          style={{ width: "2vw", height: "2vw" }}
-          src={CHATBOT}
-          alt="chatBot"
-        />
-        <G.CommonButtonImg
-          style={{ width: "2vw", height: "2vw", cursor: "pointer" }}
-          src={CLOSE}
-          alt="close"
-          onClick={handleCloseClick}
-        />
-      </G.ChatbotHeader>
+      <G.ChatbotContainer>
+        <G.ChatbotHeader>
+          <G.CommonButtonImg
+            style={{ width: "2vw", height: "2vw" }}
+            src={CHATBOT}
+            alt="chatBot"
+          />
+          <G.CommonButtonImg
+            style={{ width: "2vw", height: "2vw", cursor: "pointer" }}
+            src={CLOSE}
+            alt="close"
+            onClick={handleCloseClick}
+          />
+        </G.ChatbotHeader>
 
-      <G.ChattingContainer>
         <G.ChatContent>
           {messages.map((msg, i) => (
             <G.ChatBox key={i} from={msg.from}>
@@ -111,7 +111,7 @@ export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
             전송
           </G.ChatSubmitButton>
         </G.ChatInputContainer>
-      </G.ChattingContainer>
+      </G.ChatbotContainer>
     </G.ChatbotLayout>
   );
 }
