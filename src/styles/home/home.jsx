@@ -313,3 +313,12 @@ export const StepP = styled.div`
   color: ${colors.brown};
   text-align: center;
 `;
+
+// 세번째 페이지
+export const HomeThirdPage = styled.div`
+  width: 100%;
+  height: calc(100vh - 6vh);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
