@@ -9,6 +9,21 @@ import { style } from "framer-motion/client";
 
 // import MAINBG from "../../assets/images/home/mainbg.svg";
 
+
+// 위아래로 떠다니는 애니메이션
+const float = keyframes`
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0); }
+`;
+
+
+// 깜빡이는 애니메이션
+const sparkle = keyframes`
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+`;
+
 export const HomeLayout = styled.div`
   width: 100%;
   height: 440vh;
@@ -34,6 +49,8 @@ export const HomeFirstPage = styled.div`
 `;
 
 export const HeaderBottomSection = styled.div`
+  position: relative;
+  z-index: 10; // 구름보다 앞에
   width: 100%;
   height: 100%;
   display: flex;
@@ -41,17 +58,53 @@ export const HeaderBottomSection = styled.div`
 `;
 
 export const MainLogoAndButton = styled.div`
+  // background-color:red;
+  width: 60%;
+  position:relative; // 부모
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 8vw;
+`;
+
+// 구름
+export const Cloud = styled.img`
+  width: 30vw;           // 원하는 크기로 조정
+  position: absolute;     // 필요 시 위치 지정
+  top: -6vh;
+  right: -10vw;
+  animation: float 3s ease-in-out infinite;
+
+  @keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+  }
+`;
+
+// 로고 아이콘1(오)
+export const LogoIcon1 = styled.img`
+  width: 8%;      // 원하는 크기로 조정 가능
+  position: absolute;
+  top: 8vw;
+  right: 20vh;
+  animation: ${float} 2s ease-in-out infinite;
+`;
+
+// 로고 아이콘2(왼)
+export const LogoIcon2 = styled.img`
+  width: 9%;      // 원하는 크기로 조정 가능
+  position: absolute;
+  top: 19vw;
+  left: 15vh;
+  animation: ${float} 2s ease-in-out infinite;
 `;
 
 export const LogoText = styled.p`
+  margin-top: 8vw;
   margin-bottom: 1.5vw;
   color: ${colors.brown};
   text-align: center;
-  text-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
+  // text-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
   font-family: "Ownglyph meetme";
   font-size: 1.7vw;
   font-style: normal;
@@ -60,7 +113,7 @@ export const LogoText = styled.p`
 `;
 
 export const LOGO = styled.img`
-  width: 20vw;
+  width: 24vw;
 
   display: block;
 `;
