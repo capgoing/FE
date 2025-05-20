@@ -2,7 +2,7 @@ import colors from "./colors";
 
 export const lightTheme = {
     global: {
-        background: colors.mainYellow,
+        background: colors.mainBlue,
     },
     components: {
         innerHeaderContainer: {
