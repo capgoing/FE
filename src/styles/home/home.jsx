@@ -17,11 +17,17 @@ const float = keyframes`
   100% { transform: translateY(0); }
 `;
 
-
 // 깜빡이는 애니메이션
 const sparkle = keyframes`
   0%, 100% { opacity: 0; }
   50% { opacity: 1; }
+`;
+
+// 좌우로 살짝 움직이는 애니메이션
+const drift = keyframes`
+  0% { transform: translateX(0); }
+  50% { transform: translateX(15px); }
+  100% { transform: translateX(0); }
 `;
 
 export const HomeLayout = styled.div`
@@ -72,13 +78,7 @@ export const Cloud = styled.img`
   position: absolute;     // 필요 시 위치 지정
   top: -6vh;
   right: -10vw;
-  animation: float 3s ease-in-out infinite;
-
-  @keyframes float {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-    100% { transform: translateY(0); }
-  }
+  animation: ${drift} 5s ease-in-out infinite;
 `;
 
 // 로고 아이콘1(오)
@@ -100,13 +100,13 @@ export const LogoIcon2 = styled.img`
 `;
 
 export const LogoText = styled.p`
-  margin-top: 8vw;
-  margin-bottom: 1.5vw;
+  margin-top: 10vw;
+  margin-bottom: 1.2vw;
   color: ${colors.brown};
   text-align: center;
   // text-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
   font-family: "Ownglyph meetme";
-  font-size: 1.7vw;
+  font-size: 2vw;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
