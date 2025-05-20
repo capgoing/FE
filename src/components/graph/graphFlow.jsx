@@ -23,6 +23,8 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn, nodeData, edgeData
   const [selectedNode, setSelectedNode] = useState(null);
   const [nodeDetail, setNodeDetail] = useState(null);
   const { id: graphId } = useParams();
+  const [backgroundColor, setBackgroundColor] = useState("colors.white");
+  const [isZoomedIn, setIsZoomedIn] = useState(false);
 
   const { get, data, loading, error } = useGet();
 
@@ -94,6 +96,18 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn, nodeData, edgeData
           includeSentence: node.includeSentence,
           image: node.image,
           onContextMenu: handleNodeRightClick,
+          onZoomStateChange: (nextZoomState) => {
+            setIsZoomedIn(prev => {
+              if (prev !== nextZoomState) {
+                if (isEditMode) {
+                  setBackgroundColor(nextZoomState ? colors.white : colors.gray5);
+                } else {
+                  setBackgroundColor(nextZoomState ? colors.mainBlue : colors.white);
+                }
+              }
+              return nextZoomState;
+            });
+          },
         },
         position: { x: node.x, y: node.y },
         draggable: true,
@@ -173,7 +187,7 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn, nodeData, edgeData
   };
 
   const handleNodeDoubleClick = useCallback((event, node) => {
-    setSelectedNode(node);
+    // setSelectedNode(node);
     
     setTimeout(() => {
       get(`/graph/${graphId}/${node.id}`);
@@ -188,8 +202,17 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn, nodeData, edgeData
         zoom,
         duration: 500,
       });
+      setBackgroundColor(isEditMode ? colors.white : colors.mainBlue);
     }
-}, [get, graphId]);
+}, [get, graphId, isEditMode]);
+
+useEffect(() => {
+  if (isEditMode) {
+    setBackgroundColor(isZoomedIn ? colors.white : colors.gray5);
+  } else {
+    setBackgroundColor(isZoomedIn ? colors.mainBlue : colors.white);
+  }
+}, [isEditMode, isZoomedIn]);
 
   return (
     <G.GraphLayout>
@@ -206,6 +229,7 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn, nodeData, edgeData
             onInit={onInit}
             onNodeDoubleClick={handleNodeDoubleClick}
             proOptions={{ hideAttribution: true }}
+            style={{ backgroundColor }}
           >
             <Controls />
           </ReactFlow>

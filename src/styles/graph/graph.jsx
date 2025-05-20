@@ -73,6 +73,7 @@ export const GraphFlowContainer = styled.div`
   background: ${({ theme }) =>
     theme.components?.graphFlowContainer?.background || colors.white};
   position: relative;
+  overflow: hidden;
 `;
 
 // graphNode.jsx

@@ -7,7 +7,7 @@ import Sound from "../../assets/images/graph/sound.png";
 import { useTTS } from "../../contexts/TTSContext";
 
 const GraphNode = ({ id, data }) => {
-  const { label, level, group, includeSentence, image, onContextMenu } = data;
+  const { label, level, group, includeSentence, image, onContextMenu, onZoomStateChange } = data;
   const style = levelStyles[level] || levelStyles[1];
   const style2 = groupStyles[group] || groupStyles[1];
   const { isEditMode } = useEditMode();
@@ -44,13 +44,18 @@ const GraphNode = ({ id, data }) => {
         stop();
       }
   
+      if (zoomCheck !== isZoomedIn) {
       setIsZoomedIn(zoomCheck);
-    };
-  
-    checkZoom();
-    const interval = setInterval(checkZoom, 300);
-    return () => clearInterval(interval);
-  }, [getZoom, style.zoom, isZoomedIn, stop]);
+      if (typeof onZoomStateChange === "function") {
+        onZoomStateChange(zoomCheck);
+      }
+    }
+  };
+
+  checkZoom();
+  const interval = setInterval(checkZoom, 300);
+  return () => clearInterval(interval);
+}, [getZoom, style.zoom, isZoomedIn, stop, onZoomStateChange]);
   
 
   return (
