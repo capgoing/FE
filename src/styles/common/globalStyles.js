@@ -77,7 +77,7 @@ const GlobalStyle = createGlobalStyle`
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         scroll-behavior: smooth;
         font-size: 62.5%;
-        background: ${({ theme }) => theme.global?.background || colors.white };
+        background: ${({ theme }) => theme.global?.background || colors.white};
     }
     
     @media screen and (max-width:1799px) {
@@ -174,6 +174,8 @@ const GlobalStyle = createGlobalStyle`
         display: flex;
         flex-direction: column;
         align-items: center;
+        box-sizing: border-box;
+
     }
 `;
 

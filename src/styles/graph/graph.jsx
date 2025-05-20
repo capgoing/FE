@@ -14,6 +14,7 @@ export const GraphContainer = styled.div`
   background: ${colors.white};
   margin-top: 1.1vw;
   position: relative;
+  overflow: hidden;
 `;
 
 export const GraphButtonContainer = styled.div`
@@ -55,21 +56,22 @@ export const CommonP = styled.p`
 // graphFlow.jsx
 export const GraphLayout = styled.div`
   display: flex;
-  justify-content: space-between;
+
   width: 100%;
   height: 100%;
   background: ${({ theme }) =>
     theme.components?.graphFlowContainer?.background || colors.white};
 
-  border-radius: 2.4vw;
+  border-radius: 2vw;
   position: relative;
 `;
 
 export const GraphFlowContainer = styled.div`
   width: ${({ isChatbotOpen }) => (isChatbotOpen ? "70%" : "100%")};
+
   transition: width 0.4s ease;
   height: 100%;
-  border-radius: 2.4vw;
+  //border-radius: 2vw;
   background: ${({ theme }) =>
     theme.components?.graphFlowContainer?.background || colors.white};
   position: relative;
@@ -309,29 +311,41 @@ export const AddButton = styled.button`
 
 // Chatbot.jsx
 export const ChatbotLayout = styled.div`
-  width: ${({ isVisible }) => (isVisible ? "20vw" : "0")};
+  width: ${({ isVisible }) => (isVisible ? "30%" : "0")};
+  height: 100%;
+  /* width: ${({ isVisible }) => (isVisible ? "20vw" : "0")}; */
   opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
   padding: ${({ isVisible }) => (isVisible ? "1vw" : "0")};
   transition: width 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
 
   overflow: hidden;
-  height: 96%;
-  background-color: ${colors.subYellow};
   border-radius: 1.5vw;
   position: relative;
   z-index: 10;
-  margin: 1vw;
+
+  /* margin: 1vw; */
+`;
+
+export const ChatbotContainer = styled.div`
+  height: 100%;
+  background-color: ${colors.subYellow};
+  border-radius: 1.5vw;
+  position: relative;
+  padding: 1vw;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5vw;
 `;
 
 export const ChatbotHeader = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 0.5vw;
+  //margin-bottom: 0.5vw;
 `;
 export const ChattingContainer = styled.div`
   width: 100%;
-  height: 93%;
+  height: 100%;
 `;
 
 export const ChatContent = styled.div`
@@ -341,7 +355,7 @@ export const ChatContent = styled.div`
   flex-direction: column;
   gap: 1vw;
   overflow-y: auto;
-  margin-bottom: 1.5vw;
+  //margin-bottom: 1.5vw;
 `;
 
 export const ChatBox = styled.div`
@@ -370,24 +384,47 @@ export const ChatLoadingP = styled.div`
     animation: ${wave} 1.2s infinite;
   }
 
-  span:nth-child(1) { animation-delay: 0s; }
-  span:nth-child(2) { animation-delay: 0.1s; }
-  span:nth-child(3) { animation-delay: 0.2s; }
-  span:nth-child(4) { animation-delay: 0.3s; }
-  span:nth-child(5) { animation-delay: 0.4s; }
-  span:nth-child(6) { animation-delay: 0.5s; }
-  span:nth-child(7) { animation-delay: 0.6s; }
-  span:nth-child(8) { animation-delay: 0.7s; }
-  span:nth-child(9) { animation-delay: 0.8s; }
-  span:nth-child(10) { animation-delay: 0.9s; }
-  span:nth-child(11) { animation-delay: 1s; }
-  span:nth-child(12) { animation-delay: 1.1s; }
+  span:nth-child(1) {
+    animation-delay: 0s;
+  }
+  span:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+  span:nth-child(3) {
+    animation-delay: 0.2s;
+  }
+  span:nth-child(4) {
+    animation-delay: 0.3s;
+  }
+  span:nth-child(5) {
+    animation-delay: 0.4s;
+  }
+  span:nth-child(6) {
+    animation-delay: 0.5s;
+  }
+  span:nth-child(7) {
+    animation-delay: 0.6s;
+  }
+  span:nth-child(8) {
+    animation-delay: 0.7s;
+  }
+  span:nth-child(9) {
+    animation-delay: 0.8s;
+  }
+  span:nth-child(10) {
+    animation-delay: 0.9s;
+  }
+  span:nth-child(11) {
+    animation-delay: 1s;
+  }
+  span:nth-child(12) {
+    animation-delay: 1.1s;
+  }
 `;
-
 
 export const ChatInputContainer = styled.div`
   width: 100%;
-  height: 20%;
+  height: auto;
   position: relative;
   display: flex;
   align-items: flex-start;
@@ -430,5 +467,5 @@ export const ChatSubmitButton = styled.button`
   &:disabled {
     background-color: ${colors.gray2};
     cursor: not-allowed;
-  }   
+  }
 `;
