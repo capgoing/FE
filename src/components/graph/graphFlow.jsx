@@ -1,8 +1,18 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import ReactFlow, { Controls, ReactFlowProvider, MarkerType, getStraightPath, } from "reactflow";
+import ReactFlow, {
+  Controls,
+  ReactFlowProvider,
+  MarkerType,
+  getStraightPath,
+} from "reactflow";
 import * as G from "../../styles/graph/graph";
 import colors from "../../styles/common/colors";
-import { forceSimulation, forceManyBody, forceCenter, forceLink } from "d3-force";
+import {
+  forceSimulation,
+  forceManyBody,
+  forceCenter,
+  forceLink,
+} from "d3-force";
 import { useEditMode } from "../../contexts/editModeContext";
 import GraphNode from "./graphNode";
 import { levelStyles } from "../../mocks/graphData";
@@ -16,7 +26,12 @@ const nodeTypes = {
   custom: GraphNode,
 };
 
-const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn, nodeData, edgeData }) => {
+const GraphFlow = ({
+  isClickChatbotBtn,
+  setIsClickChatbotBtn,
+  nodeData,
+  edgeData,
+}) => {
   const { isEditMode } = useEditMode();
   const reactFlowWrapper = useRef(null);
   const reactFlowInstance = useRef(null);
@@ -69,14 +84,16 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn, nodeData, edgeData
         forceLink(simLinks)
           .id((d) => d.id)
           .distance((link) => {
-            const sourceLevel = link.source.level ?? nodeData.find(n => n.id === link.source.id)?.level;
-            const targetLevel = link.target.level ?? nodeData.find(n => n.id === link.target.id)?.level;
-          
+            const sourceLevel =
+              link.source.level ??
+              nodeData.find((n) => n.id === link.source.id)?.level;
+            const targetLevel =
+              link.target.level ??
+              nodeData.find((n) => n.id === link.target.id)?.level;
+
             if (sourceLevel === 0 || targetLevel === 0) return 400;
             return 300;
           })
-          
-          
       )
       .stop();
 
@@ -97,12 +114,16 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn, nodeData, edgeData
           image: node.image,
           onContextMenu: handleNodeRightClick,
           onZoomStateChange: (nextZoomState) => {
-            setIsZoomedIn(prev => {
+            setIsZoomedIn((prev) => {
               if (prev !== nextZoomState) {
                 if (isEditMode) {
-                  setBackgroundColor(nextZoomState ? colors.white : colors.gray5);
+                  setBackgroundColor(
+                    nextZoomState ? colors.white : colors.gray5
+                  );
                 } else {
-                  setBackgroundColor(nextZoomState ? colors.mainBlue : colors.white);
+                  setBackgroundColor(
+                    nextZoomState ? colors.mainBlue : colors.white
+                  );
                 }
               }
               return nextZoomState;
@@ -186,37 +207,43 @@ const GraphFlow = ({ isClickChatbotBtn, setIsClickChatbotBtn, nodeData, edgeData
     reactFlowInstance.current = instance;
   };
 
-  const handleNodeDoubleClick = useCallback((event, node) => {
-    // setSelectedNode(node);
-    
-    setTimeout(() => {
-      get(`/graph/${graphId}/${node.id}`);
-    }, 0);
+  const handleNodeDoubleClick = useCallback(
+    (event, node) => {
+      // setSelectedNode(node);
 
-    if (reactFlowInstance.current) {
-      const level = node.data?.level;
-      const zoom = levelStyles[level]?.zoom || 4;
-      const centerX = node.position.x + (node.width || 100) / 2;
-      const centerY = node.position.y + (node.height || 100) / 2;
-      reactFlowInstance.current.setCenter(centerX, centerY, {
-        zoom,
-        duration: 500,
-      });
-      setBackgroundColor(isEditMode ? colors.white : colors.mainBlue);
+      setTimeout(() => {
+        get(`/graph/${graphId}/${node.id}`);
+      }, 0);
+
+      if (reactFlowInstance.current) {
+        const level = node.data?.level;
+        const zoom = levelStyles[level]?.zoom || 4;
+        const centerX = node.position.x + (node.width || 100) / 2;
+        const centerY = node.position.y + (node.height || 100) / 2;
+        reactFlowInstance.current.setCenter(centerX, centerY, {
+          zoom,
+          duration: 500,
+        });
+        setBackgroundColor(isEditMode ? colors.white : colors.mainBlue);
+      }
+    },
+    [get, graphId, isEditMode]
+  );
+
+  useEffect(() => {
+    if (isEditMode) {
+      setBackgroundColor(isZoomedIn ? colors.white : colors.gray5);
+    } else {
+      setBackgroundColor(isZoomedIn ? colors.mainBlue : colors.white);
     }
-}, [get, graphId, isEditMode]);
-
-useEffect(() => {
-  if (isEditMode) {
-    setBackgroundColor(isZoomedIn ? colors.white : colors.gray5);
-  } else {
-    setBackgroundColor(isZoomedIn ? colors.mainBlue : colors.white);
-  }
-}, [isEditMode, isZoomedIn]);
+  }, [isEditMode, isZoomedIn]);
 
   return (
     <G.GraphLayout>
-      <G.GraphFlowContainer ref={reactFlowWrapper} isChatbotOpen={isClickChatbotBtn}>
+      <G.GraphFlowContainer
+        ref={reactFlowWrapper}
+        isChatbotOpen={isClickChatbotBtn}
+      >
         <ReactFlowProvider>
           <ReactFlow
             nodes={processedNodes}
@@ -234,7 +261,10 @@ useEffect(() => {
             <Controls />
           </ReactFlow>
           {isEditMode && selectedNode && (
-            <GraphMenu node={selectedNode} onClose={() => setSelectedNode(null)}/>
+            <GraphMenu
+              node={selectedNode}
+              onClose={() => setSelectedNode(null)}
+            />
           )}
         </ReactFlowProvider>
       </G.GraphFlowContainer>
