@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import FeatureItem from "../../components/home/FeatureItem";
-
+import RoadSection from "../../components/home/RoadSection";
 // image
 import ARROWDOWN from "../../assets/images/home/arrow-down.svg";
 import MAINBG from "../../assets/images/home/bg.png";
@@ -35,13 +35,13 @@ const Home = () => {
   const [stateUpladButton, setStateUploadButton] = useState(false);
 
   // 자동으로 페이지 내려가도록 하는 메서드
-  useEffect(() => {
-    const interval = setInterval(() => {
-      goToNextPage();
-    }, 7000); // 7초마다
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     goToNextPage();
+  //   }, 7000); // 7초마다
 
-    return () => clearInterval(interval); // 컴포넌트 언마운트 시 정리
-  }, [currentPage]); // currentPage가 바뀔 때마다 타이머 초기화 (선택 사항)
+  //   return () => clearInterval(interval); // 컴포넌트 언마운트 시 정리
+  // }, [currentPage]); // currentPage가 바뀔 때마다 타이머 초기화 (선택 사항)
 
   // 다음 페이지로 이동하는 함수
   const goToNextPage = () => {
@@ -82,7 +82,7 @@ const Home = () => {
   return (
     <S.HomeLayout ref={outerDivRef}>
       <S.BackgroundImg src={MAINBG} alt="배경" />
-      <S.RoadImg src={ROAD} alt="도로" />
+      {/* <S.RoadImg src={ROAD} alt="도로" /> */}
       {/* 첫번째 페이지 */}
       <S.HomeFirstPage ref={firstPageRef}>
         {" "}
@@ -103,40 +103,45 @@ const Home = () => {
             <S.ArrowDownImg src={ARROWDOWN} alt="아래로 이동" />
           </S.ArrowDownButton>
         </S.HeaderBottomSection>
+        <RoadSection top="20vh" right="0" left="auto" />
       </S.HomeFirstPage>
       {/* 두번째 페이지 */}
       <S.HomeSecondPage ref={secondPageRef}>
-        <FeatureItem
-          img={FEATURE1}
-          subtitle={"어려운 개념을 한눈에 이해하는"}
-          title={
-            <>
-              <S.Highlight>개념지도</S.Highlight>를 이용한 시각적 학습
-            </>
-          }
-          description={`복잡한 설명도 지식그래프로 시각화해 한눈에 이해할 수 있어요. 
+        <RoadSection top="-14.5vh">
+          <FeatureItem
+            img={FEATURE1}
+            subtitle={"어려운 개념을 한눈에 이해하는"}
+            title={
+              <>
+                <S.Highlight>개념지도</S.Highlight>를 이용한 시각적 학습
+              </>
+            }
+            description={`복잡한 설명도 지식그래프로 시각화해 한눈에 이해할 수 있어요. 
 
           학습자료를 핵심 개념과 관계 중심으로 재구성해, 자료의 내용을 쉽고 빠르게 이해할 수 있습니다.
           
           각 개념에는 음성 설명이 함께 제공되며, 듣기 기반 학습이 가능합니다.`}
-          position="right"
-        />
+            position="right"
+          />
+        </RoadSection>
+
         <S.ArrowDownButton onClick={goToNextPage}>
           <S.ArrowDownImg src={ARROWDOWN} alt="아래로 이동" />
         </S.ArrowDownButton>
       </S.HomeSecondPage>
       {/* 세번째 페이지 */}
       <S.HomeThirdPage ref={thirdPageRef}>
-        <FeatureItem
-          img={FEATURE2}
-          subtitle={"재미있게 익히는 개념 공부!"}
-          title={
-            <>
-              <S.Highlight>퀴즈</S.Highlight>를 통한
-              <S.Highlight> 개념 복습</S.Highlight>
-            </>
-          }
-          description={`학습자가 재미있게 개념을 익힐 수 있도록, 
+        <RoadSection top="-114vh">
+          <FeatureItem
+            img={FEATURE2}
+            subtitle={"재미있게 익히는 개념 공부!"}
+            title={
+              <>
+                <S.Highlight>퀴즈</S.Highlight>를 통한
+                <S.Highlight> 개념 복습</S.Highlight>
+              </>
+            }
+            description={`학습자가 재미있게 개념을 익힐 수 있도록, 
           총 3가지 퀴즈 유형을 통해 학습 내용을 복습합니다.
 
 - 귀로 듣고 문장 순서 맞추기
@@ -145,26 +150,30 @@ const Home = () => {
 
 게임처럼 풀어보며 자연스럽게 개념을 반복 학습할 수 있어요.
 즐겁고 몰입감 있는 환경 속에서 학습 효과도 함께 높여보세요!`}
-          delay={0.2}
-        />
+            delay={0.2}
+          />
+        </RoadSection>
+
         <S.ArrowDownButton onClick={goToNextPage}>
           <S.ArrowDownImg src={ARROWDOWN} alt="처음으로" />
         </S.ArrowDownButton>
       </S.HomeThirdPage>
       <S.HomeFourthPage ref={fourthPageRef}>
-        <FeatureItem
-          img={FEATURE3}
-          subtitle={"공부하다가 모르는 개념이 나오면?"}
-          title={
-            <>
-              <S.Highlight>맞춤형 챗봇</S.Highlight>으로 질문하기
-            </>
-          }
-          description={`학습 중 이해되지 않는 개념이 있을 때, 챗봇에게 질문하면
+        <RoadSection top="-214vh">
+          <FeatureItem
+            img={FEATURE3}
+            subtitle={"공부하다가 모르는 개념이 나오면?"}
+            title={
+              <>
+                <S.Highlight>맞춤형 챗봇</S.Highlight>으로 질문하기
+              </>
+            }
+            description={`학습 중 이해되지 않는 개념이 있을 때, 챗봇에게 질문하면
           지식 그래프 기반으로 정확하고 친절한 설명을 제공합니다.`}
-          position="right"
-          delay={0.4}
-        />
+            position="right"
+            delay={0.4}
+          />
+        </RoadSection>
         <S.ArrowDownButton onClick={goToNextPage}>
           <S.ArrowDownImg src={ARROWDOWN} alt="처음으로" />
         </S.ArrowDownButton>

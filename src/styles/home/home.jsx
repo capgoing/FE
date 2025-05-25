@@ -57,7 +57,7 @@ export const BackgroundImg = styled.img`
 `;
 
 export const RoadImg = styled.img`
-  position: absolute;
+  /* position: absolute;
   top: 85vh;
   left: 2vw;
   width: 100%;
@@ -73,7 +73,16 @@ export const RoadImg = styled.img`
 
   @media screen and (max-width: 480px) {
     top: 45%;
-  }
+  } */
+
+  /* position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 300vh; // 길 이미지 높이 설정 (스크롤 전체 범위와 맞춤)
+  object-fit: cover;
+  z-index: -1;
+  pointer-events: none; */
 `;
 // 첫번째 페이지
 export const HomeFirstPage = styled.div`
@@ -305,6 +314,8 @@ export const FeatureDescriptionText = styled.div`
 export const FeatureItemContainer = styled.div`
   width: 70%;
   height: auto;
+  position: relative;
+  z-index: 1;
 `;
 export const FeatureCardContainer = styled.div`
   width: 100%;
@@ -347,5 +358,12 @@ export const HomeFourthPage = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-  padding-top: 5vw;
+`;
+
+export const RoadSection = styled.div`
+  position: absolute;
+  top: -100vh; // 전체 RoadImg의 원하는 부분만 보이도록 설정
+  left: 0;
+  width: 100vw;
+  height: 300vh;
 `;

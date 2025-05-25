@@ -20,7 +20,7 @@ export default function FeatureItem({
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay }}
+        transition={{ duration: 0.3, delay }}
         viewport={{ once: false }}
       >
         <S.FeatureCardContainer $position={position}>
