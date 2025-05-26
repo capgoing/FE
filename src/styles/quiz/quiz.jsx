@@ -335,7 +335,7 @@ export const ConnectQuestionContainer = styled.div`
 `;
 
 export const GraphContainer = styled.div`
-  width: 50vw;
+  width: 62vw;
   height: 30vw;
   margin-top: 2vw;
   background-color: ${colors.white};
