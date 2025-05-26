@@ -23,6 +23,8 @@ export default function Picture() {
   const { id: graphId, mode: modeName } = useParams(); // 그래프 id값 가져오기
   const { post, loading, error } = usePost(`/quiz/${graphId}?mode=${modeName}`); // 퀴즈 api 불러오기
   const [data, setData] = useState(null);
+  const [quizLength, setQuizLength] = useState(1);
+
   // ✅ 더미 데이터
   const dummyData = {
     questions: [
@@ -56,11 +58,11 @@ export default function Picture() {
     }
   }, [graphId, modeName]);
 
+  const quizList = data?.data?.quizzes || null;
+
   useEffect(() => {
     console.log(data);
   }, [data]);
-
-  const quizList = data?.data?.quizzes || null;
 
   // 통신 연결 시 주석 해제
   useEffect(() => {
@@ -89,7 +91,7 @@ export default function Picture() {
 
   const handleCloseModal = () => {
     setIsOpen(false);
-    const isLast = currentQuizNum >= quizList.length;
+    const isLast = currentQuizNum >= quizLength;
 
     if (isLast) {
       navigate(`/quiz/${graphId}/result`, {
@@ -124,7 +126,9 @@ export default function Picture() {
             <Q.ConfirmButton onClick={handleCheckAnswer}>
               정답 확인
             </Q.ConfirmButton>
-            <Q.QuizCount>{currentQuizNum} / 1</Q.QuizCount>
+            <Q.QuizCount>
+              {currentQuizNum} / {quizLength}
+            </Q.QuizCount>
             <Q.PictureContainer>
               <Q.PictureImg src={currentQuiz.imageUrl} />
               <Q.QnaBottomContainer $mode={modeName}>
