@@ -2,7 +2,7 @@ import * as s from "../../../styles/list/list";
 import ItemWork from "./item-work";
 
 const ListWork = ({ data }) => {
-    // console.log(data);
+    console.log(data);
     return (
         <s.ListWorkContainer>
             {data.map((item) => (
@@ -11,9 +11,9 @@ const ListWork = ({ data }) => {
                     id={item.id}
                     title={item.title}
                     image={item.image}
-                    listenUpPerfect={item.listenUpPerfect}
-                    connectPerfect={item.connectPerfect}
-                    picturePerfect={item.picturePerfect}
+                    listenUpPerfect={item.listenQuiz}
+                    connectPerfect={item.connectQuiz}
+                    picturePerfect={item.pictureQuiz}
                 />
             ))}
         </s.ListWorkContainer>
