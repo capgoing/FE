@@ -39,7 +39,6 @@ export const ItemContainer = styled.div`
 export const InnerItemContainer = styled.div`
     width: 100%;
     height: 12.85vw;
-    padding: 1vw;
     background: ${({ $backgroundImage }) => $backgroundImage ? `url(${$backgroundImage}) center/cover no-repeat` : `${colors.white}`};
     border-radius: 1.25vw;
     display: flex;
@@ -52,6 +51,7 @@ export const TopContainer = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    padding-left: 1vw;
 `
 
 export const ItemQuizContainer = styled.div`
@@ -79,6 +79,7 @@ export const DeleteButton = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 1vw;
 `
 
 export const DeleteImg = styled.img`
@@ -91,6 +92,8 @@ export const BottomContainer = styled.div`
     display: flex;
     justify-content: right;
     gap: 1vw;
+    margin-bottom: 1vw;
+    padding-right: 1vw;
 `
 
 export const BottomButton = styled.button`

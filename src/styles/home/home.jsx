@@ -8,7 +8,6 @@ import { style } from "framer-motion/client";
 
 // import MAINBG from "../../assets/images/home/mainbg.svg";
 
-
 // 위아래로 떠다니는 애니메이션
 const float = keyframes`
   0% { transform: translateY(0); }
@@ -38,27 +37,53 @@ const drift = keyframes`
   100% { transform: translateX(0); }
 `;
 
+export const HomeLayout = styled.div`
+  width: 100%;
+  height: 400vh;
+  overflow: hidden; // 스크롤 안 되도록 막기
+  scroll-behavior: smooth;
+  position: relative; // 내부 요소 기준 포지셔닝을 위해 필요
+`;
 export const BackgroundImg = styled.img`
   position: absolute; // 스크롤 내리면 배경 따라 내려가도록
-  top: 0;
+  top: -12vh;
   left: 0;
   width: 100vw;
   height: auto;
   min-height: 100%;
   z-index: -1;
   object-fit: contain; // 비율 유지 + 꽉 채우기
-  display: block;      
-  `;
-
-export const HomeLayout = styled.div`
-  width: 100%;
-  height: 300vh;
-  overflow: hidden; // 스크롤 안 되도록 막기
-  scroll-behavior: smooth;
-  position: relative; // 내부 요소 기준 포지셔닝을 위해 필요
+  display: block;
 `;
 
+export const RoadImg = styled.img`
+  /* position: absolute;
+  top: 85vh;
+  left: 2vw;
+  width: 100%;
+  max-height: 150vw;
+  z-index: 0;
+  object-fit: contain;
+  pointer-events: none;
+  transform: translateX(0);
 
+  @media screen and (max-width: 768px) {
+    top: 40%;
+  }
+
+  @media screen and (max-width: 480px) {
+    top: 45%;
+  } */
+
+  /* position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 300vh; // 길 이미지 높이 설정 (스크롤 전체 범위와 맞춤)
+  object-fit: cover;
+  z-index: -1;
+  pointer-events: none; */
+`;
 // 첫번째 페이지
 export const HomeFirstPage = styled.div`
   position: relative;
@@ -67,7 +92,7 @@ export const HomeFirstPage = styled.div`
   background-attachment: fixed; // 배경이 뷰포트 기준으로 고정 */
 
   width: 100%;
-  height: calc(100vh - 6vh);
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -85,7 +110,7 @@ export const HeaderBottomSection = styled.div`
 export const MainLogoAndButton = styled.div`
   // background-color:red;
   width: 60%;
-  position:relative; // 부모
+  position: relative; // 부모
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -93,8 +118,8 @@ export const MainLogoAndButton = styled.div`
 
 // 구름
 export const Cloud = styled.img`
-  width: 30vw;           // 원하는 크기로 조정
-  position: absolute;     // 필요 시 위치 지정
+  width: 30vw; // 원하는 크기로 조정
+  position: absolute; // 필요 시 위치 지정
   top: -6vh;
   right: -10vw;
   animation: ${drift} 5s ease-in-out infinite;
@@ -102,7 +127,7 @@ export const Cloud = styled.img`
 
 // 로고 아이콘1(오)
 export const LogoIcon1 = styled.img`
-  width: 8%;      // 원하는 크기로 조정 가능
+  width: 8%; // 원하는 크기로 조정 가능
   position: absolute;
   top: 8vw;
   right: 20vh;
@@ -111,7 +136,7 @@ export const LogoIcon1 = styled.img`
 
 // 로고 아이콘2(왼)
 export const LogoIcon2 = styled.img`
-  width: 9%;      // 원하는 크기로 조정 가능
+  width: 9%; // 원하는 크기로 조정 가능
   position: absolute;
   top: 19vw;
   left: 15vh;
@@ -177,7 +202,6 @@ export const ArrowDownButton = styled.button`
   cursor: pointer;
 `;
 
-
 export const ArrowDownImg = styled.img`
   width: 4.5vw;
   height: 5vh;
@@ -186,12 +210,14 @@ export const ArrowDownImg = styled.img`
 // 두번째 페이지
 export const HomeSecondPage = styled.div`
   width: 100%;
-  min-height: calc(100vh - 6vh); // 화면 전체 높이 확보
+  height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: flex-start; // 위쪽 정렬
-  padding-top: 5vw; // 원하는 만큼만 띄우기
-  margin-top: 0; // 기존 margin-top 제거
+  align-items: center;
+  overflow: hidden; // 내용이 넘치지 않도록
+  box-sizing: border-box;
+  margin-top: 0;
+  position: relative;
 `;
 
 export const FeatureCardWrapper = styled.div`
@@ -215,8 +241,8 @@ export const FeatureCardGrid = styled.div`
 
 // 두번째 페이지 - 기능 설명 카드
 export const FeatureCardLayout = styled.div`
-  width: 25vw; // 추가
-  height: ${({ isWide }) => (isWide ? "30vh" : "60vh")};
+  width: 28vw;
+  height: auto;
   flex-shrink: 0;
   border-radius: 40px;
   background: #fff;
@@ -275,7 +301,7 @@ export const Highlight = styled.span`
 export const FeatureDescriptionText = styled.div`
   color: #000;
   font-family: "Noto Sans";
-  font-size: 0.8vw;
+  font-size: 0.9vw;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -287,21 +313,21 @@ export const FeatureDescriptionText = styled.div`
 // FeatureItem.jsx
 export const FeatureItemContainer = styled.div`
   width: 70%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  margin-top: 5vw;
+  height: auto;
+  position: relative;
+  z-index: 1;
 `;
 export const FeatureCardContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: ${({ $position }) =>
     $position === "right" ? "row-reverse" : "row"};
-  align-items: center; // 가운데 정렬
+  align-items: center;
   gap: 1.5rem;
   position: relative;
   justify-content: space-between;
-  margin-bottom: 25vw;
+  //margin-bottom: 21vw;
+  scroll-margin-top: 20vh;
 `;
 
 export const StepP = styled.div`
@@ -317,8 +343,27 @@ export const StepP = styled.div`
 // 세번째 페이지
 export const HomeThirdPage = styled.div`
   width: 100%;
-  height: calc(100vh - 6vh);
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden; // 내용이 넘치지 않도록
+`;
+
+export const HomeFourthPage = styled.div`
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+`;
+
+export const RoadSection = styled.div`
+  position: absolute;
+  top: -100vh; // 전체 RoadImg의 원하는 부분만 보이도록 설정
+  left: 0;
+  width: 100vw;
+  height: 300vh;
 `;

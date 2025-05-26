@@ -199,7 +199,7 @@ export const QnaMainContainer = styled.div`
 export const QuizCount = styled.div`
   position: absolute;
   right: 0;
-  bottom: 0;
+  bottom: -5%;
   color: ${colors.brown};
   font-size: 3.5vw;
   font-family: "Ownglyph_meetme-Rg";
@@ -360,7 +360,7 @@ export const OptionItem = styled.div`
 // Picture.jsx
 export const PictureContainer = styled.div`
   width: 100%;
-  margin-top: 5vw;
+  /* margin-top: 5vw; */
   display: flex;
   justify-content: space-between;
   align-items: center;

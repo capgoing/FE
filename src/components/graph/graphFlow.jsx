@@ -12,6 +12,7 @@ import {
   forceManyBody,
   forceCenter,
   forceLink,
+  forceCollide
 } from "d3-force";
 import { useEditMode } from "../../contexts/editModeContext";
 import GraphNode from "./graphNode";
@@ -77,27 +78,38 @@ const GraphFlow = ({
     }));
 
     const simulation = forceSimulation(simNodes)
-      .force("charge", forceManyBody().strength(-500))
-      .force("center", forceCenter(centerX, centerY))
-      .force(
-        "link",
-        forceLink(simLinks)
-          .id((d) => d.id)
-          .distance((link) => {
-            const sourceLevel =
-              link.source.level ??
-              nodeData.find((n) => n.id === link.source.id)?.level;
-            const targetLevel =
-              link.target.level ??
-              nodeData.find((n) => n.id === link.target.id)?.level;
+  .force("charge", forceManyBody().strength(-100))
+  .force("center", forceCenter(centerX, centerY))
+  .force(
+    "link",
+    forceLink(simLinks)
+      .id((d) => d.id)
+      .distance((link) => {
+        const source = nodeData.find((n) => n.id === link.source);
+        const target = nodeData.find((n) => n.id === link.target);
+        const sourceLevel = source?.level ?? 1;
+        const targetLevel = target?.level ?? 1;
+        const levelGap = Math.abs(sourceLevel - targetLevel);
+        return 700 + levelGap * 200;
+      })
+  )
+  .force(
+    "collide",
+    forceCollide().radius((d) => {
+      const style = levelStyles[d.level] || levelStyles[1];
+      const nodeSize = parseFloat(style.size) || 50;
+      return (nodeSize / 2) + 100;
+    })
+  )
+  .stop();
 
-            if (sourceLevel === 0 || targetLevel === 0) return 400;
-            return 300;
-          })
-      )
-      .stop();
+  const rootNode = simNodes.find((n) => n.level == 0);
+  if (rootNode) {
+    rootNode.fx = centerX;
+    rootNode.fy = centerY;
+  }
 
-    for (let i = 0; i < 300; ++i) simulation.tick();
+  for (let i = 0; i < 300; ++i) simulation.tick();
 
     const positionedNodes = simNodes.map((node) => {
       const style = levelStyles[node.level] || levelStyles[1];
@@ -138,8 +150,8 @@ const GraphFlow = ({
     });
 
     const edgeColor = isEditMode ? colors.black : "#f89d36";
-    const labelColor = isEditMode ? colors.white : "#fff8d6";
-    const strokeColor = isEditMode ? colors.black : "#f0c14b";
+    const labelColor = isEditMode ? colors.white : colors.subYellow;
+    const strokeColor = isEditMode ? colors.black : colors.mainYellow;
 
     const edgeWithLabels = edgeData.map((edge) => {
       const sourceNode = simNodes.find((n) => n.id === edge.source);
@@ -193,8 +205,8 @@ const GraphFlow = ({
         },
         labelStyle: {
           fontWeight: 600,
-          fontSize: 16,
-          fill: "#333",
+          fontSize: 20,
+          fill: colors.black,
         },
       };
     });

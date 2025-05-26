@@ -34,11 +34,7 @@ let currentAudio = null;
 
 export async function speak(text) {
   try {
-    if (currentAudio) {
-      currentAudio.pause();
-      currentAudio.currentTime = 0;
-      currentAudio = null;
-    }
+    stop();
 
     const token = await getAccessToken();
 

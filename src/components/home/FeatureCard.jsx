@@ -1,16 +1,10 @@
 import React from "react";
 import * as S from "../../styles/home/home";
 
-export default function FeatureCard({
-  img,
-  subtitle,
-  title,
-  description,
-  isWide,
-}) {
+export default function FeatureCard({ img, subtitle, title, description }) {
   return (
-    <S.FeatureCardLayout isWide={isWide}>
-      <S.FeatureImgBox isWide={isWide}>
+    <S.FeatureCardLayout>
+      <S.FeatureImgBox>
         <S.FeatureImg src={img} />
       </S.FeatureImgBox>
       <S.FeatureTextBox>

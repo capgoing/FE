@@ -19,8 +19,8 @@ export const ChatControlGroup = styled.div`
   border-bottom: 1px solid #eee;
   flex-wrap: wrap;
 
-  font-size: 2rem; // 모든 자식 요소에 기본 글꼴 크기 적용
-  font-family: "Ownglyph_meetme-Rg", sans-serif; // 통일된 폰트
+  font-size: 2rem; // ✅ 모든 자식 요소에 기본 글꼴 크기 적용
+  font-family: "Ownglyph_meetme-Rg", sans-serif; // ✅ 통일된 폰트
 `;
 
 export const ChatControlItem = styled.div`
@@ -161,7 +161,6 @@ export const CommonP = styled.p`
 // graphFlow.jsx
 export const GraphLayout = styled.div`
   display: flex;
-
   width: 100%;
   height: 100%;
   background: ${({ theme }) =>
@@ -216,7 +215,8 @@ export const NodeContainer = styled.div`
 `;
 
 export const NodeLeftContainer = styled.div`
-  width: 50%;
+  width: ${({ isZoomedIn }) => (isZoomedIn ? "50%" : "100%")};
+  height: 100%;
 `;
 
 export const NodeRightContainer = styled.div`
@@ -227,19 +227,22 @@ export const NodeRightContainer = styled.div`
 
 export const LabelP = styled.p`
   width: 100%;
+  height: 10%;
   font-weight: 400;
   text-align: ${({ isZoomedIn }) => (isZoomedIn ? "left" : "center")};
   font-family: "Ownglyph_meetme-Rg";
   font-size: ${({ fontSize }) => fontSize};
   color: ${({ isEditMode, isZoomedIn }) =>
-    isEditMode && isZoomedIn ? colors.white : colors.brown};
+    isEditMode && isZoomedIn ? colors.white : colors.black};
 `;
 
 export const IncludeSentence = styled.p`
+  width: 100%;
+  height: 70%;
   font-size: ${({ fontSize }) => fontSize};
   text-align: left;
   color: ${({ isEditMode, isZoomedIn }) =>
-    isEditMode && isZoomedIn ? colors.white : colors.brown};
+    isEditMode && isZoomedIn ? colors.white : colors.black};
 `;
 
 export const ImageContainer = styled.img`
@@ -432,7 +435,7 @@ export const ChatbotLayout = styled.div`
 `;
 
 export const MarkdownP = styled.p`
-  font-size: 2rem;
+  font-size: 20px;
   line-height: 1.7;
   white-space: pre-wrap;
   font-family: "Ownglyph_meetme-Rg", sans-serif;
@@ -582,7 +585,7 @@ export const ChatP = styled.p`
 `;
 
 export const ChatLoadingP = styled.div`
-  font-size: 1vw;
+  font-size: 2rem;
   font-weight: 400;
   color: ${colors.brown};
   font-family: "Ownglyph_meetme-Rg";
