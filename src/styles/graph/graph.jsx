@@ -15,8 +15,8 @@ export const ChatControlGroup = styled.div`
   padding: 1.5rem 2rem;
   width: 100%;
   background-color: #fffdf7;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
+  border-top: 0.05vw solid #eee;
+  border-bottom: 0.05vw solid #eee;
   flex-wrap: wrap;
 
   font-size: 2rem; // 모든 자식 요소에 기본 글꼴 크기 적용
@@ -24,11 +24,11 @@ export const ChatControlGroup = styled.div`
 `;
 
 export const ChatControlItem = styled.div`
+  width: 80%;
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: ${({ align }) => align || "center"}; // 왼쪽/오른쪽 조절 가능
-  min-width: 250px;
 `;
 export const ChatModeSelector = styled.div`
   display: flex;
@@ -45,8 +45,8 @@ export const ChatModeSelector = styled.div`
     width: 16rem;
     height: 3.5rem;
     padding: 0 1rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+    border-radius: 0.4vw;
+    border: 0.05vw solid #ccc;
     font-size: 1.8rem; // ✅ 크지만 너무 과하지 않게
     font-family: "Ownglyph_meetme-Rg", sans-serif;
     background-color: white;
@@ -66,13 +66,13 @@ export const ChatActionButtons = styled.div`
     background-color: #ffd54f;
     border: none;
     padding: 0.8rem 2rem;
-    border-radius: 10px;
+    border-radius: 0.5vw;
     font-weight: 700;
     font-size: 2rem;
     font-family: "Ownglyph_meetme-Rg", sans-serif;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    min-width: 12rem;
+    min-width: 10rem;
 
     &:hover {
       background-color: #ffca28;
@@ -161,7 +161,6 @@ export const CommonP = styled.p`
 // graphFlow.jsx
 export const GraphLayout = styled.div`
   display: flex;
-
   width: 100%;
   height: 100%;
   background: ${({ theme }) =>
@@ -216,7 +215,7 @@ export const NodeContainer = styled.div`
 `;
 
 export const NodeLeftContainer = styled.div`
-  width: 50%;
+  width: ${({ isZoomedIn }) => (isZoomedIn ? "50%" : "100%")};
   height: 100%;
 `;
 
@@ -437,9 +436,7 @@ export const ChatbotLayout = styled.div`
 
 export const MarkdownP = styled.p`
   font-size: 2rem;
-  line-height: 1.7;
-  white-space: pre-wrap;
-  font-family: "Ownglyph_meetme-Rg", sans-serif;
+  font-family: "Ownglyph_meetme-Rg";
   color: ${colors.brown};
 `;
 
@@ -454,7 +451,7 @@ export const MarkdownUL = styled.ul`
 export const MarkdownLI = styled.li`
   font-size: 2rem;
   font-family: "Ownglyph_meetme-Rg", sans-serif;
-  color: ${colors.balck};
+  color: ${colors.black};
 `;
 export const MarkdownH1 = styled.h1`
   font-size: 2rem;
@@ -550,7 +547,7 @@ export const ChatContent = styled.div`
   }
 
   p {
-    font-size: 5rem;
+    font-size: 2rem;
     line-height: 1.6;
     margin: 0.3rem 0;
     white-space: pre-wrap; // 줄바꿈 유지
@@ -586,7 +583,7 @@ export const ChatP = styled.p`
 `;
 
 export const ChatLoadingP = styled.div`
-  font-size: 1vw;
+  font-size: 2rem;
   font-weight: 400;
   color: ${colors.brown};
   font-family: "Ownglyph_meetme-Rg";
