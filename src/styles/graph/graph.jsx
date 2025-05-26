@@ -215,7 +215,7 @@ export const NodeContainer = styled.div`
 `;
 
 export const NodeLeftContainer = styled.div`
-  width: 50%;
+  width: ${({ isZoomedIn }) => (isZoomedIn ? "50%" : "100%")};
   height: 100%;
 `;
 
