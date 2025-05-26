@@ -90,7 +90,7 @@ const GraphFlow = ({
         const sourceLevel = source?.level ?? 1;
         const targetLevel = target?.level ?? 1;
         const levelGap = Math.abs(sourceLevel - targetLevel);
-        return 600 + levelGap * 200;
+        return 700 + levelGap * 200;
       })
   )
   .force(
@@ -98,19 +98,18 @@ const GraphFlow = ({
     forceCollide().radius((d) => {
       const style = levelStyles[d.level] || levelStyles[1];
       const nodeSize = parseFloat(style.size) || 50;
-      return (nodeSize / 2) + 60;
+      return (nodeSize / 2) + 100;
     })
   )
   .stop();
 
-const rootNode = simNodes.find((n) => n.level == 0);
-if (rootNode) {
-  rootNode.fx = centerX;
-  rootNode.fy = centerY;
-}
+  const rootNode = simNodes.find((n) => n.level == 0);
+  if (rootNode) {
+    rootNode.fx = centerX;
+    rootNode.fy = centerY;
+  }
 
-
-    for (let i = 0; i < 300; ++i) simulation.tick();
+  for (let i = 0; i < 300; ++i) simulation.tick();
 
     const positionedNodes = simNodes.map((node) => {
       const style = levelStyles[node.level] || levelStyles[1];
@@ -151,8 +150,8 @@ if (rootNode) {
     });
 
     const edgeColor = isEditMode ? colors.black : "#f89d36";
-    const labelColor = isEditMode ? colors.white : "#fff8d6";
-    const strokeColor = isEditMode ? colors.black : "#f0c14b";
+    const labelColor = isEditMode ? colors.white : colors.subYellow;
+    const strokeColor = isEditMode ? colors.black : colors.mainYellow;
 
     const edgeWithLabels = edgeData.map((edge) => {
       const sourceNode = simNodes.find((n) => n.id === edge.source);
@@ -206,8 +205,8 @@ if (rootNode) {
         },
         labelStyle: {
           fontWeight: 600,
-          fontSize: 16,
-          fill: "#333",
+          fontSize: 20,
+          fill: colors.black,
         },
       };
     });

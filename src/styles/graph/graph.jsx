@@ -161,7 +161,6 @@ export const CommonP = styled.p`
 // graphFlow.jsx
 export const GraphLayout = styled.div`
   display: flex;
-
   width: 100%;
   height: 100%;
   background: ${({ theme }) =>
