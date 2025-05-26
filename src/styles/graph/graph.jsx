@@ -112,6 +112,7 @@ export const NodeContainer = styled.div`
 
 export const NodeLeftContainer = styled.div`
   width: 50%;
+  height: 100%;
 `;
 
 export const NodeRightContainer = styled.div`
@@ -122,6 +123,7 @@ export const NodeRightContainer = styled.div`
 
 export const LabelP = styled.p`
   width: 100%;
+  height: 10%;
   font-weight: 400;
   text-align: ${({ isZoomedIn }) => (isZoomedIn ? "left" : "center")};
   font-family: "Ownglyph_meetme-Rg";
@@ -131,6 +133,8 @@ export const LabelP = styled.p`
 `;
 
 export const IncludeSentence = styled.p`
+  width: 100%;
+  height: 70%;
   font-size: ${({ fontSize }) => fontSize};
   text-align: left;
   color: ${({ isEditMode, isZoomedIn }) =>

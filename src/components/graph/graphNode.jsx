@@ -56,7 +56,6 @@ const GraphNode = ({ id, data }) => {
   const interval = setInterval(checkZoom, 300);
   return () => clearInterval(interval);
 }, [getZoom, style.zoom, isZoomedIn, stop, onZoomStateChange]);
-  
 
   return (
     <G.NodeWrapper
@@ -78,7 +77,19 @@ const GraphNode = ({ id, data }) => {
             }
             <G.LabelP isZoomedIn={isZoomedIn} fontSize={isZoomedIn ? style.fontSize.zoomIn : style.fontSize.zoomOut} isEditMode={isEditMode}>{label}</G.LabelP>
           </G.NodeTitleContainer>
-          {isZoomedIn && <G.IncludeSentence isZoomedIn={isZoomedIn} fontSize={style.includeSentenceFontSize} isEditMode={isEditMode}>{includeSentence}</G.IncludeSentence>}
+          {isZoomedIn && 
+            <G.IncludeSentence isZoomedIn={isZoomedIn} fontSize={style.includeSentenceFontSize} isEditMode={isEditMode}>
+              {includeSentence
+                ?.split('.')
+                .filter((s) => s.trim() !== '')
+                .map((s, i) => (
+                <span key={i}>
+                    {s.trim()}.
+                    <br />
+                </span>
+    ))}
+            </G.IncludeSentence>
+          }
         </G.NodeLeftContainer>
 
         {isZoomedIn && image && (

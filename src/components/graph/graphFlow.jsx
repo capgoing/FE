@@ -12,6 +12,7 @@ import {
   forceManyBody,
   forceCenter,
   forceLink,
+  forceCollide
 } from "d3-force";
 import { useEditMode } from "../../contexts/editModeContext";
 import GraphNode from "./graphNode";
@@ -77,25 +78,37 @@ const GraphFlow = ({
     }));
 
     const simulation = forceSimulation(simNodes)
-      .force("charge", forceManyBody().strength(-500))
-      .force("center", forceCenter(centerX, centerY))
-      .force(
-        "link",
-        forceLink(simLinks)
-          .id((d) => d.id)
-          .distance((link) => {
-            const sourceLevel =
-              link.source.level ??
-              nodeData.find((n) => n.id === link.source.id)?.level;
-            const targetLevel =
-              link.target.level ??
-              nodeData.find((n) => n.id === link.target.id)?.level;
+  .force("charge", forceManyBody().strength(-100))
+  .force("center", forceCenter(centerX, centerY))
+  .force(
+    "link",
+    forceLink(simLinks)
+      .id((d) => d.id)
+      .distance((link) => {
+        const source = nodeData.find((n) => n.id === link.source);
+        const target = nodeData.find((n) => n.id === link.target);
+        const sourceLevel = source?.level ?? 1;
+        const targetLevel = target?.level ?? 1;
+        const levelGap = Math.abs(sourceLevel - targetLevel);
+        return 600 + levelGap * 200;
+      })
+  )
+  .force(
+    "collide",
+    forceCollide().radius((d) => {
+      const style = levelStyles[d.level] || levelStyles[1];
+      const nodeSize = parseFloat(style.size) || 50;
+      return (nodeSize / 2) + 60;
+    })
+  )
+  .stop();
 
-            if (sourceLevel === 0 || targetLevel === 0) return 400;
-            return 300;
-          })
-      )
-      .stop();
+const rootNode = simNodes.find((n) => n.level == 0);
+if (rootNode) {
+  rootNode.fx = centerX;
+  rootNode.fy = centerY;
+}
+
 
     for (let i = 0; i < 300; ++i) simulation.tick();
 
