@@ -150,7 +150,7 @@ const Home = () => {
 
 게임처럼 풀어보며 자연스럽게 개념을 반복 학습할 수 있어요.
 즐겁고 몰입감 있는 환경 속에서 학습 효과도 함께 높여보세요!`}
-            delay={0.2}
+            delay={0}
           />
         </RoadSection>
 
@@ -171,7 +171,7 @@ const Home = () => {
             description={`학습 중 이해되지 않는 개념이 있을 때, 챗봇에게 질문하면
           지식 그래프 기반으로 정확하고 친절한 설명을 제공합니다.`}
             position="right"
-            delay={0.4}
+            delay={0}
           />
         </RoadSection>
         <S.ArrowDownButton onClick={goToNextPage}>
