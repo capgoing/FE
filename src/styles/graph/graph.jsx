@@ -7,6 +7,111 @@ const wave = keyframes`
   100% { opacity: 0.5 }
 `;
 
+export const ChatControlGroup = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  padding: 1.5rem 2rem;
+  width: 100%;
+  background-color: #fffdf7;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  flex-wrap: wrap;
+
+  font-size: 2rem; // 모든 자식 요소에 기본 글꼴 크기 적용
+  font-family: "Ownglyph_meetme-Rg", sans-serif; // 통일된 폰트
+`;
+
+export const ChatControlItem = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: ${({ align }) => align || "center"}; // 왼쪽/오른쪽 조절 가능
+  min-width: 250px;
+`;
+export const ChatModeSelector = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  label {
+    font-weight: 600;
+    font-size: 1.2rem;
+    font-family: "Ownglyph_meetme-Rg", sans-serif;
+  }
+
+  select {
+    width: 16rem;
+    height: 3.5rem;
+    padding: 0 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1.8rem; // ✅ 크지만 너무 과하지 않게
+    font-family: "Ownglyph_meetme-Rg", sans-serif;
+    background-color: white;
+    cursor: pointer;
+    line-height: 1;
+
+    option {
+      font-size: 1rem;
+    }
+  }
+`;
+export const ChatActionButtons = styled.div`
+  display: flex;
+  gap: 1.5rem;
+
+  button {
+    background-color: #ffd54f;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 2rem;
+    font-family: "Ownglyph_meetme-Rg", sans-serif;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    min-width: 12rem;
+
+    &:hover {
+      background-color: #ffca28;
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+  }
+`;
+
+
+export const ChatQuickButtons = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 0.5rem 1rem;
+
+  button {
+    background-color: #ffa726; // 따뜻한 주황
+    border: none;
+    color: white;
+    padding: 0.5rem 1.2rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #fb8c00;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+`;
+
 export const GraphContainer = styled.div`
   width: 76vw;
   height: 43.4vw;
@@ -46,7 +151,7 @@ export const CommonButtonImg = styled.img`
 `;
 
 export const CommonP = styled.p`
-  font-size: 1vw;
+  font-size: 2rem;
   font-weight: 400;
   color: ${colors.brown};
   font-family: "Ownglyph_meetme-Rg";
@@ -127,14 +232,14 @@ export const LabelP = styled.p`
   font-family: "Ownglyph_meetme-Rg";
   font-size: ${({ fontSize }) => fontSize};
   color: ${({ isEditMode, isZoomedIn }) =>
-    isEditMode && isZoomedIn ? colors.white : colors.black};
+    isEditMode && isZoomedIn ? colors.white : colors.brown};
 `;
 
 export const IncludeSentence = styled.p`
   font-size: ${({ fontSize }) => fontSize};
   text-align: left;
   color: ${({ isEditMode, isZoomedIn }) =>
-    isEditMode && isZoomedIn ? colors.white : colors.black};
+    isEditMode && isZoomedIn ? colors.white : colors.brown};
 `;
 
 export const ImageContainer = styled.img`
@@ -326,6 +431,84 @@ export const ChatbotLayout = styled.div`
   /* margin: 1vw; */
 `;
 
+export const MarkdownP = styled.p`
+  font-size: 2rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  font-family: "Ownglyph_meetme-Rg", sans-serif;
+  color: ${colors.brown};
+`;
+
+export const MarkdownUL = styled.ul`
+  font-size: 2rem;
+  padding-left: 2rem;
+  font-family: "Ownglyph_meetme-Rg", sans-serif;
+  color: ${colors.brown};
+`;
+
+// 기본
+export const MarkdownLI = styled.li`
+  font-size: 2rem;
+  font-family: "Ownglyph_meetme-Rg", sans-serif;
+  color: ${colors.balck};
+`;
+export const MarkdownH1 = styled.h1`
+  font-size: 2rem;
+  font-weight: 400;
+  color: ${colors.brown};
+  margin: 1.5rem 0 1rem;
+  font-family: "Ownglyph_meetme-Rg", sans-serif;
+`;
+
+export const MarkdownH2 = styled.h2`
+  font-size: 2rem;
+  font-weight: 400;
+  color: ${colors.brown};
+  margin: 1.2rem 0 0.8rem;
+  font-family: "Ownglyph_meetme-Rg", sans-serif;
+`;
+
+export const MarkdownH3 = styled.h3`
+  font-size: 2rem;
+  font-weight: 400;
+  color: ${colors.brown};
+  margin: 1rem 0 0.6rem;
+  font-family: "Ownglyph_meetme-Rg", sans-serif;
+`;
+
+export const MarkdownDetails = styled.details`
+  margin: 1rem 0;
+  padding: 1.2rem;
+  background-color:${colors.subYellow};
+  border: 1px solid ${colors.textYellow};
+  color: ${colors.textYellow};
+  border-radius: 8px;
+  font-size: 2rem;
+  font-family: "Ownglyph_meetme-Rg", sans-serif;
+  line-height: 1.6;
+  cursor: pointer;
+
+  &[open] summary::after {
+    content: " ▲";
+    font-size: 1.2rem;
+    margin-left: 0.5rem;
+  }
+
+  summary::after {
+    content: " ▼";
+    font-size: 1.2rem;
+    margin-left: 0.5rem;
+  }
+`;
+
+export const MarkdownSummary = styled.summary`
+  font-weight: bold;
+  font-size: 2rem;
+  font-family: "Ownglyph_meetme-Rg", sans-serif;
+  color: ${colors.brown};
+  cursor: pointer;
+`;
+
 export const ChatbotContainer = styled.div`
   height: 100%;
   background-color: ${colors.subYellow};
@@ -355,8 +538,33 @@ export const ChatContent = styled.div`
   flex-direction: column;
   gap: 1vw;
   overflow-y: auto;
-  //margin-bottom: 1.5vw;
+
+  // 마크다운 기본 스타일
+  h1, h2, h3 {
+    font-weight: bold;
+    margin: 1rem 0 0.5rem;
+  }
+
+  p {
+    font-size: 5rem;
+    line-height: 1.6;
+    margin: 0.3rem 0;
+    white-space: pre-wrap; // 줄바꿈 유지
+  }
+
+  ul {
+    padding-left: 2rem;
+    list-style-type: disc;
+  }
+
+  code {
+    background-color: #f5f5f5;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+  }
 `;
+
 
 export const ChatBox = styled.div`
   max-width: 70%;
@@ -367,7 +575,7 @@ export const ChatBox = styled.div`
 `;
 
 export const ChatP = styled.p`
-  font-size: 1vw;
+  font-size: 5vw;
   font-weight: 400;
   color: ${colors.brown};
   font-family: "Ownglyph_meetme-Rg";
