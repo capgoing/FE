@@ -68,7 +68,7 @@ const GraphNode = ({ id, data }) => {
       isEditMode={isEditMode}
     >
       <G.NodeContainer>
-        <G.NodeLeftContainer>
+        <G.NodeLeftContainer isZoomedIn={isZoomedIn}>
           <G.NodeTitleContainer nodeTitleContainerGap={style.nodeTitleContainerGap}>
             {isZoomedIn && 
               <G.SoundImgContainer soundImgContainerWidth={style.soundImgContainerWidth} soundImgContainerHeight={style.soundImgContainerHeight} onClick={handleSoundClick}>
