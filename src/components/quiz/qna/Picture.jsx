@@ -129,6 +129,7 @@ export default function Picture() {
             <Q.PictureQuizCount>
               {currentQuizNum} / {quizLength}
             </Q.PictureQuizCount>
+
             <Q.PictureContainer>
               <Q.PictureImg src={currentQuiz.imageUrl} />
               <Q.QnaBottomContainer $mode={modeName}>
