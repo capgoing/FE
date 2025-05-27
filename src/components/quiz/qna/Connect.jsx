@@ -28,15 +28,16 @@ import GraphNode from "../../graph/graphNode";
 const nodeTypes = {
   custom: GraphNode,
 };
+
 export default function Connect() {
   const navigate = useNavigate();
+  // 모달 상태 및 퀴즈 상태 관리
   const [isOpen, setIsOpen] = useState(false);
-
-  const [currentQuizNum, setCurrentQuizNum] = useState(1);
   const [correctNum, setCorrectNum] = useState(0);
   const [isCorrect, setIsCorrect] = useState(false);
   const [correctAnswer, setCorrectAnswer] = useState("");
-
+  // 현재 문제 번호 및 정답 수 관리
+  const [currentQuizNum, setCurrentQuizNum] = useState(1);
   const [answerOptions, setAnswerOptions] = useState([]);
   const [selectedIdx, setSelectedIdx] = useState(0);
 
@@ -124,17 +125,20 @@ export default function Connect() {
 
     const questionTargetId = quizList[currentQuizNum - 1]?.questionTargetId;
 
+    // 그래프 영역 크기 계산
     const rect = graphRef.current.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
     const centerX = width / 2;
     const centerY = height / 2;
 
+    // 시뮬레이션용 노드/링크 구성
     const simNodes = knowledgeGraph.nodes.map((node) => ({
       ...node,
       label: node.id === questionTargetId ? "?" : node.label,
     }));
 
+    // 링크 목록 생성
     const simLinks = knowledgeGraph.edges.map((edge) => ({
       source: edge.source,
       target: edge.target,
@@ -164,8 +168,8 @@ export default function Connect() {
     ); */
 
     const simulation = forceSimulation(simNodes)
-      .force("charge", forceManyBody().strength(-400))
-      .force("center", forceCenter(centerX, centerY))
+      .force("charge", forceManyBody().strength(-430)) // 서로 밀어냄
+      .force("center", forceCenter(centerX, centerY)) // 중앙 기준
       .force(
         "link",
         forceLink(simLinks)
@@ -176,7 +180,7 @@ export default function Connect() {
             const levelGap = Math.abs(
               (source?.level ?? 1) - (target?.level ?? 1)
             );
-            return 400 + levelGap * 150;
+            return 430 + levelGap * 200;
           })
       )
       .force(
@@ -184,7 +188,7 @@ export default function Connect() {
         forceCollide().radius((d) => {
           const style = levelStyles[d.level] || levelStyles[1];
           const size = parseFloat(style.size) || 80;
-          return size / 2 + 40;
+          return size / 2 + 50; // 노드 간 간격 확보
         })
       )
       .stop();
@@ -250,6 +254,7 @@ export default function Connect() {
         fontWeight: 600,
         fontSize: 12,
         fill: "#333",
+        padding: 4,
       },
       labelBgStyle: {
         fill: "#fff8d6",

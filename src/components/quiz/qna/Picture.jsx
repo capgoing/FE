@@ -126,9 +126,9 @@ export default function Picture() {
             <Q.ConfirmButton onClick={handleCheckAnswer}>
               정답 확인
             </Q.ConfirmButton>
-            <Q.QuizCount>
+            <Q.PictureQuizCount>
               {currentQuizNum} / {quizLength}
-            </Q.QuizCount>
+            </Q.PictureQuizCount>
             <Q.PictureContainer>
               <Q.PictureImg src={currentQuiz.imageUrl} />
               <Q.QnaBottomContainer $mode={modeName}>

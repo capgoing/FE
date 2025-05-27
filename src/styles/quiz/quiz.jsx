@@ -199,6 +199,15 @@ export const QnaMainContainer = styled.div`
 export const QuizCount = styled.div`
   position: absolute;
   right: 0;
+  bottom: 2%;
+  color: ${colors.brown};
+  font-size: 3.5vw;
+  font-family: "Ownglyph_meetme-Rg";
+`;
+
+export const PictureQuizCount = styled.div`
+  position: absolute;
+  right: 0;
   bottom: -5%;
   color: ${colors.brown};
   font-size: 3.5vw;
