@@ -134,6 +134,7 @@ export default function ListenUp() {
 
   // tts
   const handleSound = useCallback(() => {
+    stop(); // 기존 음성 중지
     const currentAnswerArray = quizList[currentQuizNum - 1]?.answer;
     if (!currentAnswerArray) return;
     const sentence = currentAnswerArray.join(" ");

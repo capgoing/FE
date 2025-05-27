@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import * as Q from "../../../styles/quiz/quiz.jsx";
 import AnswerOptionList from "./AnswerOptionList.jsx";
@@ -16,24 +16,38 @@ import { useMemo } from "react";
 import { levelStyles, groupStyles } from "../../../mocks/graphData";
 import Loading from "./Loading.jsx";
 import colors from "../../../styles/common/colors";
+import {
+  forceSimulation,
+  forceManyBody,
+  forceCenter,
+  forceLink,
+  forceCollide,
+} from "d3-force";
+import GraphNode from "../../graph/graphNode";
+
+const nodeTypes = {
+  custom: GraphNode,
+};
 
 export default function Connect() {
   const navigate = useNavigate();
+  // 모달 상태 및 퀴즈 상태 관리
   const [isOpen, setIsOpen] = useState(false);
-
-  const [currentQuizNum, setCurrentQuizNum] = useState(1);
   const [correctNum, setCorrectNum] = useState(0);
   const [isCorrect, setIsCorrect] = useState(false);
   const [correctAnswer, setCorrectAnswer] = useState("");
-
+  // 현재 문제 번호 및 정답 수 관리
+  const [currentQuizNum, setCurrentQuizNum] = useState(1);
   const [answerOptions, setAnswerOptions] = useState([]);
   const [selectedIdx, setSelectedIdx] = useState(0);
 
   const { id: graphId, mode: modeName } = useParams(); // 그래프 id값 가져오기
   const { post, loading, error } = usePost(`/quiz/${graphId}?mode=${modeName}`); // 퀴즈 api 불러오기
   const [data, setData] = useState(null);
-  // const [nodes, setNodes] = useState([]);
-  // const [edges, setEdges] = useState([]);
+  const [nodes, setNodes] = useState([]);
+  const [edges, setEdges] = useState([]);
+
+  const graphRef = useRef(null); // 그래프 참조
 
   useEffect(() => {
     // graphId, modeName이 있을 때만 요청
@@ -51,14 +65,19 @@ export default function Connect() {
   const knowledgeGraph = data?.data?.quizzes?.knowledgeGraph;
   //const questionTargetId = quizList[currentQuizNum - 1]?.questionTargetId;
 
+  // 노드 처리
   const processedNodes = useMemo(() => {
     if (!knowledgeGraph) return [];
-    const questionTargetId = quizList[currentQuizNum - 1]?.questionTargetId;
+    const questionTargetId = quizList[currentQuizNum - 1]?.questionTargetId; // ? 노드 아이디
     return knowledgeGraph.nodes.map((node) => ({
       ...node,
-      label: node.id === questionTargetId ? "?" : node.label,
+      label: node.id === questionTargetId ? "?" : node.label, // 문제 노드 아이디와 일치하면 ? 표시
     }));
-  }, [knowledgeGraph, quizList, currentQuizNum]); // ← currentQuizNum 포함
+  }, [knowledgeGraph, quizList, currentQuizNum]);
+
+  useEffect(() => {
+    console.log("processedNodes", processedNodes);
+  }, [processedNodes]);
 
   // 통신 연결 시 주석 해제
   useEffect(() => {
@@ -101,150 +120,158 @@ export default function Connect() {
     setSelectedIdx(idx);
   };
 
-  const nodes = useMemo(() => {
-    if (!knowledgeGraph) return [];
+  useEffect(() => {
+    if (!knowledgeGraph) return;
 
-    // 레벨별로 노드 분리
-    const rootNodes = processedNodes.filter((n) => n.level === 0);
-    const level1Nodes = processedNodes.filter((n) => n.level === 1);
-    const level2Nodes = processedNodes.filter((n) => n.level === 2);
+    const questionTargetId = quizList[currentQuizNum - 1]?.questionTargetId;
 
-    // 중심 좌표
-    const centerX = 600;
-    const centerY = 350;
+    // 그래프 영역 크기 계산
+    const rect = graphRef.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const centerX = width / 2;
+    const centerY = height / 2;
 
-    // 루트(레벨 0) 노드: 중앙에 배치
-    const rootNodePositions = rootNodes.map((node, i) => ({
+    // 시뮬레이션용 노드/링크 구성
+    const simNodes = knowledgeGraph.nodes.map((node) => ({
       ...node,
-      x: centerX,
-      y: centerY,
+      label: node.id === questionTargetId ? "?" : node.label,
     }));
 
-    // 레벨 1: 루트 주변 원형 배치
-    const radius1 = 200;
-    const angleStep1 = (2 * Math.PI) / level1Nodes.length;
-    const level1NodePositions = level1Nodes.map((node, i) => ({
-      ...node,
-      x: centerX + radius1 * Math.cos(i * angleStep1),
-      y: centerY + radius1 * Math.sin(i * angleStep1),
+    // 링크 목록 생성
+    const simLinks = knowledgeGraph.edges.map((edge) => ({
+      source: edge.source,
+      target: edge.target,
     }));
 
-    // 레벨 2: 레벨 1 주변 원형 배치 (각 레벨1 노드 기준)
-    const radius2 = 120;
-    let level2NodePositions = [];
-    level1Nodes.forEach((parentNode, parentIdx) => {
-      const children = level2Nodes.filter((n) =>
-        knowledgeGraph.edges.some(
-          (e) => e.source === parentNode.id && e.target === n.id
-        )
-      );
-      const angleStep2 = Math.PI / (children.length + 1);
-      children.forEach((child, childIdx) => {
-        level2NodePositions.push({
-          ...child,
-          x:
-            level1NodePositions[parentIdx].x +
-            radius2 * Math.cos(Math.PI + (childIdx + 1) * angleStep2),
-          y:
-            level1NodePositions[parentIdx].y +
-            radius2 * Math.sin(Math.PI + (childIdx + 1) * angleStep2),
-        });
-      });
+    // 연결된 노드 ID들 모으기
+    /*     const connectedNodeIds = new Set();
+    knowledgeGraph.edges.forEach((edge) => {
+      if (edge.source === questionTargetId) connectedNodeIds.add(edge.target);
+      if (edge.target === questionTargetId) connectedNodeIds.add(edge.source);
     });
+    connectedNodeIds.add(questionTargetId);
 
-    // 중복된 레벨2 노드 제거(여러 부모를 가질 수 있으므로)
-    const uniqueLevel2 = [];
-    const seen = new Set();
-    for (const n of level2NodePositions) {
-      if (!seen.has(n.id)) {
-        uniqueLevel2.push(n);
-        seen.add(n.id);
-      }
+    // 노드 먼저 필터링
+    const simNodes = knowledgeGraph.nodes
+      .filter((node) => connectedNodeIds.has(node.id))
+      .map((node) => ({
+        ...node,
+        label: node.id === questionTargetId ? "?" : node.label,
+      }));
+
+    // 노드 기준으로 다시 엣지 필터링
+    const nodeIdSet = new Set(simNodes.map((n) => n.id));
+
+    const simLinks = knowledgeGraph.edges.filter(
+      (edge) => nodeIdSet.has(edge.source) && nodeIdSet.has(edge.target)
+    ); */
+
+    const simulation = forceSimulation(simNodes)
+      .force("charge", forceManyBody().strength(-430)) // 서로 밀어냄
+      .force("center", forceCenter(centerX, centerY)) // 중앙 기준
+      .force(
+        "link",
+        forceLink(simLinks)
+          .id((d) => d.id)
+          .distance((link) => {
+            const source = simNodes.find((n) => n.id === link.source);
+            const target = simNodes.find((n) => n.id === link.target);
+            const levelGap = Math.abs(
+              (source?.level ?? 1) - (target?.level ?? 1)
+            );
+            return 430 + levelGap * 200;
+          })
+      )
+      .force(
+        "collide",
+        forceCollide().radius((d) => {
+          const style = levelStyles[d.level] || levelStyles[1];
+          const size = parseFloat(style.size) || 80;
+          return size / 2 + 50; // 노드 간 간격 확보
+        })
+      )
+      .stop();
+
+    const root = simNodes.find((n) => n.level === 0);
+    if (root) {
+      root.fx = centerX;
+      root.fy = centerY;
     }
-    const level3Nodes = processedNodes.filter((n) => n.level === 3);
-    const level3NodePositions = level3Nodes.map((node, i) => ({
-      ...node,
-      x: centerX + i * 120 - 100, // 단순 가로 나열 예시
-      y: centerY + 300,
-    }));
 
-    // 모든 노드 합치기
-    const allNodes = [
-      ...rootNodePositions,
-      ...level1NodePositions,
-      ...uniqueLevel2,
-      ...level3NodePositions,
-    ];
+    for (let i = 0; i < 300; ++i) simulation.tick();
 
-    // 스타일 적용
-    return allNodes.map((node) => {
+    // 노드 스타일링
+    const styledNodes = simNodes.map((node) => {
       const levelStyle = levelStyles[node.level] || levelStyles[1];
       const groupStyle = groupStyles[node.group] || {};
       const backgroundColor = colors[groupStyle.background] || levelStyle.color;
-      const labelColor = "#fff8d6";
+
+      const isQuestionNode = node.label === "?"; // 문제 노드 아이디와 일치하는 '?' 노드를 확인한다
 
       return {
         id: node.id,
-        type: "straight",
-        data: { label: node.label },
+        type: "custom",
+        data: {
+          label: node.label,
+          level: node.level,
+          group: node.group,
+        },
         position: { x: node.x, y: node.y },
+        style: {
+          width: levelStyle.size,
+          height: levelStyle.size,
+          background: backgroundColor,
+          color: isQuestionNode ? "#ff0000" : groupStyle.color || "#333", // ? 노드는 빨간색
+          borderRadius: "50%",
+          border: isQuestionNode ? "3px dashed #ff0000" : "2px solid #f89d36",
+          fontWeight: isQuestionNode ? 900 : "bold", // ? 노드는 ultra-bold
+          fontSize: isQuestionNode ? 35 : 20, // ? 노드는 더 크게
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontFamily: "Ownglyph_meetme-Rg",
+        },
         markerEnd: {
           type: MarkerType.ArrowClosed,
           color: "#f89d36",
         },
-        style: {
-          width: levelStyle.size,
-          height: levelStyle.size,
-          stroke: "#f89d36",
-          background: backgroundColor,
-          borderRadius: "50%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontWeight: "bold",
-          fontSize: 16,
-          color: groupStyle.color || "#333",
-          border: "2px solid #888",
-        },
       };
     });
-  }, [processedNodes]);
 
-  const edges = useMemo(
-    () =>
-      knowledgeGraph
-        ? knowledgeGraph.edges.map((edge) => ({
-            id: `e${edge.source}-${edge.target}`,
-            source: edge.source,
-            target: edge.target,
-            label: edge.label,
-            type: "straight",
-            animated: false,
-            style: {
-              stroke: "#f89d36",
-              strokeWidth: 2,
-            },
-            labelBgStyle: {
-              fill: "#fff8d6",
-              fillOpacity: 1,
-              stroke: "#f89d36",
-              strokeWidth: 0.5,
-              rx: 4,
-              ry: 4,
-            },
-            labelStyle: {
-              fontWeight: 600,
-              fontSize: 12,
-              fill: "#333", // 텍스트 색
-            },
-            markerEnd: {
-              type: MarkerType.ArrowClosed,
-              color: "#f89d36",
-            },
-          }))
-        : [],
-    [knowledgeGraph]
-  );
+    // 엣지 스타일링
+    const styledEdges = knowledgeGraph.edges.map((edge) => ({
+      id: `e${edge.source}-${edge.target}`,
+      source: edge.source,
+      target: edge.target,
+      label: edge.label,
+      type: "straight",
+      style: {
+        stroke: "#f89d36",
+        strokeWidth: 2,
+      },
+      labelStyle: {
+        fontWeight: 600,
+        fontSize: 12,
+        fill: "#333",
+        padding: 4,
+      },
+      labelBgStyle: {
+        fill: "#fff8d6",
+        stroke: "#f89d36",
+        strokeWidth: 0.5,
+        rx: 4,
+        ry: 4,
+      },
+      markerEnd: {
+        type: MarkerType.ArrowClosed,
+        color: "#f89d36",
+      },
+    }));
+
+    setNodes(styledNodes);
+    setEdges(styledEdges);
+  }, [knowledgeGraph, currentQuizNum]);
 
   return (
     <Q.QnaModeLayout>
@@ -257,9 +284,10 @@ export default function Connect() {
           <>
             <Q.QnaQuestionContainer $height="100%">
               <Q.QuestionText>
-                다음 ? 과 가장 관련이 있는 단어는?
+                다음 <span style={{ color: "#ff0000" }}>?</span> 과 가장 관련이
+                있는 단어는?
               </Q.QuestionText>
-              <Q.GraphContainer>
+              <Q.GraphContainer ref={graphRef}>
                 <ReactFlow
                   key={currentQuizNum}
                   nodes={nodes || []}
