@@ -4,6 +4,7 @@ import ReactFlow, {
   ReactFlowProvider,
   MarkerType,
   getStraightPath,
+  applyNodeChanges,
 } from "reactflow";
 import * as G from "../../styles/graph/graph";
 import colors from "../../styles/common/colors";
@@ -12,7 +13,7 @@ import {
   forceManyBody,
   forceCenter,
   forceLink,
-  forceCollide
+  forceCollide,
 } from "d3-force";
 import { useEditMode } from "../../contexts/editModeContext";
 import GraphNode from "./graphNode";
@@ -41,8 +42,12 @@ const GraphFlow = ({
   const { id: graphId } = useParams();
   const [backgroundColor, setBackgroundColor] = useState("colors.white");
   const [isZoomedIn, setIsZoomedIn] = useState(false);
+  const [nodes, setNodes] = useState([]);
+  const [edges, setEdges] = useState([]);
+  const [hasSimulated, setHasSimulated] = useState(false);
 
-  const { get, data, loading, error } = useGet();
+  const { get, data } = useGet();
+  const simulationRef = useRef(null);
 
   useEffect(() => {
     if (data) {
@@ -60,11 +65,25 @@ const GraphFlow = ({
     [isEditMode]
   );
 
-  const [processedNodes, setProcessedNodes] = useState([]);
-  const [processedEdges, setProcessedEdges] = useState([]);
+  const onNodesChange = useCallback(
+    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
+    []
+  );
+
+  const onNodeDragStart = useCallback((_, node) => {
+    if (simulationRef.current) {
+      simulationRef.current.alphaTarget(0.3).restart();
+    }
+  }, []);
+
+  const onNodeDragStop = useCallback((_, node) => {
+    if (simulationRef.current) {
+      simulationRef.current.alphaTarget(0);
+    }
+  }, []);
 
   useEffect(() => {
-    if (!nodeData || !edgeData) return;
+    if (!nodeData || !edgeData || hasSimulated) return;
 
     const width = 1000;
     const height = 800;
@@ -78,38 +97,34 @@ const GraphFlow = ({
     }));
 
     const simulation = forceSimulation(simNodes)
-  .force("charge", forceManyBody().strength(-100))
-  .force("center", forceCenter(centerX, centerY))
-  .force(
-    "link",
-    forceLink(simLinks)
-      .id((d) => d.id)
-      .distance((link) => {
-        const source = nodeData.find((n) => n.id === link.source);
-        const target = nodeData.find((n) => n.id === link.target);
-        const sourceLevel = source?.level ?? 1;
-        const targetLevel = target?.level ?? 1;
-        const levelGap = Math.abs(sourceLevel - targetLevel);
-        return 700 + levelGap * 200;
-      })
-  )
-  .force(
-    "collide",
-    forceCollide().radius((d) => {
-      const style = levelStyles[d.level] || levelStyles[1];
-      const nodeSize = parseFloat(style.size) || 50;
-      return (nodeSize / 2) + 100;
-    })
-  )
-  .stop();
+      .force("charge", forceManyBody().strength(-100))
+      .force("center", forceCenter(centerX, centerY))
+      .force(
+        "link",
+        forceLink(simLinks)
+          .id((d) => d.id)
+          .distance(() => 500)
+      )
+      .force(
+        "collide",
+        forceCollide().radius((d) => {
+          const style = levelStyles[d.level] || levelStyles[1];
+          const nodeSize = parseFloat(style.size) || 50;
+          return (nodeSize / 2) + 100;
+        })
+      );
 
-  const rootNode = simNodes.find((n) => n.level == 0);
-  if (rootNode) {
-    rootNode.fx = centerX;
-    rootNode.fy = centerY;
-  }
+    simulation.stop();
 
-  for (let i = 0; i < 300; ++i) simulation.tick();
+    const rootNode = simNodes.find((n) => n.level == 0);
+    if (rootNode) {
+      rootNode.fx = centerX;
+      rootNode.fy = centerY;
+    }
+
+    for (let i = 0; i < 300; ++i) simulation.tick();
+
+    simulationRef.current = simulation;
 
     const positionedNodes = simNodes.map((node) => {
       const style = levelStyles[node.level] || levelStyles[1];
@@ -211,9 +226,10 @@ const GraphFlow = ({
       };
     });
 
-    setProcessedNodes(positionedNodes);
-    setProcessedEdges(edgeWithLabels);
-  }, [nodeData, edgeData, isEditMode, handleNodeRightClick]);
+    setNodes(positionedNodes);
+    setEdges(edgeWithLabels);
+    setHasSimulated(true);
+  }, [nodeData, edgeData, isEditMode, handleNodeRightClick, hasSimulated]);
 
   const onInit = (instance) => {
     reactFlowInstance.current = instance;
@@ -221,8 +237,6 @@ const GraphFlow = ({
 
   const handleNodeDoubleClick = useCallback(
     (event, node) => {
-      // setSelectedNode(node);
-
       setTimeout(() => {
         get(`/graph/${graphId}/${node.id}`);
       }, 0);
@@ -252,39 +266,33 @@ const GraphFlow = ({
 
   return (
     <G.GraphLayout>
-      <G.GraphFlowContainer
-        ref={reactFlowWrapper}
-        isChatbotOpen={isClickChatbotBtn}
-      >
+      <G.GraphFlowContainer ref={reactFlowWrapper} isChatbotOpen={isClickChatbotBtn}>
         <ReactFlowProvider>
           <ReactFlow
-            nodes={processedNodes}
-            edges={processedEdges}
+            nodes={nodes}
+            edges={edges}
             nodeTypes={nodeTypes}
             fitView
             panOnDrag
             zoomOnScroll
             fitViewOptions={{ padding: 0.2 }}
             onInit={onInit}
+            onNodesChange={onNodesChange}
             onNodeDoubleClick={handleNodeDoubleClick}
+            onNodeDragStart={onNodeDragStart}
+            onNodeDragStop={onNodeDragStop}
             proOptions={{ hideAttribution: true }}
             style={{ backgroundColor }}
           >
             <Controls />
           </ReactFlow>
           {isEditMode && selectedNode && (
-            <GraphMenu
-              node={selectedNode}
-              onClose={() => setSelectedNode(null)}
-            />
+            <GraphMenu node={selectedNode} onClose={() => setSelectedNode(null)} />
           )}
         </ReactFlowProvider>
       </G.GraphFlowContainer>
       {!isEditMode && (
-        <Chatbot
-          setIsClickChatbotBtn={setIsClickChatbotBtn}
-          isVisible={isClickChatbotBtn}
-        />
+        <Chatbot setIsClickChatbotBtn={setIsClickChatbotBtn} isVisible={isClickChatbotBtn} />
       )}
     </G.GraphLayout>
   );

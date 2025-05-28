@@ -7,6 +7,15 @@ const wave = keyframes`
   100% { opacity: 0.5 }
 `;
 
+const bounce = keyframes`
+  0% { transform: scale(1) }
+  30% { transform: scale(1.08) rotate(1deg) }
+  50% { transform: scale(0.97) rotate(-0.5deg) }
+  70% { transform: scale(1.03) rotate(0.5deg) }
+  100% { transform: scale(1) rotate(0deg) }
+`;
+
+
 export const ChatControlGroup = styled.div`
   display: flex;
   justify-content: space-between;
@@ -204,8 +213,11 @@ export const NodeWrapper = styled.div`
   box-sizing: border-box;
   position: relative;
   transition: font-size 0.2s ease;
-`;
 
+  &.dragging {
+    animation: ${bounce} 0.5s ease-in-out;
+  }
+`;
 export const NodeContainer = styled.div`
   width: 100%;
   display: flex;
