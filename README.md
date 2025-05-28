@@ -15,7 +15,7 @@
 5. 지식그래프 내용을 기반으로 3가지 형태의 퀴즈를 통해 자기 점검이 가능합니다.
 
 ## 🛠️ Frontend 주요 기술
-- **개발언어**: JavaScirpt
+- **개발언어**: JavaScript
 - **개발환경**: React
 - **개발도구**: Visual Studio Code 
 - **주요기술**:
