@@ -33,6 +33,7 @@ const GraphFlow = ({
   nodeData,
   edgeData,
 }) => {
+  const lastZoomedNodeIdRef = useRef(null); // 확대 대상 캐시
   const { isEditMode } = useEditMode();
   const reactFlowWrapper = useRef(null);
   const reactFlowInstance = useRef(null);
@@ -43,13 +44,14 @@ const GraphFlow = ({
   const [isZoomedIn, setIsZoomedIn] = useState(false);
 
   const { get, data, loading, error } = useGet();
+  useEffect(() => {
+    if (data) setNodeDetail(data.data);
+  }, [data]);
 
   useEffect(() => {
-    if (data) {
-      setNodeDetail(data.data);
-      console.log(nodeDetail);
-    }
-  }, [data]);
+    if (nodeDetail) console.log("업데이트된 노드 상세:", nodeDetail);
+  }, [nodeDetail]);
+
 
   const handleNodeRightClick = useCallback(
     (event, node) => {
@@ -250,6 +252,26 @@ const GraphFlow = ({
       setBackgroundColor(isZoomedIn ? colors.mainBlue : colors.white);
     }
   }, [isEditMode, isZoomedIn]);
+
+    useEffect(() => {
+    if (!nodeDetail) return;
+
+    setProcessedNodes((prevNodes) =>
+      prevNodes.map((node) => {
+        if (node.id === nodeDetail.id) {
+          return {
+            ...node,
+            data: {
+              ...node.data,
+              image: nodeDetail.image,
+              includeSentence: nodeDetail.includeSentence,
+            },
+          };
+        }
+        return node;
+      })
+    );
+  }, [nodeDetail]);
 
   return (
     <G.GraphLayout>
