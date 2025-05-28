@@ -85,8 +85,8 @@ export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
         <G.ChatContent>
           {messages.map((msg, i) => (
             <G.ChatBox key={i} from={msg.from}>
-               {console.log("msg.mode:", msg.mode)}
-    {console.log("msg.text:", msg.text)}
+               {/*{console.log("msg.mode:", msg.mode)}*/}
+    {/*{console.log("msg.text:", msg.text)}*/}
 
 <ReactMarkdown
   rehypePlugins={[rehypeRaw]}

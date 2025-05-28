@@ -57,6 +57,7 @@ const GraphNode = ({ id, data }) => {
   return () => clearInterval(interval);
 }, [getZoom, style.zoom, isZoomedIn, stop, onZoomStateChange]);
 
+
   return (
     <G.NodeWrapper
       ref={ref}
