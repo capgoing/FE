@@ -7,113 +7,149 @@ export default function Loading() {
       <style>
         {`
         .wrapper {
-          width: 30vw;
-          height: 120px;
+          width: 100%;
+          height: 12vw;
           position: relative;
           z-index: 1;
           margin: 0 auto;
+
         }
 
         .circle {
-          width: 60px;
-          height: 60px;
+          width: 5vw;
+          height: 5vw;
           position: absolute;
           border-radius: 50%;
-            background-image: url(${MOSS}); /* ← 원하는 이미지로 교체 */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-          left: 15%;
+          background-image: url(${MOSS});
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          left: 8%;
           transform-origin: 50%;
           animation: circle7124 .5s alternate infinite ease;
         }
 
-          @keyframes circle7124 {
-            0% {
-              top: 60px;
-              height: 5px;
-              border-radius: 50px 50px 25px 25px;
-              transform: scaleX(1.7);
-            }
-
-            40% {
-              height: 20px;
-              border-radius: 50%;
-              transform: scaleX(1);
-            }
-
-            100% {
-              top: 0%;
-            }
+        @keyframes circle7124 {
+          0% {
+            top: 6vw;
+            height: 0.5vw;
+            border-radius: 50px 50px 25px 25px;
+            transform: scaleX(1.7);
           }
 
-          .circle:nth-child(2) {
-            left: 45%;
-            animation-delay: .2s;
-          }
-
-          .circle:nth-child(3) {
-            left: auto;
-            right: 15%;
-            animation-delay: .3s;
-          }
-
-          .shadow {
-            width: 32px;
-            height: 8px; 
+          40% {
+            height: 2vw;
             border-radius: 50%;
-            background-color: rgba(0,0,0,0.9);
-            position: absolute;
-            top: 90px;
-            transform-origin: 50%;
-            z-index: -1;
-            left: 15%;
-            filter: blur(2px);
-            animation: shadow046 .5s alternate infinite ease;
+            transform: scaleX(1);
           }
 
-          @keyframes shadow046 {
-            0% {
-              transform: scaleX(1.5);
-            }
-
-            40% {
-              transform: scaleX(1);
-              opacity: .7;
-            }
-
-            100% {
-              transform: scaleX(.2);
-              opacity: .4;
-            }
+          100% {
+            top: 0%;
           }
-
-          .shadow:nth-child(4) {
-            left: 45%;
-            animation-delay: .2s
-          }
-
-          .shadow:nth-child(5) {
-            left: auto;
-            right: 15%;
-            animation-delay: .3s;
-          }
-          .loading-text {
-              margin-top: 24px;
-              text-align: center;
-              font-size: 4rem;
-              color: #333;
-              font-weight: bold;
-              font-family: "Ownglyph_meetme-Rg";
-   
-          
         }
-          .loading-container {
-            display: flex;
-            flex-direction: column;
-            
+
+        .circle:nth-child(2) {
+          left: 48%;
+          animation-delay: .2s;
+        }
+
+        .circle:nth-child(3) {
+          left: auto;
+          right: 0%;
+          animation-delay: .3s;
+        }
+
+        .shadow {
+          width: 3.5vw;
+          height: 0.8vw;
+          border-radius: 50%;
+          background-color: rgba(0,0,0,0.9);
+          position: absolute;
+          top: 9vw;
+          transform-origin: 50%;
+          z-index: -1;
+          left: 10%;
+          filter: blur(2px);
+          animation: shadow046 .5s alternate infinite ease;
+        }
+
+        @keyframes shadow046 {
+          0% {
+            transform: scaleX(1.5);
           }
 
+          40% {
+            transform: scaleX(1);
+            opacity: .7;
+          }
+
+          100% {
+            transform: scaleX(.2);
+            opacity: .4;
+          }
+        }
+
+        .shadow:nth-child(4) {
+          left: 49%;
+          animation-delay: .2s
+        }
+
+        .shadow:nth-child(5) {
+          left: auto;
+          right: 2%;
+          animation-delay: .3s;
+        }
+
+        .loading-text {
+          margin-top: 2.4vw;
+          text-align: center;
+          font-size: 2.5vw;
+          color: #333;
+          font-weight: bold;
+          font-family: "Ownglyph_meetme-Rg";
+        }
+
+        .loading-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 40vw;
+        }
+
+        @media screen and (max-width: 768px) {
+          .wrapper {
+            width: 50vw;
+            height: 15vw;
+          }
+
+          .circle {
+            width: 8vw;
+            height: 8vw;
+          }
+
+          .loading-text {
+            font-size: 3.5vw;
+          }
+        }
+
+        @media screen and (max-width: 480px) {
+          .wrapper {
+            width: 70vw;
+            height: 18vw;
+          }
+
+          .circle {
+            width: 10vw;
+            height: 10vw;
+          }
+
+          .loading-text {
+            text-align: center;
+            font-size: 4vw;
+ 
+          }
+       
+        }
         `}
       </style>
       <div className="loading-container">

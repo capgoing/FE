@@ -12,11 +12,11 @@ import {
   forceManyBody,
   forceCenter,
   forceLink,
-  forceCollide
+  forceCollide,
 } from "d3-force";
 import { useEditMode } from "../../contexts/editModeContext";
 import GraphNode from "./graphNode";
-import { levelStyles } from "../../mocks/graphData";
+import { levelStyles } from "../../mocks/graph/graphData";
 import "reactflow/dist/style.css";
 import GraphMenu from "./graphMenu";
 import Chatbot from "./chatbot/Chatbot";
@@ -52,7 +52,6 @@ const GraphFlow = ({
     if (nodeDetail) console.log("업데이트된 노드 상세:", nodeDetail);
   }, [nodeDetail]);
 
-
   const handleNodeRightClick = useCallback(
     (event, node) => {
       if (!isEditMode) return;
@@ -80,38 +79,38 @@ const GraphFlow = ({
     }));
 
     const simulation = forceSimulation(simNodes)
-  .force("charge", forceManyBody().strength(-100))
-  .force("center", forceCenter(centerX, centerY))
-  .force(
-    "link",
-    forceLink(simLinks)
-      .id((d) => d.id)
-      .distance((link) => {
-        const source = nodeData.find((n) => n.id === link.source);
-        const target = nodeData.find((n) => n.id === link.target);
-        const sourceLevel = source?.level ?? 1;
-        const targetLevel = target?.level ?? 1;
-        const levelGap = Math.abs(sourceLevel - targetLevel);
-        return 700 + levelGap * 200;
-      })
-  )
-  .force(
-    "collide",
-    forceCollide().radius((d) => {
-      const style = levelStyles[d.level] || levelStyles[1];
-      const nodeSize = parseFloat(style.size) || 50;
-      return (nodeSize / 2) + 100;
-    })
-  )
-  .stop();
+      .force("charge", forceManyBody().strength(-100))
+      .force("center", forceCenter(centerX, centerY))
+      .force(
+        "link",
+        forceLink(simLinks)
+          .id((d) => d.id)
+          .distance((link) => {
+            const source = nodeData.find((n) => n.id === link.source);
+            const target = nodeData.find((n) => n.id === link.target);
+            const sourceLevel = source?.level ?? 1;
+            const targetLevel = target?.level ?? 1;
+            const levelGap = Math.abs(sourceLevel - targetLevel);
+            return 700 + levelGap * 200;
+          })
+      )
+      .force(
+        "collide",
+        forceCollide().radius((d) => {
+          const style = levelStyles[d.level] || levelStyles[1];
+          const nodeSize = parseFloat(style.size) || 50;
+          return nodeSize / 2 + 100;
+        })
+      )
+      .stop();
 
-  const rootNode = simNodes.find((n) => n.level == 0);
-  if (rootNode) {
-    rootNode.fx = centerX;
-    rootNode.fy = centerY;
-  }
+    const rootNode = simNodes.find((n) => n.level == 0);
+    if (rootNode) {
+      rootNode.fx = centerX;
+      rootNode.fy = centerY;
+    }
 
-  for (let i = 0; i < 300; ++i) simulation.tick();
+    for (let i = 0; i < 300; ++i) simulation.tick();
 
     const positionedNodes = simNodes.map((node) => {
       const style = levelStyles[node.level] || levelStyles[1];
@@ -234,7 +233,7 @@ const GraphFlow = ({
         const zoom = levelStyles[level]?.zoom || 4;
         const centerX = node.position.x + (node.width || 100) / 2;
         const centerY = node.position.y + (node.height || 100) / 2;
-        
+
         reactFlowInstance.current.setCenter(centerX, centerY, {
           zoom,
           duration: 500,
@@ -253,7 +252,7 @@ const GraphFlow = ({
     }
   }, [isEditMode, isZoomedIn]);
 
-    useEffect(() => {
+  useEffect(() => {
     if (!nodeDetail) return;
 
     setProcessedNodes((prevNodes) =>

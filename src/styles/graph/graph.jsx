@@ -85,7 +85,6 @@ export const ChatActionButtons = styled.div`
   }
 `;
 
-
 export const ChatQuickButtons = styled.div`
   display: flex;
   justify-content: center;
@@ -143,6 +142,30 @@ export const CommonButton = styled.button`
   gap: 1vw;
 `;
 
+export const ToggleButton = styled.summary`
+  width: auto;
+  padding: 0.5vw;
+
+  border-radius: 0.8vw;
+  font-size: 2rem;
+  font-weight: bold;
+  font-family: "Ownglyph_meetme-Rg";
+  cursor: pointer;
+  color: ${colors.black};
+`;
+
+export const ChunkBox = styled.div`
+  border: 2px solid ${colors.brown};
+  padding: 1vw;
+  border-radius: 0.8vw;
+`;
+export const ChunkP = styled.p`
+  font-size: 2rem;
+  font-weight: 400;
+
+  font-family: "Ownglyph_meetme-Rg";
+`;
+
 export const CommonButtonImg = styled.img`
   width: 1.5vw;
   height: 2vw;
@@ -158,8 +181,9 @@ export const ChatModeButton = styled.button`
   font-weight: bold;
   font-family: "Ownglyph_meetme-Rg";
   cursor: pointer;
-  background: ${({ selected }) => (selected ? colors.mainYellow : colors.gray5)};
-    color: ${({ selected }) => (selected ? "#000" : "#666")};
+  background: ${({ selected }) =>
+    selected ? colors.mainYellow : colors.gray5};
+  color: ${({ selected }) => (selected ? "#000" : "#666")};
 `;
 
 export const CommonP = styled.p`
@@ -491,7 +515,7 @@ export const MarkdownH3 = styled.h3`
 export const MarkdownDetails = styled.details`
   margin: 1rem 0;
   padding: 1.2rem;
-  background-color:${colors.subYellow};
+  background-color: ${colors.subYellow};
   border: 1px solid ${colors.textYellow};
   color: ${colors.textYellow};
   border-radius: 8px;
@@ -554,7 +578,9 @@ export const ChatContent = styled.div`
   overflow-y: auto;
 
   // 마크다운 기본 스타일
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     font-weight: bold;
     margin: 1rem 0 0.5rem;
   }
@@ -575,10 +601,9 @@ export const ChatContent = styled.div`
     background-color: #f5f5f5;
     padding: 0.2rem 0.4rem;
     border-radius: 4px;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 `;
-
 
 export const ChatBox = styled.div`
   max-width: 70%;
