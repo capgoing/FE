@@ -232,6 +232,7 @@ const GraphFlow = ({
         const zoom = levelStyles[level]?.zoom || 4;
         const centerX = node.position.x + (node.width || 100) / 2;
         const centerY = node.position.y + (node.height || 100) / 2;
+        
         reactFlowInstance.current.setCenter(centerX, centerY, {
           zoom,
           duration: 500,

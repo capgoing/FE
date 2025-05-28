@@ -132,9 +132,8 @@ export const GraphButtonContainer = styled.div`
 `;
 
 export const CommonButton = styled.button`
-  width: 7.5vw;
-  height: 4vw;
   border-radius: 2.425vw;
+  padding: 0.5vw 1vw;
   background: ${colors.subYellow};
   display: flex;
   justify-content: center;
