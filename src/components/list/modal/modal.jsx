@@ -2,11 +2,13 @@ import * as s from "../../../styles/list/list";
 import Delete from "../../../assets/images/list/delete.png";
 import { useState } from "react";
 import usePost from "../../../hooks/usePost";
+import { useNavigate } from "react-router-dom";
 
 const Modal = ({ onClose }) => {
     const [projectName, setProjectName] = useState("");
     const [selectedFile, setSelectedFile] = useState(null);
     const { post, loading } = usePost("/upload");
+    const navigate = useNavigate();
 
     const handleFileChange = (e) => {
         setSelectedFile(e.target.files[0]);
@@ -30,10 +32,11 @@ const Modal = ({ onClose }) => {
 
         try {
             const response = await post(formData);
+            const newGraphId = response.data.graphId;
             alert("업로드 되었습니다.");
-            console.log(response);
+            // console.log(newGraphId);
             onClose();
-            window.location.reload();
+            navigate(`/graph/${newGraphId}`);
         } catch (err) {
             alert("업로드를 실패하였습니다.");
         }
