@@ -24,12 +24,13 @@ export const ChatControlGroup = styled.div`
 `;
 
 export const ChatControlItem = styled.div`
-  width: 80%;
-  flex: 1;
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: ${({ align }) => align || "center"}; // 왼쪽/오른쪽 조절 가능
+  justify-content: center;
+  gap: 1vw;
 `;
+
 export const ChatModeSelector = styled.div`
   display: flex;
   align-items: center;
@@ -147,6 +148,18 @@ export const CommonButtonImg = styled.img`
   height: 2vw;
   display: flex;
   justify-content: center;
+`;
+
+export const ChatModeButton = styled.button`
+  width: 50%;
+  padding: 0.5vw 1vw;
+  border-radius: 0.8vw;
+  font-size: 2rem;
+  font-weight: bold;
+  font-family: "Ownglyph_meetme-Rg";
+  cursor: pointer;
+  background: ${({ selected }) => (selected ? colors.mainYellow : colors.gray5)};
+    color: ${({ selected }) => (selected ? "#000" : "#666")};
 `;
 
 export const CommonP = styled.p`
@@ -418,9 +431,8 @@ export const AddButton = styled.button`
 
 // Chatbot.jsx
 export const ChatbotLayout = styled.div`
-  width: ${({ isVisible }) => (isVisible ? "30%" : "0")};
+  width: ${({ isVisible }) => (isVisible ? "50%" : "0")};
   height: 100%;
-  /* width: ${({ isVisible }) => (isVisible ? "20vw" : "0")}; */
   opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
   padding: ${({ isVisible }) => (isVisible ? "1vw" : "0")};
   transition: width 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
@@ -524,8 +536,10 @@ export const ChatbotHeader = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  //margin-bottom: 0.5vw;
+  align-items: center;
+  gap: 1vw;
 `;
+
 export const ChattingContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -632,7 +646,7 @@ export const ChatLoadingP = styled.div`
 
 export const ChatInputContainer = styled.div`
   width: 100%;
-  height: auto;
+  height: 30%;
   position: relative;
   display: flex;
   align-items: flex-start;
@@ -648,7 +662,7 @@ export const ChatInput = styled.textarea`
   resize: none;
   outline: none;
   border: none;
-  font-size: 1vw;
+  font-size: 2rem;
   font-weight: 400;
   font-family: "Ownglyph_meetme-Rg";
 
@@ -667,7 +681,7 @@ export const ChatSubmitButton = styled.button`
   background-color: ${colors.orange2};
   color: ${colors.white};
   font-weight: 400;
-  font-size: 1vw;
+  font-size: 2rem;
   font-family: "Ownglyph_meetme-Rg";
   border: none;
   cursor: pointer;
