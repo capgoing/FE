@@ -27,7 +27,97 @@
 ## 📂 프로젝트 구조
 
 ```
-            
+📦src
+ ┣ 📂apis
+ ┃ ┗ 📜axios.js
+ ┣ 📂components
+ ┃ ┣ 📂graph
+ ┃ ┃ ┣ 📂chatbot
+ ┃ ┃ ┃ ┗ 📜Chatbot.jsx
+ ┃ ┃ ┣ 📜graphButton.jsx
+ ┃ ┃ ┣ 📜graphFlow.jsx
+ ┃ ┃ ┣ 📜graphMenu.jsx
+ ┃ ┃ ┣ 📜graphNode.jsx
+ ┃ ┃ ┣ 📜graphNodeAdd.jsx
+ ┃ ┃ ┗ 📜graphNodeEdit.jsx
+ ┃ ┣ 📂header
+ ┃ ┃ ┣ 📜header.jsx
+ ┃ ┃ ┗ 📜toggle.jsx
+ ┃ ┣ 📂home
+ ┃ ┃ ┣ 📜FeatureCard.jsx
+ ┃ ┃ ┣ 📜FeatureItem.jsx
+ ┃ ┃ ┗ 📜RoadSection.jsx
+ ┃ ┣ 📂list
+ ┃ ┃ ┣ 📂modal
+ ┃ ┃ ┃ ┣ 📜Loading.jsx
+ ┃ ┃ ┃ ┣ 📜deleteModal.jsx
+ ┃ ┃ ┃ ┗ 📜modal.jsx
+ ┃ ┃ ┣ 📂notList
+ ┃ ┃ ┃ ┗ 📜notList.jsx
+ ┃ ┃ ┗ 📂yesList
+ ┃ ┃ ┃ ┣ 📜item-work.jsx
+ ┃ ┃ ┃ ┗ 📜list-work.jsx
+ ┃ ┗ 📂quiz
+ ┃ ┃ ┣ 📂modal
+ ┃ ┃ ┃ ┗ 📜modal.jsx
+ ┃ ┃ ┣ 📂qna
+ ┃ ┃ ┃ ┣ 📜AnswerOptionList.jsx
+ ┃ ┃ ┃ ┣ 📜Connect.jsx
+ ┃ ┃ ┃ ┣ 📜ListenUp.jsx
+ ┃ ┃ ┃ ┣ 📜Loading.jsx
+ ┃ ┃ ┃ ┗ 📜Picture.jsx
+ ┃ ┃ ┗ 📂quiz
+ ┃ ┃ ┃ ┣ 📜item-quiz.jsx
+ ┃ ┃ ┃ ┗ 📜list-quiz.jsx
+ ┣ 📂contexts
+ ┃ ┣ 📜TTSContext.jsx
+ ┃ ┗ 📜editModeContext.jsx
+ ┣ 📂hooks
+ ┃ ┣ 📜useDelete.jsx
+ ┃ ┣ 📜useGet.jsx
+ ┃ ┣ 📜usePatch.jsx
+ ┃ ┗ 📜usePost.jsx
+ ┣ 📂layouts
+ ┃ ┗ 📜root-layout.jsx
+ ┣ 📂mocks
+ ┃ ┣ 📂graph
+ ┃ ┃ ┗ 📜graphData.js
+ ┃ ┗ 📂quiz
+ ┃ ┃ ┣ 📜connectGraphData.js
+ ┃ ┃ ┣ 📜loadImages.js
+ ┃ ┃ ┗ 📜quizData.js
+ ┣ 📂pages
+ ┃ ┣ 📂graph
+ ┃ ┃ ┗ 📜graph.jsx
+ ┃ ┣ 📂home
+ ┃ ┃ ┗ 📜home.jsx
+ ┃ ┣ 📂list
+ ┃ ┃ ┗ 📜list.jsx
+ ┃ ┗ 📂quiz
+ ┃ ┃ ┣ 📜qna.jsx
+ ┃ ┃ ┣ 📜quiz.jsx
+ ┃ ┃ ┗ 📜result.jsx
+ ┣ 📂routes
+ ┃ ┗ 📜router.jsx
+ ┣ 📂styles
+ ┃ ┣ 📂common
+ ┃ ┃ ┣ 📜colors.js
+ ┃ ┃ ┣ 📜globalStyles.js
+ ┃ ┃ ┗ 📜theme.js
+ ┃ ┣ 📂graph
+ ┃ ┃ ┗ 📜graph.jsx
+ ┃ ┣ 📂header
+ ┃ ┃ ┗ 📜header.jsx
+ ┃ ┣ 📂home
+ ┃ ┃ ┗ 📜home.jsx
+ ┃ ┣ 📂list
+ ┃ ┃ ┗ 📜list.jsx
+ ┃ ┗ 📂quiz
+ ┃ ┃ ┗ 📜quiz.jsx
+ ┣ 📂utils
+ ┃ ┗ 📜tts.jsx
+ ┣ 📜App.jsx
+ ┗ 📜main.jsx            
 ```
 
 ## 👩🏻‍💻 Developers
