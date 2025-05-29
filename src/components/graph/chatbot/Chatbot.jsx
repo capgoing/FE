@@ -10,7 +10,7 @@ import rehypeRaw from "rehype-raw";
 export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
   const { id } = useParams();
   const [input, setInput] = useState("");
-  const [mode, setMode] = useState("default");
+  const [mode, setMode] = useState("rag");
   const [isComposing, setIsComposing] = useState(false);
   const loadingText = "답변 생성 중이에요..";
   const bottomRef = useRef(null);
