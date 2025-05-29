@@ -244,7 +244,14 @@ export default function Loading() {
               </li>
             </ul>
           </div>
-          <span style={{ fontSize: "2rem", color: "#000", fontWeight: "bold" }}>
+          <span
+            style={{
+              fontSize: "3rem",
+              color: "#7D4D00",
+              fontWeight: "bold",
+              fontFamily: "Ownglyph_meetme-Rg",
+            }}
+          >
             PDF 분석중입니다...
           </span>
         </div>
