@@ -14,6 +14,7 @@ export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
   const [isComposing, setIsComposing] = useState(false);
   const loadingText = "답변 생성 중이에요..";
   const bottomRef = useRef(null);
+  const [visibleChunks, setVisibleChunks] = useState({});
 
   const [messages, setMessages] = useState(() => {
     const savedMessages = sessionStorage.getItem(`chatbot_graph_${id}`);
@@ -22,11 +23,12 @@ export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
       : [{ from: "bot", text: "안녕하세요! 궁금한 게 있으신가요?" }];
   });
 
-  const url = mode === "default" ? `/chatbot/${id}` : `/chatbot/${id}?mode=${mode}`;
+  const url =
+    mode === "default" ? `/chatbot/${id}` : `/chatbot/${id}?mode=${mode}`;
   const { post, loading, error } = usePost(url);
   const { post: postOriginal } = usePost(`/chatbot/${id}/original`);
   const { post: postSummary } = usePost(`/chatbot/${id}/summary`);
-  
+
   useEffect(() => {
     sessionStorage.setItem(`chatbot_graph_${id}`, JSON.stringify(messages));
   }, [messages, id]);
@@ -50,7 +52,19 @@ export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
       });
 
       const reply = result.data?.chatContent || "응답 오류";
-      setMessages((prev) => [...prev, { from: "bot", text: reply }]);
+      let retrievedTriples = [];
+      if (result.data?.retrievedTriples) {
+        retrievedTriples = result.data?.retrievedTriples;
+      }
+      console.log("retrievedTriples:", retrievedTriples);
+      setMessages((prev) => [
+        ...prev,
+        {
+          from: "bot",
+          text: reply,
+          retrievedTriples: retrievedTriples || [],
+        },
+      ]);
     } catch (err) {
       setMessages((prev) => [...prev, { from: "bot", text: "에러 발생!" }]);
     }
@@ -65,42 +79,85 @@ export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
     }
   }, [messages]);
 
+  const toggleChunkVisibility = (index) => {
+    setVisibleChunks((prevState) => ({
+      ...prevState,
+      [index]: !prevState[index],
+    }));
+  };
+
   return (
     <G.ChatbotLayout isVisible={isVisible}>
       <G.ChatbotContainer>
         <G.ChatbotHeader>
-            <G.CommonButtonImg style={{ width: "2vw", height: "2vw" }} src={CHATBOT} alt="chatBot" />
-            <G.ChatControlItem>
-                <G.ChatModeButton onClick={() => setMode("default")} selected={mode === "default"}>기본 응답</G.ChatModeButton>
-                <G.ChatModeButton onClick={() => setMode("rag")} selected={mode === "rag"}>GraphRAG 응답</G.ChatModeButton>
-            </G.ChatControlItem>
-          <G.CommonButtonImg style={{ width: "2vw", height: "2vw", cursor: "pointer" }} src={CLOSE} alt="close" onClick={handleCloseClick} />
+          <G.CommonButtonImg
+            style={{ width: "2vw", height: "2vw" }}
+            src={CHATBOT}
+            alt="chatBot"
+          />
+          <G.ChatControlItem>
+            <G.ChatModeButton
+              onClick={() => setMode("default")}
+              selected={mode === "default"}
+            >
+              기본 응답
+            </G.ChatModeButton>
+            <G.ChatModeButton
+              onClick={() => setMode("rag")}
+              selected={mode === "rag"}
+            >
+              GraphRAG 응답
+            </G.ChatModeButton>
+          </G.ChatControlItem>
+          <G.CommonButtonImg
+            style={{ width: "2vw", height: "2vw", cursor: "pointer" }}
+            src={CLOSE}
+            alt="close"
+            onClick={handleCloseClick}
+          />
         </G.ChatbotHeader>
 
         <G.ChatContent>
           {messages.map((msg, i) => (
             <G.ChatBox key={i} from={msg.from}>
-               {/*{console.log("msg.mode:", msg.mode)}*/}
-    {/*{console.log("msg.text:", msg.text)}*/}
+              {/*{console.log("msg.mode:", msg.mode)}*/}
+              {/*{console.log("msg.text:", msg.text)}*/}
 
-<ReactMarkdown
-  rehypePlugins={[rehypeRaw]}
-  components={{
-    p: (props) => <G.MarkdownP {...props} />,
-    ul: (props) => <G.MarkdownUL {...props} />,
-    li: (props) => <G.MarkdownLI {...props} />,
-    h1: (props) => <G.MarkdownH1 {...props} />,
-    h2: (props) => <G.MarkdownH2 {...props} />,
-    h3: (props) => <G.MarkdownH3 {...props} />,
-    details: (props) => <G.MarkdownDetails {...props} />,
-    summary: (props) => <G.MarkdownSummary {...props} />,
-  }}
->
-  {msg.text}
-</ReactMarkdown>
-
-</G.ChatBox>
-
+              <ReactMarkdown
+                rehypePlugins={[rehypeRaw]}
+                components={{
+                  p: (props) => <G.MarkdownP {...props} />,
+                  ul: (props) => <G.MarkdownUL {...props} />,
+                  li: (props) => <G.MarkdownLI {...props} />,
+                  h1: (props) => <G.MarkdownH1 {...props} />,
+                  h2: (props) => <G.MarkdownH2 {...props} />,
+                  h3: (props) => <G.MarkdownH3 {...props} />,
+                  details: (props) => <G.MarkdownDetails {...props} />,
+                  summary: (props) => <G.MarkdownSummary {...props} />,
+                }}
+              >
+                {msg.text}
+              </ReactMarkdown>
+              {/* {msg.retrievedChunks?.map((chunk, index) => (
+                <div key={index}>
+                  {typeof chunk === "object" ? JSON.stringify(chunk) : chunk}
+                </div>
+              ))} */}
+              {msg.retrievedTriples?.length > 0 && (
+                <details>
+                  <G.ToggleButton>사용된 데이터 보기</G.ToggleButton>
+                  <G.ChunkBox>
+                    {msg.retrievedTriples.map((chunk, index) => (
+                      <G.ChunkP key={index}>
+                        {typeof chunk === "object"
+                          ? JSON.stringify(chunk)
+                          : chunk}
+                      </G.ChunkP>
+                    ))}
+                  </G.ChunkBox>
+                </details>
+              )}
+            </G.ChatBox>
           ))}
           {loading && (
             <G.ChatBox from="bot">
@@ -114,7 +171,7 @@ export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
           <div ref={bottomRef} />
         </G.ChatContent>
 
-       {/* <G.ChatControlGroup>
+        {/* <G.ChatControlGroup>
         <G.ChatControlItem>
           <G.ChatActionButtons>
             <button onClick={async () => {
@@ -153,7 +210,6 @@ export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
             전송
           </G.ChatSubmitButton>
         </G.ChatInputContainer>
-        
       </G.ChatbotContainer>
     </G.ChatbotLayout>
   );
