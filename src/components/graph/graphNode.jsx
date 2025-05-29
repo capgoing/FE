@@ -118,7 +118,7 @@ const GraphNode = ({ id, data }) => {
                 ?.split(".")
                 .filter((s) => s.trim() !== "")
                 .map((s, i) => (
-                  <span key={i}>
+                <span style={{ fontFamily: "Ownglyph_meetme-Rg" }} key={i}>
                     {s.trim()}.
                     <br />
                   </span>
