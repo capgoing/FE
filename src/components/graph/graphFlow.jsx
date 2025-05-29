@@ -229,24 +229,34 @@ const GraphFlow = ({
 
   const handleNodeDoubleClick = useCallback(
     (event, node) => {
-      // setSelectedNode(node);
+      if (!reactFlowInstance.current) return;
+
+      const rfNode = reactFlowInstance.current.getNode(node.id);
+      if (!rfNode) return;
+
+      const level = rfNode.data.level;
+      const zoom = levelStyles[level]?.zoom || 4;
+
+      const vwStr = levelStyles[level]?.size || "8vw";
+      const vwValue = parseFloat(vwStr);
+      const pxSize = (window.innerWidth * vwValue) / 100;
+
+      const centerX = rfNode.position.x + pxSize / 2;
+      const centerY = rfNode.position.y + pxSize / 2;
+
+      const HEADER_HEIGHT = 60;
+      const correctedCenterY = centerY - HEADER_HEIGHT / zoom;
+
+      reactFlowInstance.current.setCenter(centerX, correctedCenterY, {
+        zoom,
+        duration: 500,
+      });
+
+      setBackgroundColor(isEditMode ? colors.white : colors.mainBlue);
 
       setTimeout(() => {
         get(`/graph/${graphId}/${node.id}`);
       }, 0);
-
-      if (reactFlowInstance.current) {
-        const level = node.data?.level;
-        const zoom = levelStyles[level]?.zoom || 4;
-        const centerX = node.position.x + (node.width || 100) / 2;
-        const centerY = node.position.y + (node.height || 100) / 2;
-
-        reactFlowInstance.current.setCenter(centerX, centerY, {
-          zoom,
-          duration: 500,
-        });
-        setBackgroundColor(isEditMode ? colors.white : colors.mainBlue);
-      }
     },
     [get, graphId, isEditMode]
   );
