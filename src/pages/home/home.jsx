@@ -35,13 +35,13 @@ const Home = () => {
   const [stateUpladButton, setStateUploadButton] = useState(false);
 
   // 자동으로 페이지 내려가도록 하는 메서드
-  useEffect(() => {
-    const interval = setInterval(() => {
-      goToNextPage();
-    }, 7000); // 7초마다
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     goToNextPage();
+  //   }, 7000); // 7초마다
 
-    return () => clearInterval(interval); // 컴포넌트 언마운트 시 정리
-  }, [currentPage]); // currentPage가 바뀔 때마다 타이머 초기화 (선택 사항)
+  //   return () => clearInterval(interval); // 컴포넌트 언마운트 시 정리
+  // }, [currentPage]); // currentPage가 바뀔 때마다 타이머 초기화 (선택 사항)
 
   // 다음 페이지로 이동하는 함수
   const goToNextPage = () => {
@@ -103,7 +103,7 @@ const Home = () => {
             <S.ArrowDownImg src={ARROWDOWN} alt="아래로 이동" />
           </S.ArrowDownButton>
         </S.HeaderBottomSection>
-        <RoadSection top="20vh" right="0" left="auto" />
+        {/* <RoadSection top="20vh" left="6.6vw" /> */}
       </S.HomeFirstPage>
       {/* 두번째 페이지 */}
       <S.HomeSecondPage ref={secondPageRef}>

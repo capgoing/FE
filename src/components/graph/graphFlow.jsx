@@ -4,6 +4,7 @@ import ReactFlow, {
   ReactFlowProvider,
   MarkerType,
   getStraightPath,
+  applyNodeChanges,
 } from "reactflow";
 import * as G from "../../styles/graph/graph";
 import colors from "../../styles/common/colors";
@@ -33,7 +34,6 @@ const GraphFlow = ({
   nodeData,
   edgeData,
 }) => {
-  const lastZoomedNodeIdRef = useRef(null); // 확대 대상 캐시
   const { isEditMode } = useEditMode();
   const reactFlowWrapper = useRef(null);
   const reactFlowInstance = useRef(null);
@@ -63,6 +63,11 @@ const GraphFlow = ({
 
   const [processedNodes, setProcessedNodes] = useState([]);
   const [processedEdges, setProcessedEdges] = useState([]);
+
+  const onNodesChange = useCallback(
+    (changes) => setProcessedNodes((nds) => applyNodeChanges(changes, nds)),
+    []
+  );
 
   useEffect(() => {
     if (!nodeData || !edgeData) return;
@@ -191,7 +196,7 @@ const GraphFlow = ({
           color: edgeColor,
         },
         style: {
-          strokeWidth: 2,
+          strokeWidth: 3,
           stroke: edgeColor,
           strokeDasharray: "0",
           opacity: 1,
@@ -208,6 +213,8 @@ const GraphFlow = ({
           fontWeight: 600,
           fontSize: 20,
           fill: colors.black,
+          fontFamily: "Ownglyph_meetme-Rg",
+          textAlign: "center",
         },
       };
     });
@@ -222,12 +229,34 @@ const GraphFlow = ({
 
   const handleNodeDoubleClick = useCallback(
     (event, node) => {
-      // setSelectedNode(node);
+      if (!reactFlowInstance.current) return;
+
+      const rfNode = reactFlowInstance.current.getNode(node.id);
+      if (!rfNode) return;
+
+      const level = rfNode.data.level;
+      const zoom = levelStyles[level]?.zoom || 4;
+
+      const vwStr = levelStyles[level]?.size || "8vw";
+      const vwValue = parseFloat(vwStr);
+      const pxSize = (window.innerWidth * vwValue) / 100;
+
+      const centerX = rfNode.position.x + pxSize / 2;
+      const centerY = rfNode.position.y + pxSize / 2;
+
+      const HEADER_HEIGHT = 60;
+      const correctedCenterY = centerY - HEADER_HEIGHT / zoom;
+
+      reactFlowInstance.current.setCenter(centerX, correctedCenterY, {
+        zoom,
+        duration: 500,
+      });
+
+      setBackgroundColor(isEditMode ? colors.white : colors.mainBlue);
 
       setTimeout(() => {
         get(`/graph/${graphId}/${node.id}`);
       }, 0);
-
       if (reactFlowInstance.current) {
         const level = node.data?.level;
         const zoom = levelStyles[level]?.zoom || 4;
@@ -291,6 +320,9 @@ const GraphFlow = ({
             onNodeDoubleClick={handleNodeDoubleClick}
             proOptions={{ hideAttribution: true }}
             style={{ backgroundColor }}
+            minZoom={0.3}
+            nodesDraggable={true}
+            onNodesChange={onNodesChange}
           >
             <Controls />
           </ReactFlow>

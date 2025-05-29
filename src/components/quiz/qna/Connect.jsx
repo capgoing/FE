@@ -171,7 +171,7 @@ export default function Connect() {
         forceCollide().radius((d) => {
           const style = levelStyles[d.level] || levelStyles[1];
           const nodeSize = parseFloat(style.size) || 50;
-          return nodeSize / 2 + 170;
+          return nodeSize / 2 + 100;
           // const levelStyle = levelStyles[d.level] || levelStyles[1];
           // const baseSize = parseFloat(levelStyle.size) || 80;
           // const fontSize = levelStyle.fontSize || 20;
@@ -182,12 +182,12 @@ export default function Connect() {
       )
       .stop();
 
-    for (let i = 0; i < 2000; ++i) simulation.tick(); // 시뮬레이션 횟수 증가
-    const root = simNodes.find((n) => n.level === 0);
+    const root = simNodes.find((n) => n.level === 0 && n.label !== "?");
     if (root) {
       root.fx = centerX;
       root.fy = centerY;
     }
+    for (let i = 0; i < 300; ++i) simulation.tick(); // 시뮬레이션 횟수 증가
 
     // 노드 스타일링
     const styledNodes = simNodes.map((node) => {
@@ -207,6 +207,7 @@ export default function Connect() {
           group: node.group,
         },
         position: { x: node.x, y: node.y },
+
         style: {
           width: levelStyle.size,
           height: levelStyle.size,
@@ -259,7 +260,7 @@ export default function Connect() {
     }));
 
     setNodes(styledNodes);
-    setEdges(styledEdges);
+    //setEdges(styledEdges);
 
     // fitView 호출하여 그래프를 처음에 맞게 보여주기
     const questionNode = styledNodes.find((node) => node.label === "?");
@@ -270,6 +271,77 @@ export default function Connect() {
         zoom: 2,
       });
     }
+    const edgeColor = "#f89d36"; // 엣지 선 색상
+    const labelColor = "#fff8d6"; // 엣지 라벨 배경색
+    const strokeColor = "#f89d36"; // 엣지 라벨 테두리 색
+
+    const edgeWithLabels = knowledgeGraph.edges.map((edge) => {
+      const sourceNode = simNodes.find((n) => n.id === edge.source);
+      const targetNode = simNodes.find((n) => n.id === edge.target);
+
+      const dx = targetNode.x - sourceNode.x;
+      const dy = targetNode.y - sourceNode.y;
+      const angle = Math.atan2(dy, dx);
+      const offset = 40;
+
+      const sourceStyle = levelStyles[sourceNode.level] || levelStyles[1];
+      const targetStyle = levelStyles[targetNode.level] || levelStyles[1];
+
+      const sourceRadius = parseFloat(sourceStyle.size) / 2 || 40;
+      const targetRadius = parseFloat(targetStyle.size) / 2 || 40;
+
+      const adjustedSource = {
+        x: sourceNode.x + sourceRadius * Math.cos(angle),
+        y: sourceNode.y + sourceRadius * Math.sin(angle),
+      };
+
+      const adjustedTarget = {
+        x: targetNode.x - targetRadius * Math.cos(angle),
+        y: targetNode.y - targetRadius * Math.sin(angle),
+      };
+
+      const [path] = getStraightPath({
+        sourceX: adjustedSource.x,
+        sourceY: adjustedSource.y,
+        targetX: adjustedTarget.x,
+        targetY: adjustedTarget.y,
+      });
+
+      return {
+        id: `e${edge.source}-${edge.target}`,
+        source: edge.source,
+        target: edge.target,
+        type: "straight",
+        label: edge.label,
+        data: { path },
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+          color: edgeColor,
+        },
+        style: {
+          strokeWidth: 3,
+          stroke: edgeColor,
+          strokeDasharray: "0",
+          opacity: 1,
+        },
+        labelBgStyle: {
+          fill: labelColor,
+          fillOpacity: 1,
+          stroke: strokeColor,
+          strokeWidth: 0.5,
+          rx: 4,
+          ry: 4,
+        },
+        labelStyle: {
+          fontWeight: 600,
+          fontSize: 20,
+          fill: colors.black,
+          fontFamily: "Ownglyph_meetme-Rg",
+          textAlign: "center",
+        },
+      };
+    });
+    setEdges(edgeWithLabels);
   }, [knowledgeGraph, currentQuizNum]);
 
   return (
