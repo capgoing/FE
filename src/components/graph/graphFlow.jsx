@@ -33,7 +33,6 @@ const GraphFlow = ({
   nodeData,
   edgeData,
 }) => {
-  const lastZoomedNodeIdRef = useRef(null); // 확대 대상 캐시
   const { isEditMode } = useEditMode();
   const reactFlowWrapper = useRef(null);
   const reactFlowInstance = useRef(null);
@@ -192,7 +191,7 @@ const GraphFlow = ({
           color: edgeColor,
         },
         style: {
-          strokeWidth: 2,
+          strokeWidth: 3,
           stroke: edgeColor,
           strokeDasharray: "0",
           opacity: 1,
@@ -209,6 +208,8 @@ const GraphFlow = ({
           fontWeight: 600,
           fontSize: 20,
           fill: colors.black,
+          fontFamily: "Ownglyph_meetme-Rg",
+          textAlign: "center",
         },
       };
     });
@@ -292,6 +293,7 @@ const GraphFlow = ({
             onNodeDoubleClick={handleNodeDoubleClick}
             proOptions={{ hideAttribution: true }}
             style={{ backgroundColor }}
+            minZoom={0.3} 
           >
             <Controls />
           </ReactFlow>
