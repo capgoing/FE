@@ -19,6 +19,8 @@
 - **개발환경**: React
 - **개발도구**: Visual Studio Code 
 - **주요기술**:
+  - **ReactFlow+D3-force** : 지식 그래프 시각화
+
   
 
 ## ⚙️ 시스템 아키텍쳐
@@ -131,8 +133,5 @@
 | [@sheepyis](https://github.com/sheepyis) | [@benniejung](https://github.com/benniejung) | 
 
 ## 📹 시연
-
-🔗 
-
-🔗 
+📽️ [시연영상 보러가기](https://youtu.be/ZFLXmLuSHH4?si=eCBQumG1x9cOOdDe)
 
