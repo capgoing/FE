@@ -69,24 +69,19 @@ export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
     <G.ChatbotLayout isVisible={isVisible}>
       <G.ChatbotContainer>
         <G.ChatbotHeader>
-          <G.CommonButtonImg
-            style={{ width: "2vw", height: "2vw" }}
-            src={CHATBOT}
-            alt="chatBot"
-          />
-          <G.CommonButtonImg
-            style={{ width: "2vw", height: "2vw", cursor: "pointer" }}
-            src={CLOSE}
-            alt="close"
-            onClick={handleCloseClick}
-          />
+            <G.CommonButtonImg style={{ width: "2vw", height: "2vw" }} src={CHATBOT} alt="chatBot" />
+            <G.ChatControlItem>
+                <G.ChatModeButton onClick={() => setMode("default")} selected={mode === "default"}>기본 응답</G.ChatModeButton>
+                <G.ChatModeButton onClick={() => setMode("rag")} selected={mode === "rag"}>GraphRAG 응답</G.ChatModeButton>
+            </G.ChatControlItem>
+          <G.CommonButtonImg style={{ width: "2vw", height: "2vw", cursor: "pointer" }} src={CLOSE} alt="close" onClick={handleCloseClick} />
         </G.ChatbotHeader>
 
         <G.ChatContent>
           {messages.map((msg, i) => (
             <G.ChatBox key={i} from={msg.from}>
-               {console.log("msg.mode:", msg.mode)}
-    {console.log("msg.text:", msg.text)}
+               {/*{console.log("msg.mode:", msg.mode)}*/}
+    {/*{console.log("msg.text:", msg.text)}*/}
 
 <ReactMarkdown
   rehypePlugins={[rehypeRaw]}
@@ -119,18 +114,7 @@ export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
           <div ref={bottomRef} />
         </G.ChatContent>
 
-       <G.ChatControlGroup>
-        <G.ChatControlItem>
-          <G.ChatModeSelector>
-            <label htmlFor="mode">모드</label>
-            <select id="mode" value={mode} onChange={(e) => setMode(e.target.value)}>
-              <option value="default">기본</option>
-              <option value="rag">RAG 응답</option>
-              {/* <option value="cartoon">4컷 만화</option> */}
-              {/* <option value="video">교육 영상</option> */}
-            </select> 
-          </G.ChatModeSelector>
-        </G.ChatControlItem>
+       {/* <G.ChatControlGroup>
         <G.ChatControlItem>
           <G.ChatActionButtons>
             <button onClick={async () => {
@@ -150,7 +134,7 @@ export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
             }}>요약 보기</button>
           </G.ChatActionButtons>
         </G.ChatControlItem>
-      </G.ChatControlGroup>
+      </G.ChatControlGroup> */}
 
         <G.ChatInputContainer>
           <G.ChatInput

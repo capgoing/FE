@@ -10,10 +10,14 @@ import ReactFlow, {
   ReactFlowProvider,
   MarkerType,
   getStraightPath,
+  useReactFlow,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import { useMemo } from "react";
-import { levelStyles, groupStyles } from "../../../mocks/graphData";
+import {
+  levelStyles,
+  groupStyles,
+} from "../../../mocks/quiz/connectGraphData.js";
 import Loading from "./Loading.jsx";
 import colors from "../../../styles/common/colors";
 import {
@@ -48,6 +52,8 @@ export default function Connect() {
   const [edges, setEdges] = useState([]);
 
   const graphRef = useRef(null); // 그래프 참조
+
+  // const { setViewport } = useReactFlow();
 
   useEffect(() => {
     // graphId, modeName이 있을 때만 요청
@@ -144,31 +150,8 @@ export default function Connect() {
       target: edge.target,
     }));
 
-    // 연결된 노드 ID들 모으기
-    /*     const connectedNodeIds = new Set();
-    knowledgeGraph.edges.forEach((edge) => {
-      if (edge.source === questionTargetId) connectedNodeIds.add(edge.target);
-      if (edge.target === questionTargetId) connectedNodeIds.add(edge.source);
-    });
-    connectedNodeIds.add(questionTargetId);
-
-    // 노드 먼저 필터링
-    const simNodes = knowledgeGraph.nodes
-      .filter((node) => connectedNodeIds.has(node.id))
-      .map((node) => ({
-        ...node,
-        label: node.id === questionTargetId ? "?" : node.label,
-      }));
-
-    // 노드 기준으로 다시 엣지 필터링
-    const nodeIdSet = new Set(simNodes.map((n) => n.id));
-
-    const simLinks = knowledgeGraph.edges.filter(
-      (edge) => nodeIdSet.has(edge.source) && nodeIdSet.has(edge.target)
-    ); */
-
     const simulation = forceSimulation(simNodes)
-      .force("charge", forceManyBody().strength(-430)) // 서로 밀어냄
+      .force("charge", forceManyBody().strength(-800)) // 서로 밀어냄
       .force("center", forceCenter(centerX, centerY)) // 중앙 기준
       .force(
         "link",
@@ -180,26 +163,31 @@ export default function Connect() {
             const levelGap = Math.abs(
               (source?.level ?? 1) - (target?.level ?? 1)
             );
-            return 430 + levelGap * 200;
+            return 500 + levelGap * 250;
           })
       )
       .force(
-        "collide",
+        "collide", // 노드 충돌 방지
         forceCollide().radius((d) => {
           const style = levelStyles[d.level] || levelStyles[1];
-          const size = parseFloat(style.size) || 80;
-          return size / 2 + 50; // 노드 간 간격 확보
+          const nodeSize = parseFloat(style.size) || 50;
+          return nodeSize / 2 + 170;
+          // const levelStyle = levelStyles[d.level] || levelStyles[1];
+          // const baseSize = parseFloat(levelStyle.size) || 80;
+          // const fontSize = levelStyle.fontSize || 20;
+          // const estimatedTextWidth = d.label.length * fontSize * 0.6; // 실제 텍스트 너비 추정
+
+          // return Math.max(baseSize / 2, estimatedTextWidth / 2) + 50; // 충분한 여유 padding
         })
       )
       .stop();
 
+    for (let i = 0; i < 2000; ++i) simulation.tick(); // 시뮬레이션 횟수 증가
     const root = simNodes.find((n) => n.level === 0);
     if (root) {
       root.fx = centerX;
       root.fy = centerY;
     }
-
-    for (let i = 0; i < 300; ++i) simulation.tick();
 
     // 노드 스타일링
     const styledNodes = simNodes.map((node) => {
@@ -208,6 +196,7 @@ export default function Connect() {
       const backgroundColor = colors[groupStyle.background] || levelStyle.color;
 
       const isQuestionNode = node.label === "?"; // 문제 노드 아이디와 일치하는 '?' 노드를 확인한다
+      const fontSize = isQuestionNode ? 50 : node.level === 0 ? 35 : 25;
 
       return {
         id: node.id,
@@ -224,9 +213,9 @@ export default function Connect() {
           background: backgroundColor,
           color: isQuestionNode ? "#ff0000" : groupStyle.color || "#333", // ? 노드는 빨간색
           borderRadius: "50%",
-          border: isQuestionNode ? "3px dashed #ff0000" : "2px solid #f89d36",
+          border: isQuestionNode ? "4px dashed #ff0000" : "2px solid #f89d36",
           fontWeight: isQuestionNode ? 900 : "bold", // ? 노드는 ultra-bold
-          fontSize: isQuestionNode ? 35 : 20, // ? 노드는 더 크게
+          fontSize: fontSize,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -252,16 +241,16 @@ export default function Connect() {
       },
       labelStyle: {
         fontWeight: 600,
-        fontSize: 12,
+        fontSize: 20,
         fill: "#333",
-        padding: 4,
+        padding: 10,
       },
       labelBgStyle: {
         fill: "#fff8d6",
         stroke: "#f89d36",
         strokeWidth: 0.5,
-        rx: 4,
-        ry: 4,
+        rx: 10,
+        ry: 10,
       },
       markerEnd: {
         type: MarkerType.ArrowClosed,
@@ -271,16 +260,27 @@ export default function Connect() {
 
     setNodes(styledNodes);
     setEdges(styledEdges);
+
+    // fitView 호출하여 그래프를 처음에 맞게 보여주기
+    const questionNode = styledNodes.find((node) => node.label === "?");
+    if (questionNode) {
+      setViewport({
+        x: questionNode.x - 200,
+        y: questionNode.y - 200,
+        zoom: 2,
+      });
+    }
   }, [knowledgeGraph, currentQuizNum]);
 
   return (
-    <Q.QnaModeLayout>
-      {loading ? (
-        <Q.LoadingContainer>
-          <Loading />
-        </Q.LoadingContainer>
-      ) : (
-        <ReactFlowProvider>
+    <ReactFlowProvider>
+      {/* 나머지 컴포넌트 */}
+      <Q.QnaModeLayout>
+        {loading ? (
+          <Q.LoadingContainer>
+            <Loading />
+          </Q.LoadingContainer>
+        ) : (
           <>
             <Q.QnaQuestionContainer $height="100%">
               <Q.QuestionText>
@@ -296,10 +296,11 @@ export default function Connect() {
                   zoomOnScroll={false}
                   panOnScroll={false}
                   zoomOnDoubleClick={false}
-                  panOnDrag={false}
-                  nodesDraggable={false}
-                  nodesConnectable={false}
-                  elementsSelectable={false}
+                  panOnDrag
+                  fitViewOptions={{ padding: 0.2 }}
+                  proOptions={{
+                    hideAttribution: true, // 라이브러리 워터마크 제거
+                  }}
                 >
                   <Background />
                 </ReactFlow>
@@ -326,8 +327,8 @@ export default function Connect() {
               />
             )}
           </>
-        </ReactFlowProvider>
-      )}
-    </Q.QnaModeLayout>
+        )}
+      </Q.QnaModeLayout>
+    </ReactFlowProvider>
   );
 }

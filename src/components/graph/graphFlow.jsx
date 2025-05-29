@@ -34,6 +34,7 @@ const GraphFlow = ({
   nodeData,
   edgeData,
 }) => {
+  const lastZoomedNodeIdRef = useRef(null); // 확대 대상 캐시
   const { isEditMode } = useEditMode();
   const reactFlowWrapper = useRef(null);
   const reactFlowInstance = useRef(null);
@@ -46,15 +47,20 @@ const GraphFlow = ({
   const [edges, setEdges] = useState([]);
   const [hasSimulated, setHasSimulated] = useState(false);
 
+<<<<<<< HEAD
   const { get, data } = useGet();
   const simulationRef = useRef(null);
+=======
+  const { get, data, loading, error } = useGet();
+  useEffect(() => {
+    if (data) setNodeDetail(data.data);
+  }, [data]);
+>>>>>>> 42c8b31605afc13b66d51878b575bfdc76773472
 
   useEffect(() => {
-    if (data) {
-      setNodeDetail(data.data);
-      console.log(nodeDetail);
-    }
-  }, [data]);
+    if (nodeDetail) console.log("업데이트된 노드 상세:", nodeDetail);
+  }, [nodeDetail]);
+
 
   const handleNodeRightClick = useCallback(
     (event, node) => {
@@ -246,6 +252,7 @@ const GraphFlow = ({
         const zoom = levelStyles[level]?.zoom || 4;
         const centerX = node.position.x + (node.width || 100) / 2;
         const centerY = node.position.y + (node.height || 100) / 2;
+        
         reactFlowInstance.current.setCenter(centerX, centerY, {
           zoom,
           duration: 500,
@@ -263,6 +270,26 @@ const GraphFlow = ({
       setBackgroundColor(isZoomedIn ? colors.mainBlue : colors.white);
     }
   }, [isEditMode, isZoomedIn]);
+
+    useEffect(() => {
+    if (!nodeDetail) return;
+
+    setProcessedNodes((prevNodes) =>
+      prevNodes.map((node) => {
+        if (node.id === nodeDetail.id) {
+          return {
+            ...node,
+            data: {
+              ...node.data,
+              image: nodeDetail.image,
+              includeSentence: nodeDetail.includeSentence,
+            },
+          };
+        }
+        return node;
+      })
+    );
+  }, [nodeDetail]);
 
   return (
     <G.GraphLayout>

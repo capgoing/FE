@@ -150,7 +150,7 @@ export default function ListenUp() {
       quizList[currentQuizNum - 1] &&
       Array.isArray(quizList[currentQuizNum - 1].answer)
     ) {
-      handleSound();
+      //handleSound();
       //setShouldSpeak(false); // 플래그 초기화
     }
   }, [quizList, currentQuizNum]);
@@ -164,10 +164,12 @@ export default function ListenUp() {
       ) : (
         <>
           <Q.QnaQuestionContainer>
-            <Q.QuestionText>들은 순서대로 문장을 선택해보세요!</Q.QuestionText>
+            <Q.QuestionText>
+              재생 버튼을 눌러 문장을 듣고, 들은 순서대로 차례로 나열해보세요!
+            </Q.QuestionText>
             <Q.ListenupImg src={LISTENUP} />
             <Q.ListenAgainButton onClick={handleSound}>
-              다시 듣기
+              듣기
             </Q.ListenAgainButton>
             <Q.ConfirmButton onClick={handleCheckAnswer}>
               정답 확인
