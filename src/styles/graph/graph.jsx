@@ -24,7 +24,7 @@ export const ChatControlGroup = styled.div`
 `;
 
 export const ChatControlItem = styled.div`
-  width: 100%;
+  width: auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -122,6 +122,11 @@ export const GraphContainer = styled.div`
   overflow: hidden;
 `;
 
+export const HeaderLeft = styled.div`
+  display: flex;
+  gap: 0.5vw;
+`;
+
 export const GraphButtonContainer = styled.div`
   position: absolute;
   bottom: 1vw;
@@ -171,6 +176,12 @@ export const CommonButtonImg = styled.img`
   height: 2vw;
   display: flex;
   justify-content: center;
+`;
+
+export const GraphRAGTitle = styled.p`
+  font-size: 3rem;
+  font-weight: 400;
+  font-family: "Ownglyph_meetme-Rg";
 `;
 
 export const ChatModeButton = styled.button`

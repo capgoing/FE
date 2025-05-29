@@ -90,25 +90,30 @@ export default function Chatbot({ setIsClickChatbotBtn, isVisible }) {
     <G.ChatbotLayout isVisible={isVisible}>
       <G.ChatbotContainer>
         <G.ChatbotHeader>
+          {/* <G.HeaderLeft> */}
           <G.CommonButtonImg
             style={{ width: "2vw", height: "2vw" }}
             src={CHATBOT}
             alt="chatBot"
           />
+
           <G.ChatControlItem>
-            <G.ChatModeButton
-              onClick={() => setMode("default")}
-              selected={mode === "default"}
-            >
-              기본 응답
-            </G.ChatModeButton>
+            <G.GraphRAGTitle>GraphRAG</G.GraphRAGTitle>
             <G.ChatModeButton
               onClick={() => setMode("rag")}
               selected={mode === "rag"}
             >
-              GraphRAG 응답
+              ON
+            </G.ChatModeButton>
+            <G.ChatModeButton
+              onClick={() => setMode("default")}
+              selected={mode === "default"}
+            >
+              OFF
             </G.ChatModeButton>
           </G.ChatControlItem>
+          {/* </G.HeaderLeft> */}
+
           <G.CommonButtonImg
             style={{ width: "2vw", height: "2vw", cursor: "pointer" }}
             src={CLOSE}

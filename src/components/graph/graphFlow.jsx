@@ -4,7 +4,7 @@ import ReactFlow, {
   ReactFlowProvider,
   MarkerType,
   getStraightPath,
-  applyNodeChanges
+  applyNodeChanges,
 } from "reactflow";
 import * as G from "../../styles/graph/graph";
 import colors from "../../styles/common/colors";
@@ -63,7 +63,7 @@ const GraphFlow = ({
 
   const [processedNodes, setProcessedNodes] = useState([]);
   const [processedEdges, setProcessedEdges] = useState([]);
-  
+
   const onNodesChange = useCallback(
     (changes) => setProcessedNodes((nds) => applyNodeChanges(changes, nds)),
     []
@@ -257,6 +257,18 @@ const GraphFlow = ({
       setTimeout(() => {
         get(`/graph/${graphId}/${node.id}`);
       }, 0);
+      if (reactFlowInstance.current) {
+        const level = node.data?.level;
+        const zoom = levelStyles[level]?.zoom || 4;
+        const centerX = node.position.x + (node.width || 100) / 2;
+        const centerY = node.position.y + (node.height || 100) / 2;
+
+        reactFlowInstance.current.setCenter(centerX, centerY, {
+          zoom,
+          duration: 500,
+        });
+        setBackgroundColor(isEditMode ? colors.white : colors.mainBlue);
+      }
     },
     [get, graphId, isEditMode]
   );
