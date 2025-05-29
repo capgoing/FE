@@ -4,6 +4,7 @@ import ReactFlow, {
   ReactFlowProvider,
   MarkerType,
   getStraightPath,
+  applyNodeChanges
 } from "reactflow";
 import * as G from "../../styles/graph/graph";
 import colors from "../../styles/common/colors";
@@ -63,6 +64,11 @@ const GraphFlow = ({
 
   const [processedNodes, setProcessedNodes] = useState([]);
   const [processedEdges, setProcessedEdges] = useState([]);
+  
+  const onNodesChange = useCallback(
+    (changes) => setProcessedNodes((nds) => applyNodeChanges(changes, nds)),
+    []
+  );
 
   useEffect(() => {
     if (!nodeData || !edgeData) return;
@@ -293,7 +299,9 @@ const GraphFlow = ({
             onNodeDoubleClick={handleNodeDoubleClick}
             proOptions={{ hideAttribution: true }}
             style={{ backgroundColor }}
-            minZoom={0.3} 
+            minZoom={0.3}
+            nodesDraggable={true}
+            onNodesChange={onNodesChange}
           >
             <Controls />
           </ReactFlow>
