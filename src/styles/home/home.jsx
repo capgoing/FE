@@ -149,7 +149,7 @@ export const LogoText = styled.p`
   color: ${colors.brown};
   text-align: center;
   // text-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
-  font-family: "Ownglyph meetme";
+  font-family: "Ownglyph_meetme-Rg";
   font-size: 2vw;
   font-style: normal;
   font-weight: 400;
