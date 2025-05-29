@@ -13,9 +13,9 @@ import MAINBG from "../../assets/images/home/bg.png";
 import ROAD from "../../assets/images/home/road.png";
 
 // image
-import FEATURE1 from "../../assets/images/home/feature1.svg";
-import FEATURE2 from "../../assets/images/home/feature2.svg";
-import FEATURE3 from "../../assets/images/home/feature3.svg";
+import FEATURE1 from "../../assets/images/home/home-feature1.svg";
+import FEATURE2 from "../../assets/images/home/home-feature2.svg";
+import FEATURE3 from "../../assets/images/home/home-feature3.svg";
 
 //import HOMEFRAME from "../../assets/images/home/homeframe.svg";
 import LOGO from "../../assets/images/header/logo.png";
