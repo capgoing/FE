@@ -38,7 +38,7 @@ const Home = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       goToNextPage();
-    }, 7000); // 7초마다
+    }, 4000); // 7초마다
 
     return () => clearInterval(interval); // 컴포넌트 언마운트 시 정리
   }, [currentPage]); // currentPage가 바뀔 때마다 타이머 초기화 (선택 사항)
